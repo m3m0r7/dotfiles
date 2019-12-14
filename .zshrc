@@ -1,8 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PHPENV_ROOT="$HOME/.phpenv"
 export PATH=$PHPENV_ROOT/bin:/Users/memory/.composer/vendor/bin:$HOME/bin:/usr/local/bin:$PATH
-
-eval "$(phpenv init -)"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/memory/.oh-my-zsh"
