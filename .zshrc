@@ -109,8 +109,11 @@ bindkey '^f' peco-select-history
 source ~/.zsh_plugins/enhancd/init.sh
 
 echo -e "\e[35;1m"
-cat .memory_chan
+cat ~/.memory_chan
 echo -e "\e[m"
 
 alias xxd='xxd -u -g 1'
 alias tree='tree -a'
+
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
+export GOPATH=$HOME/.go
