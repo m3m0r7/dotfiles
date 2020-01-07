@@ -68,7 +68,7 @@ ZSH_THEME="memory"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-completions) 
+plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,15 +98,33 @@ export LANG=en_US.UTF-8
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+setopt NO_BEEP
+
 function peco-select-history() {
-  BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER")
+  BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER" --prompt "HISTORY>")
   CURSOR=$#BUFFER
   zle clear-screen
 }
 zle -N peco-select-history
 bindkey '^f' peco-select-history
 
-source ~/.zsh_plugins/enhancd/init.sh
+function peco-git-branch() {
+  git branch -a 1>/dev/null 2>&1
+  if [ $? != 0 ]; then
+    # Not found .git
+    return
+  fi
+  BUFFER=$( \
+    git branch -a | \
+    peco --query "$LBUFFER" --prompt "GIT BRANCH>" | \
+    sed "s/^[ \*]*//g" | \
+    sed "s/remotes\/[^\/]*\/\(\S*\)/\1/" \
+  )
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N peco-git-branch
+bindkey '^b' peco-git-branch
 
 echo -e "\e[35;1m"
 cat ~/.memory_chan
@@ -121,4 +139,11 @@ export GO111MOD=on
 
 export LSCOLORS=ExFxCxdxBxegedabagacad
 export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+zstyle ':completion:*' list-colors "${LS_COLORS}"
 
+HISTSIZE=10000
+SAVEHIST=10000
+
+chpwd() {
+    ls -a
+}
