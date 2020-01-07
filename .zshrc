@@ -107,7 +107,7 @@ function peco-select-history() {
   zle clear-screen
 }
 zle -N peco-select-history
-bindkey '^f' peco-select-history
+bindkey '^r' peco-select-history
 
 function peco-git-branch() {
   git branch -a 1>/dev/null 2>&1
