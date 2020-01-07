@@ -1,10 +1,11 @@
-# ZSH Theme emulating the Fish shell's default prompt.
+local get_current_time() {
+    date +"[%H:%M:%S]"
+}
 
 PROMPT='%{$fg_bold[green]%}%(!.#.>)%{$reset_color%} '
-PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
 
 local return_status="%{$fg_bold[red]%}%(?..%?)%{$reset_color%}"
-RPROMPT='${return_status}$(git_prompt_info)$(git_prompt_status)%{$reset_color%}'
+RPROMPT='${return_status}%{$fg_bold[white]%}$(git_prompt_info)%{$reset_color%} $(get_current_time)%{$reset_color%}'
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
