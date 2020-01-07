@@ -127,7 +127,7 @@ function peco-git-branch() {
 zle -N peco-git-branch
 bindkey '^b' peco-git-branch
 
-echo -e "\e[35;1m"
+echo -e "\e[32;1m"
 cat ~/.memory_chan
 echo -e "\e[m"
 
