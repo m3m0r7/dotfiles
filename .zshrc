@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$PHPENV_ROOT/bin:/Users/memory/.composer/vendor/bin:$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.original-scripts/bin:$HOME/.composer/vendor/bin:$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/memory/.oh-my-zsh"
@@ -133,6 +133,7 @@ echo -e "\e[m"
 
 alias xxd='xxd -u -g 1'
 alias tree='tree -a'
+#alias ls='ls -a'
 
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
 export GOPATH=$HOME/.go
@@ -146,5 +147,8 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 chpwd() {
-    ls -a
+    echo "\e[1m\e[4m"
+    pwd
+    echo "\e[m"
+    ls
 }
