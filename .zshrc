@@ -109,6 +109,15 @@ function peco-select-history() {
 zle -N peco-select-history
 bindkey '^r' peco-select-history
 
+
+function peco-files() {
+  BUFFER=$(ls-recursive | awk '{print $4}' | peco --query "$LBUFFER" --prompt "FILE>")
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N peco-files
+bindkey '^f' peco-files
+
 function peco-git-branch() {
   git branch -a 1>/dev/null 2>&1
   if [ $? != 0 ]; then
