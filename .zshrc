@@ -111,7 +111,7 @@ bindkey '^r' peco-select-history
 
 
 function peco-files() {
-  BUFFER=$(ls-recursive | awk '{print $4}' | peco --query "$LBUFFER" --prompt "FILE>")
+  BUFFER=$LBUFFER$(ls-recursive | awk '{print $4}' | peco --prompt "FILE>")
   CURSOR=$#BUFFER
   zle clear-screen
 }
@@ -124,9 +124,9 @@ function peco-git-branch() {
     # Not found .git
     return
   fi
-  BUFFER=$( \
+  BUFFER=$LBUFFER$( \
     git branch -a | \
-    peco --query "$LBUFFER" --prompt "GIT BRANCH>" | \
+    peco --prompt "GIT BRANCH>" | \
     sed "s/^[ \*]*//g" | \
     sed "s/remotes\/[^\/]*\/\(\S*\)/\1/" \
   )
@@ -142,7 +142,7 @@ echo -e "\e[m"
 
 alias xxd='xxd -u -g 1'
 alias tree='tree -a'
-#alias ls='ls -a'
+alias ls='ls -a -G'
 
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
 export GOPATH=$HOME/.go
