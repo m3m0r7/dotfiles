@@ -9,18 +9,28 @@ import (
 )
 
 const limit = 100
+
 var readGitIgnore = true
 var excludes = []string{
 	".git",
 	".idea",
 }
 var includes = []string{}
+var fileCounter = 0
+var options = []optionStructure{}
 
 const (
 	enableWalkThrough = iota
 	enableConfirm
 	off
 )
+
+var mode = enableConfirm
+
+type optionStructure struct {
+	name string
+	value string
+}
 
 func main() {
 	if readGitIgnore {
@@ -55,34 +65,72 @@ func main() {
 		}
 	}
 
-	result := walk(
-		".",
-		enableWalkThrough,
-	)
+	beforeFlag := ""
+	for _, value := range os.Args[1:] {
+		switch value {
+		case "-d", "--directory": // target directory
+			beforeFlag = "d"
+			continue
+		}
+
+		if beforeFlag == "" {
+			fmt.Println("Unexpected argument.")
+			return
+		}
+
+		options = append(
+			options,
+			optionStructure {
+				name: beforeFlag,
+				value: value,
+			},
+		)
+
+		// reset before flag
+		beforeFlag = ""
+	}
+
+	result := walk(findOption("d").value)
+
 	for _, value := range result {
 		fmt.Println(value)
 	}
 }
 
-func walk(target string, mode int) []string {
+func findOption(name string) *optionStructure {
+	for _, option := range options {
+		if option.name == name {
+			return &option
+		}
+	}
+	return nil
+}
+
+func walk(target string) []string {
 	files, _ := ioutil.ReadDir(target)
-	if len(files) > limit {
+	fileCounter += len(files)
+	if fileCounter > limit {
 		var ask string
 		if mode == enableConfirm {
 			fmt.Printf(
-				"Listed files are too long under the `%s/`. Displays %d files? [Yn]: ",
-				strings.TrimRight(target, "/ "),
-				len(files),
+				"Listed files are too long. Do you want to read all files? [Yn]: ",
 			)
 
 			i, _ := fmt.Scan(&ask)
 			_ = i
 		}
 
-		if mode == off ||
-			strings.TrimSpace(strings.ToLower(ask)) == "n" {
+		var answer bool = strings.TrimSpace(strings.ToLower(ask)) == "n"
+		if mode == off || answer {
+			if answer {
+				fmt.Printf("Stopped to list. Show %d files.\n", fileCounter)
+				mode = off
+			}
 			return []string{}
 		}
+
+		// Change mode.
+		mode = enableWalkThrough
 	}
 
 	items := []string{}
@@ -120,7 +168,6 @@ func walk(target string, mode int) []string {
 			items,
 			walk(
 				target + "/" + directory.Name(),
-				mode,
 			)...
 		)
 	}
