@@ -124,11 +124,11 @@ function peco-git-branch() {
     # Not found .git
     return
   fi
-  BUFFER=$LBUFFER$( \
-    git branch -a | \
-    peco --prompt "GIT BRANCH>" | \
-    sed "s/^[ \*]*//g" | \
-    sed "s/remotes\/[^\/]*\/\(\S*\)/\1/" \
+  BUFFER=$LBUFFER$(
+    git branch -a |
+    peco --prompt "GIT BRANCH>" |
+    sed "s/^[ \*]*//g" |
+    sed "s/remotes\/[^\/]*\/\(\S*\)/\1/"
   )
   CURSOR=$#BUFFER
   zle clear-screen
