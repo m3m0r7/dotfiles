@@ -71,6 +71,9 @@ func main() {
 		case "-d", "--directory": // target directory
 			beforeFlag = "d"
 			continue
+		case "-t", "--type": // target directory
+			beforeFlag = "t"
+			continue
 		}
 
 		if beforeFlag == "" {
@@ -90,7 +93,14 @@ func main() {
 		beforeFlag = ""
 	}
 
-	result := walk(findOption("d").value)
+	directoryOption := findOption("d")
+	targetDirectory := "."
+
+	if directoryOption != nil {
+		targetDirectory = directoryOption.value
+	}
+
+	result := walk(targetDirectory)
 
 	for _, value := range result {
 		fmt.Println(value)
@@ -135,6 +145,15 @@ func walk(target string) []string {
 
 	items := []string{}
 	directories := []os.FileInfo{}
+	typeCondition := findOption("t")
+	definedFileType := "file"
+	if typeCondition != nil {
+		switch strings.ToLower(typeCondition.value) {
+		case "dir":
+			definedFileType = "dir"
+			break
+		}
+	}
 	for _, file := range files {
 		found := false
 		for _, excludeFileName := range excludes {
@@ -149,11 +168,22 @@ func walk(target string) []string {
 		fileType := "F"
 		if file.IsDir() {
 			fileType = "D"
+		}
+
+		if typeCondition != nil {
+			if (fileType == "F" && definedFileType != "file") ||
+				(fileType == "D" && definedFileType != "dir") {
+				continue
+			}
+		}
+
+		if file.IsDir() {
 			directories = append(
 				directories,
 				file,
 			)
 		}
+
 		items = append(
 			items,
 			fileType + "\t" +
