@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"github.com/chzyer/readline"
 )
 
 const limit = 100
@@ -122,15 +123,15 @@ func walk(target string) []string {
 	if fileCounter > limit {
 		var ask string
 		if mode == enableConfirm {
-			fmt.Printf(
+			rl, _ := readline.New(
 				"Listed files are too long. Do you want to read all files? [Yn]: ",
 			)
 
-			i, _ := fmt.Scan(&ask)
-			_ = i
+			line, _ := rl.Readline()
+			ask = line
 		}
 
-		var answer bool = strings.TrimSpace(strings.ToLower(ask)) == "n"
+		var answer bool = strings.Trim(strings.ToLower(ask), "\r\n ") == "n"
 		if mode == off || answer {
 			if answer {
 				fmt.Printf("Stopped to list. Show %d files.\n", fileCounter)
