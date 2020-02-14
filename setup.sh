@@ -10,10 +10,10 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 brew install git
 
 # Clone this repository
-git clone --depth 1 git@github.com:memory-agape/dotfiles.git ~/Downloads/dotfiles
+git clone --depth 1 git@github.com:memory-agape/dotfiles.git ~/dotfiles
 
 # Move to current directory
-cd ~/Downloads/dotfiles
+cd ~/dotfiles
 
 # Install brew packages
 cat .brew_installed | brew install
