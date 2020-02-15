@@ -107,6 +107,9 @@ zshaddhistory() {
 #
 # Ref: https://gist.github.com/znppunfuv/060107438d8ea06d623f0cbcb019950f
 #
+add-zsh-hook preexec optimize_history_preexec
+add-zsh-hook precmd optimize_history_precmd
+
 optimize_history_preexec() {
     OPTIMIZE_HISTORY_CALLED=1
 }
@@ -116,13 +119,11 @@ optimize_history_precmd() {
     local history_file="${HISTFILE-"${ZDOTDIR-"${HOME}"}/.zsh_history"}"
     # Exit Code 130: Script terminated by Ctrl-C
     if [[ ! ${exit_status} =~ ^(0|130)$ ]] && [[ "${OPTIMIZE_HISTORY_CALLED}" -eq 1 ]]; then
-        command sed -i '' '$d' "${history_file}"
+        # BSD || GNU
+        command sed -i '' '$d' "${history_file}" 2>/dev/null || command sed -i '$d' "${history_file}"
     fi
     unset OPTIMIZE_HISTORY_CALLED
 }
-
-add-zsh-hook preexec optimize_history_preexec
-add-zsh-hook precmd optimize_history_precmd
 
 # Show memory-chan  ----------------------------------------------------------------------------------------------------
 echo -e "\e[32;1m"
