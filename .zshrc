@@ -88,9 +88,41 @@ alias ls='ls -a -G'
 zstyle ':completion:*' list-colors "${LS_COLORS}"
 
 # histories ------------------------------------------------------------------------------------------------------------
-HISTCONTROL=ignoreboth
-HISTIGNORE='pwd:chmod:chown:exit:ls:mv'
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+setopt HIST_IGNORE_SPACE
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
 
+zshaddhistory() {
+    local line=${1%%$'\n'}
+    local cmd=${line%% *}
+
+    [[  ${cmd} != (l|l[sal])
+        && ${cmd} != (m|man)
+        && ${cmd} != (r[mr])
+    ]]
+}
+
+#
+# Ref: https://gist.github.com/znppunfuv/060107438d8ea06d623f0cbcb019950f
+#
+optimize_history_preexec() {
+    OPTIMIZE_HISTORY_CALLED=1
+}
+
+optimize_history_precmd() {
+    local exit_status=$?
+    local history_file="${HISTFILE-"${ZDOTDIR-"${HOME}"}/.zsh_history"}"
+    # Exit Code 130: Script terminated by Ctrl-C
+    if [[ ! ${exit_status} =~ ^(0|130)$ ]] && [[ "${OPTIMIZE_HISTORY_CALLED}" -eq 1 ]]; then
+        command sed -i '' '$d' "${history_file}"
+    fi
+    unset OPTIMIZE_HISTORY_CALLED
+}
+
+add-zsh-hook preexec optimize_history_preexec
+add-zsh-hook precmd optimize_history_precmd
 
 # Show memory-chan  ----------------------------------------------------------------------------------------------------
 echo -e "\e[32;1m"
