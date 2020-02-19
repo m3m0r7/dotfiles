@@ -129,3 +129,6 @@ optimize_history_precmd() {
 echo -e "\e[32;1m"
 cat ~/.memory_chan
 echo -e "\e[m"
+
+# Envs  ----------------------------------------------------------------------------------------------------------------
+export TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling

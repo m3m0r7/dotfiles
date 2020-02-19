@@ -34,6 +34,7 @@ ln -s .vimrc ~/.vimrc
 ln -s .gitignore_global ~/.gitignore_global
 ln -s .fdignore ~/.fdignore
 ln -s .original-scripts ~/.original-scripts
+ln -s webpack.config.js ~/webpack.config.js
 
 # Install theme
 ln -s .oh-my-zsh/themes/memory.zsh-theme ~/.oh-my-zsh/themes/memory.zsh-theme
