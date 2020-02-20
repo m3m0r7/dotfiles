@@ -132,3 +132,6 @@ echo -e "\e[m"
 
 # Envs  ----------------------------------------------------------------------------------------------------------------
 export TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
