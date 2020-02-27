@@ -1,5 +1,5 @@
 # Start-up  ------------------------------------------------------------------------------------------------------------
-export PATH=$HOME/.original-scripts/bin:$HOME/.composer/vendor/bin:$HOME/bin:/usr/local/bin:$PATH.
+export PATH=$HOME/.cargo/bin:$HOME/.original-scripts/bin:$HOME/.composer/vendor/bin:$HOME/bin:/usr/local/bin:$PATH.
 export ZSH="/Users/memory/.oh-my-zsh"
 
 ZSH_THEME="memory"
@@ -12,8 +12,6 @@ source $ZSH/oh-my-zsh.sh
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
 export GOPATH=$HOME/.go
 export GO111MOD=on
-export LSCOLORS=ExFxCxdxBxegedabagacad
-export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 export LANG=en_US.UTF-8
 
 # Settings -------------------------------------------------------------------------------------------------------------
@@ -22,15 +20,8 @@ setopt NO_BEEP
 HISTSIZE=10000
 SAVEHIST=10000
 
-chpwd() {
-    echo "\e[1m\e[4m"
-    pwd
-    echo "\e[m"
-    ls
-}
-
 brew-installed() {
-    brew list | awk "{print $7}" >~/.brew_installed
+    brew list | awk "{print $7}" >$HOME/.brew_installed
 }
 
 # Change key binds -----------------------------------------------------------------------------------------------------
@@ -82,10 +73,8 @@ bindkey '^b' peco-git-branch
 # Aliases --------------------------------------------------------------------------------------------------------------
 alias xxd='xxd -u -g 1'
 alias tree='tree -a'
-alias ls='ls -a -G'
-
-# zstyle ---------------------------------------------------------------------------------------------------------------
-zstyle ':completion:*' list-colors "${LS_COLORS}"
+alias sed='gsed'
+alias ls='exa --color-scale -l --git-ignore -h --git -@ --time-style=iso --inode -T -F -L=1'
 
 # histories ------------------------------------------------------------------------------------------------------------
 setopt hist_ignore_dups
@@ -127,11 +116,18 @@ optimize_history_precmd() {
 
 # Show memory-chan  ----------------------------------------------------------------------------------------------------
 echo -e "\e[32;1m"
-cat ~/.memory_chan
+cat $HOME/.memory_chan
 echo -e "\e[m"
+
+eval $(gdircolors $HOME/dircolors-solarized/dircolors.256dark)
+
+export LS_COLORS=$(cat ~/.ls_colors | tr \\n : | sed -e 's/:$//')
+export EXA_COLORS=$(cat ~/.exa_colors | tr \\n : | sed -e 's/:$//')
 
 # Envs  ----------------------------------------------------------------------------------------------------------------
 export TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# zstyle ---------------------------------------------------------------------------------------------------------------
+zstyle ':completion:*' list-colors "${LS_COLORS}"
 
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

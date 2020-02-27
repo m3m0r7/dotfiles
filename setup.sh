@@ -39,5 +39,10 @@ ln -nsf ~/dotfiles/webpack.config.js ~/webpack.config.js
 # Install theme
 ln -nsf ~/dotfiles/.oh-my-zsh/themes/memory.zsh-theme /Users/memory/.oh-my-zsh/themes/memory.zsh-theme
 
+ln -nsf ~/dotfiles/.exa_colors ~/.exa_colors
+ln -nsf ~/dotfiles/.ls_colors ~/.ls_colors
+
+git clone https://github.com/seebi/dircolors-solarized.git ~/dircolors-solarized
+
 # Source
 source ~/.zshrc
