@@ -71,10 +71,11 @@ zle -N peco-git-branch
 bindkey '^b' peco-git-branch
 
 # Aliases --------------------------------------------------------------------------------------------------------------
-alias xxd='xxd -u -g 1'
+alias xxd='hexyl'
 alias tree='tree -a'
 alias sed='gsed'
 alias ls='exa --color-scale -l --git-ignore -h --git -@ --time-style=iso --inode -T -F -L=1'
+alias catx='bat'
 
 # histories ------------------------------------------------------------------------------------------------------------
 setopt hist_ignore_dups
