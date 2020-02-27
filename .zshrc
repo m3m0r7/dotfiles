@@ -122,8 +122,8 @@ echo -e "\e[m"
 
 eval $(gdircolors $HOME/dircolors-solarized/dircolors.256dark)
 
-export LS_COLORS=$(cat ~/.ls_colors | tr \\n : | sed -e 's/:$//')
-export EXA_COLORS=$(cat ~/.exa_colors | tr \\n : | sed -e 's/:$//')
+export LS_COLORS=${(pj;:;)$(< $HOME/.ls_colors)}
+export EXA_COLORS=${(pj;:;)$(< $HOME/.exa_colors)}
 
 # Envs  ----------------------------------------------------------------------------------------------------------------
 export TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling
