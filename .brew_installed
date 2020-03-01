@@ -63,7 +63,6 @@ c-ares
 gmp
 libidn
 libzip
-peco
 tig
 ccat
 go
@@ -78,3 +77,4 @@ gnu-sed
 hexyl
 procs
 nodebrew
+fzf

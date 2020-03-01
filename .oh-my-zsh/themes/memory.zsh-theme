@@ -2,7 +2,7 @@ local get_current_time() {
     date +"[%H:%M:%S]"
 }
 
-PROMPT='%{$fg_bold[green]%}%(!.#.>)%{$reset_color%} '
+PROMPT='%{$fg_bold[white]%}%F{148%}-〉%f%{$reset_color%}'
 
 local return_status="%{$fg_bold[red]%}%(?..%?)%{$reset_color%}"
 RPROMPT='${return_status}%{$fg_bold[white]%}$(git_prompt_info)%{$reset_color%} $(get_current_time)%{$reset_color%}'

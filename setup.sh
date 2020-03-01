@@ -43,6 +43,9 @@ ln -nsf ~/dotfiles/.exa_colors ~/.exa_colors
 ln -nsf ~/dotfiles/.ls_colors ~/.ls_colors
 
 git clone https://github.com/seebi/dircolors-solarized.git ~/dircolors-solarized
+$(brew --prefix)/opt/fzf/install
+
+git clone https://github.com/chitoku-k/fzf-zsh-completions ~/fzf-zsh-completions
 
 # Source
 source ~/.zshrc

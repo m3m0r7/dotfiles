@@ -4,9 +4,11 @@ export ZSH="/Users/memory/.oh-my-zsh"
 
 ZSH_THEME="memory"
 CASE_SENSITIVE="true"
+FZF_DEFAULT_OPTS="--height=100% --reverse"
 
 plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
+source $HOME/fzf-zsh-completions/fzf-zsh-completions.plugin.zsh
 
 # Exports --------------------------------------------------------------------------------------------------------------
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
@@ -24,16 +26,7 @@ brew-installed() {
     brew list | awk "{print $7}" >$HOME/.brew_installed
 }
 
-# Change key binds -----------------------------------------------------------------------------------------------------
-local peco-select-history() {
-  BUFFER=$(history -nr 1 | awk '!a[$0]++' | peco --query "$LBUFFER" --prompt "HISTORY>")
-  CURSOR=$#BUFFER
-  zle clear-screen
-}
-zle -N peco-select-history
-bindkey '^r' peco-select-history
-
-local peco-files() {
+local fzf-files() {
   COMMAND=$(echo $LBUFFER | awk '{print $1}')
   FILE_TYPE="f"
   case "$COMMAND" in
@@ -45,14 +38,14 @@ local peco-files() {
     ;;
   esac
 
-  BUFFER=$LBUFFER$(fd -H -t $FILE_TYPE | peco --prompt "FILE>")
+  BUFFER=$LBUFFER$(fd -H -t $FILE_TYPE | fzf --height=100% --reverse --prompt "FILE> ")
   CURSOR=$#BUFFER
   zle clear-screen
 }
-zle -N peco-files
-bindkey '^f' peco-files
+zle -N fzf-files
+bindkey '^f' fzf-files
 
-local peco-git-branch() {
+local fzf-git-branch() {
   git branch -a 1>/dev/null 2>&1
   if [ $? != 0 ]; then
     # Not found .git
@@ -60,15 +53,15 @@ local peco-git-branch() {
   fi
   BUFFER=$LBUFFER$(
     git branch -a |
-    peco --prompt "GIT BRANCH>" |
     sed "s/^[ \*]*//g" |
+    fzf --height=100% --reverse --prompt "GIT BRANCH> " |
     sed "s/remotes\/[^\/]*\/\(\S*\)/\1/"
   )
   CURSOR=$#BUFFER
   zle clear-screen
 }
-zle -N peco-git-branch
-bindkey '^b' peco-git-branch
+zle -N fzf-git-branch
+bindkey '^b' fzf-git-branch
 
 # Aliases --------------------------------------------------------------------------------------------------------------
 alias xxd='hexyl'
@@ -83,6 +76,7 @@ setopt hist_reduce_blanks
 setopt HIST_IGNORE_SPACE
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
+
 
 zshaddhistory() {
     local line=${1%%$'\n'}
@@ -116,7 +110,7 @@ optimize_history_precmd() {
 }
 
 # Show memory-chan  ----------------------------------------------------------------------------------------------------
-echo -e "\e[32;1m"
+echo -e "\e[38;5;148m"
 cat $HOME/.memory_chan
 echo -e "\e[m"
 
@@ -128,7 +122,48 @@ export EXA_COLORS=${(pj;:;)$(< $HOME/.exa_colors)}
 # Envs  ----------------------------------------------------------------------------------------------------------------
 export TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling
 
+# colors ---------------------------------------------------------------------------------------------------------------
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[unknown-token]='none'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=148'
+ZSH_HIGHLIGHT_STYLES[function]='fg=148'
+ZSH_HIGHLIGHT_STYLES[command]='fg=148'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=148'
+
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=bold'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=bold'
+
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=253'
+
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=220'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=220'
+
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=220'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=220'
+
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=220'
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument-unclosed]='fg=220'
+
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=141'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-unclosed]='fg=141'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]='fg=141'
+
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=141'
+ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]='fg=141'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=141'
+
+ZSH_HIGHLIGHT_STYLES[assign]='fg=116'
+
+ZSH_HIGHLIGHT_STYLES[redirection]='fg=bold'
+ZSH_HIGHLIGHT_STYLES[path]='none'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=bold'
+
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=245'
+
 # zstyle ---------------------------------------------------------------------------------------------------------------
 zstyle ':completion:*' list-colors "${LS_COLORS}"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
