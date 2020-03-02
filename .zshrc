@@ -69,6 +69,8 @@ alias tree='tree -a'
 alias sed='gsed'
 alias ls='exa --color-scale -l --git-ignore -h --git -@ --time-style=iso --inode -T -F -L=1'
 alias catx='bat'
+alias p='pbcopy'
+alias pp='pbpaste'
 
 # histories ------------------------------------------------------------------------------------------------------------
 setopt hist_ignore_dups
