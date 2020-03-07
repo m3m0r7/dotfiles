@@ -15,8 +15,12 @@ git clone --depth 1 git@github.com:m3m0r7/dotfiles.git ~/dotfiles
 # Move to current directory
 cd ~/dotfiles
 
+# Update brew
+brew tap homebrew/cask
+
 # Install brew packages
 cat .brew_installed | brew install
+cat .brew_cask_installed | brew cask install
 
 # Remove already installed files
 if [ -f ~/.zshrc ]; then
