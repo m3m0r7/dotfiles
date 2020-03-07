@@ -64,6 +64,10 @@ zle -N fzf-git-branch
 bindkey '^b' fzf-git-branch
 
 # Aliases --------------------------------------------------------------------------------------------------------------
+alias pip2='/usr/local/bin/pip'
+alias pip='/usr/local/bin/pip3'
+alias python2='/usr/local/bin/python'
+alias python='/usr/local/bin/python3'
 alias xxd='hexyl'
 alias tree='tree -a'
 alias sed='gsed'
