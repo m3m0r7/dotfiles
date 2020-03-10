@@ -1,0 +1,55 @@
+env:
+  TERM: xterm-256color
+
+window:
+  dimensions:
+    columns: 260
+    lines: 50
+  padding:
+    x: 4
+    y: 4
+  dynamic_padding: true
+  startup_mode: SimpleFullscreen
+
+title: Terminal
+
+scrolling:
+  history: 10000
+  multiplier: 5
+
+tabspaces: 2
+
+font:
+  size: 10.0
+  normal:
+    family: Source Han Code JP R
+  bold:
+    family: Source Han Code JP B
+    style: Bold
+  italic:
+    family: Source Han Code JP I
+    style: Italic
+  bold_italic:
+    family: Source Han Code JP B
+    style: Bold Italic
+
+
+background_opacity: 0.8
+dynamic_title: true
+
+cursor:
+  style: Underline
+
+live_config_reload: true
+
+shell:
+  program: /bin/zsh
+  args:
+    - -l
+    - -c
+    - "tmux -u -f ~/.tmux.conf new-session \\; split-window -v \\; split-window -h \\; split-window -v"
+
+working_directory: /
+key_bindings:
+  - { key: Left,     mods: Alt,     chars: "\e[1;5D" }
+  - { key: Right,    mods: Alt,     chars: "\e[1;5C" }

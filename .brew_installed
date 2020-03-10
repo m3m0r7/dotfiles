@@ -82,3 +82,5 @@ mysql
 circleci
 cloudflare/cloudflare/cloudflared
 ffmpeg
+tmux
+reattach-to-user-namespace
