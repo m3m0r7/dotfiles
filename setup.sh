@@ -55,6 +55,7 @@ git clone https://github.com/chitoku-k/fzf-zsh-completions ~/fzf-zsh-completions
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 git clone git@github.com:b4b4r07/enhancd.git ~/.oh-my-zsh/plugins/enhancd
+git clone git@github.com:chitoku-k/fzf-zsh-completions.git ~/.oh-my-zsh/plugins/fzf-zsh-completions
 
 # Source
 source ~/.zshrc

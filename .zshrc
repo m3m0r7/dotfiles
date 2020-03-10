@@ -6,9 +6,8 @@ ZSH_THEME="memory"
 CASE_SENSITIVE="true"
 FZF_DEFAULT_OPTS="--height=100% --reverse"
 
-plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd)
+plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd fzf-zsh-completions)
 source $ZSH/oh-my-zsh.sh
-source $HOME/fzf-zsh-completions/fzf-zsh-completions.plugin.zsh
 
 # Exports --------------------------------------------------------------------------------------------------------------
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
