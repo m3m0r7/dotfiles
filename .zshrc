@@ -75,6 +75,7 @@ alias ls='exa --color-scale -l --git-ignore -h --git -@ --time-style=iso --inode
 alias catx='bat'
 alias p='pbcopy'
 alias pp='pbpaste'
+alias t='twterm'
 
 # histories ------------------------------------------------------------------------------------------------------------
 setopt hist_ignore_dups
