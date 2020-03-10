@@ -10,10 +10,10 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 brew install git
 
 # Clone this repository
-git clone --depth 1 git@github.com:m3m0r7/dotfiles.git ~/dotfiles
+git clone --depth 1 git@github.com:m3m0r7/dotfiles.git $HOME/dotfiles
 
 # Move to current directory
-cd ~/dotfiles
+cd $HOME/dotfiles
 
 # Update brew
 brew tap homebrew/cask
@@ -24,41 +24,41 @@ cat .brew_installed | brew install
 cat .brew_cask_installed | brew cask install
 
 # Remove already installed files
-if [ -f ~/.zshrc ]; then
-  rm ~/.zshrc
+if [ -f $HOME/.zshrc ]; then
+  rm $HOME/.zshrc
 fi
 
-if [ -f ~/.vimrc ]; then
-  rm ~/.vimrc
+if [ -f $HOME/.vimrc ]; then
+  rm $HOME/.vimrc
 fi
 
 # Create symbolic links
-ln -nsf ~/dotfiles/.memory_chan ~/.memory_chan
-ln -nsf ~/dotfiles/.zshrc ~/.zshrc
-ln -nsf ~/dotfiles/.vimrc ~/.vimrc
-ln -nsf ~/dotfiles/.gitignore_global ~/.gitignore_global
-ln -nsf ~/dotfiles/.fdignore ~/.fdignore
-ln -nsf ~/dotfiles/.original-scripts ~/.original-scripts
-ln -nsf ~/dotfiles/webpack.config.js ~/webpack.config.js
-ln -nsf ~/dotfiles/.tmux.conf ~/.tmux.conf
+ln -nsf $HOME/dotfiles/.memory_chan $HOME/.memory_chan
+ln -nsf $HOME/dotfiles/.zshrc $HOME/.zshrc
+ln -nsf $HOME/dotfiles/.vimrc $HOME/.vimrc
+ln -nsf $HOME/dotfiles/.gitignore_global $HOME/.gitignore_global
+ln -nsf $HOME/dotfiles/.fdignore $HOME/.fdignore
+ln -nsf $HOME/dotfiles/.original-scripts $HOME/.original-scripts
+ln -nsf $HOME/dotfiles/webpack.config.js $HOME/webpack.config.js
+ln -nsf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
 
 # Install theme
-ln -nsf ~/dotfiles/.oh-my-zsh/themes/memory.zsh-theme /Users/memory/.oh-my-zsh/themes/memory.zsh-theme
+ln -nsf $HOME/dotfiles/.oh-my-zsh/themes/memory.zsh-theme /Users/memory/.oh-my-zsh/themes/memory.zsh-theme
 
-ln -nsf ~/dotfiles/.exa_colors ~/.exa_colors
-ln -nsf ~/dotfiles/.ls_colors ~/.ls_colors
+ln -nsf $HOME/dotfiles/.exa_colors $HOME/.exa_colors
+ln -nsf $HOME/dotfiles/.ls_colors $HOME/.ls_colors
 
-git clone https://github.com/seebi/dircolors-solarized.git ~/dircolors-solarized
+git clone https://github.com/seebi/dircolors-solarized.git $HOME/dircolors-solarized
 $(brew --prefix)/opt/fzf/install
 
-git clone https://github.com/chitoku-k/fzf-zsh-completions ~/fzf-zsh-completions
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/chitoku-k/fzf-zsh-completions $HOME/fzf-zsh-completions
+git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 
-git clone git@github.com:b4b4r07/enhancd.git ~/.oh-my-zsh/plugins/enhancd
-git clone git@github.com:chitoku-k/fzf-zsh-completions.git ~/.oh-my-zsh/plugins/fzf-zsh-completions
+git clone git@github.com:b4b4r07/enhancd.git $HOME/.oh-my-zsh/plugins/enhancd
+git clone git@github.com:chitoku-k/fzf-zsh-completions.git $HOME/.oh-my-zsh/plugins/fzf-zsh-completions
 
 # Source
-source ~/.zshrc
+source $HOME/.zshrc
 
 defaults write -g InitialKeyRepeat -int 5
 defaults write -g KeyRepeat -int 1
