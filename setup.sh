@@ -39,6 +39,7 @@ ln -nsf ~/dotfiles/.gitignore_global ~/.gitignore_global
 ln -nsf ~/dotfiles/.fdignore ~/.fdignore
 ln -nsf ~/dotfiles/.original-scripts ~/.original-scripts
 ln -nsf ~/dotfiles/webpack.config.js ~/webpack.config.js
+ln -nsf ~/dotfiles/.tmux.conf ~/.tmux.conf
 
 # Install theme
 ln -nsf ~/dotfiles/.oh-my-zsh/themes/memory.zsh-theme /Users/memory/.oh-my-zsh/themes/memory.zsh-theme
