@@ -51,6 +51,7 @@ git clone https://github.com/seebi/dircolors-solarized.git ~/dircolors-solarized
 $(brew --prefix)/opt/fzf/install
 
 git clone https://github.com/chitoku-k/fzf-zsh-completions ~/fzf-zsh-completions
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # Source
 source ~/.zshrc
