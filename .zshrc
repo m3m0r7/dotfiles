@@ -77,6 +77,7 @@ alias catx='bat'
 alias p='pbcopy'
 alias pp='pbpaste'
 alias t='twterm'
+alias grep='rg -n'
 
 # histories ------------------------------------------------------------------------------------------------------------
 setopt hist_ignore_dups
