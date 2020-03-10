@@ -59,3 +59,6 @@ git clone git@github.com:chitoku-k/fzf-zsh-completions.git ~/.oh-my-zsh/plugins/
 
 # Source
 source ~/.zshrc
+
+defaults write -g InitialKeyRepeat -int 5
+defaults write -g KeyRepeat -int 1
