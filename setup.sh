@@ -54,5 +54,7 @@ $(brew --prefix)/opt/fzf/install
 git clone https://github.com/chitoku-k/fzf-zsh-completions ~/fzf-zsh-completions
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+git clone git@github.com:b4b4r07/enhancd.git ~/.oh-my-zsh/plugins/enhancd
+
 # Source
 source ~/.zshrc

@@ -6,7 +6,7 @@ ZSH_THEME="memory"
 CASE_SENSITIVE="true"
 FZF_DEFAULT_OPTS="--height=100% --reverse"
 
-plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd)
 source $ZSH/oh-my-zsh.sh
 source $HOME/fzf-zsh-completions/fzf-zsh-completions.plugin.zsh
 
@@ -15,6 +15,8 @@ export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
 export GOPATH=$HOME/.go
 export GO111MOD=on
 export LANG=en_US.UTF-8
+export ENHANCD_FILTER="fzf --reverse"
+export ENHANCD_DISABLE_DOT=1
 
 # Settings -------------------------------------------------------------------------------------------------------------
 setopt NO_BEEP
@@ -83,7 +85,6 @@ setopt hist_reduce_blanks
 setopt HIST_IGNORE_SPACE
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
-
 
 zshaddhistory() {
     local line=${1%%$'\n'}
@@ -169,8 +170,3 @@ ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=245'
 
 # zstyle ---------------------------------------------------------------------------------------------------------------
 zstyle ':completion:*' list-colors "${LS_COLORS}"
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
