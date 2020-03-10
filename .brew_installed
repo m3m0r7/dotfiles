@@ -85,4 +85,5 @@ ffmpeg
 tmux
 reattach-to-user-namespace
 jesseduffield/lazydocker/lazydocker
+gdb
 
