@@ -17,6 +17,7 @@ cd ~/dotfiles
 
 # Update brew
 brew tap homebrew/cask
+brew tap homebrew/cask-fonts
 
 # Install brew packages
 cat .brew_installed | brew install
