@@ -13,10 +13,6 @@ window:
 
 title: Terminal
 
-scrolling:
-  history: 10000
-  multiplier: 5
-
 tabspaces: 2
 
 font:
