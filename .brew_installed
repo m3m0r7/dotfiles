@@ -87,4 +87,5 @@ reattach-to-user-namespace
 jesseduffield/lazydocker/lazydocker
 gdb
 dockerize
+tmux-mem-cpu-load
 
