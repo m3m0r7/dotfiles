@@ -16,6 +16,8 @@ export GO111MOD=on
 export LANG=en_US.UTF-8
 export ENHANCD_FILTER="fzf --reverse"
 export ENHANCD_DISABLE_DOT=1
+export HISTCONTROL=erasedups
+export HISTIGNORE="history*:cd*:ls*"
 
 # Settings -------------------------------------------------------------------------------------------------------------
 setopt NO_BEEP
@@ -45,6 +47,14 @@ local fzf-files() {
 }
 zle -N fzf-files
 bindkey '^f' fzf-files
+
+local fzf-history() {
+  BUFFER=$(history | awk -F ' ' '{for(i=2;i<NF;++i){printf("%s ",$i)}print $NF}' | awk '!a[$0]++' | sort -r | fzf --height=100% --reverse --prompt "HISTORY> ")
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N fzf-history
+bindkey '^r' fzf-history
 
 local fzf-git-branch() {
   git branch -a 1>/dev/null 2>&1
@@ -78,6 +88,7 @@ alias p='pbcopy'
 alias pp='pbpaste'
 alias t='twterm'
 alias grep='rg -n'
+alias tkw='tmux kill-window'
 
 # histories ------------------------------------------------------------------------------------------------------------
 setopt hist_ignore_dups
@@ -90,7 +101,7 @@ zshaddhistory() {
     local line=${1%%$'\n'}
     local cmd=${line%% *}
 
-    [[  ${cmd} != (l|l[sal])
+    [[  ${cmd} != (l|l[sal]|ls|cd|';')
         && ${cmd} != (m|man)
         && ${cmd} != (r[mr])
     ]]
