@@ -47,7 +47,7 @@ shell:
   args:
     - -l
     - -c
-    - "tmux -u -f ~/.tmux.conf attach || tmux -u -f ~/.tmux.conf new-session \\; split-window -v \\; split-window -h \\; split-window -v \\; select-pane -L \\; select-pane -U \\; split-window -h \\; select-pane -L \\;"
+    - "tmux kill-session -t login-shell && tmux -u -f ~/.tmux.conf attach -t login-shell || tmux -u -l -f ~/.tmux.conf new -s login-shell \\; split-window -v \\; split-window -h \\; split-window -v \\; select-pane -L \\; select-pane -U \\; split-window -h \\; select-pane -L \\;"
 
 working_directory: /
 key_bindings:
