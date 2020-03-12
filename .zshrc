@@ -89,6 +89,8 @@ alias pp='pbpaste'
 alias t='twterm'
 alias grep='rg -n'
 alias tkw='tmux kill-window'
+alias cpy='pwd | p'
+alias cpt='cd $(pp) && cpy'
 
 # histories ------------------------------------------------------------------------------------------------------------
 setopt hist_ignore_dups
