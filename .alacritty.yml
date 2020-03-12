@@ -17,20 +17,21 @@ tabspaces: 2
 
 font:
   use_anti_alias: true
-  size: 10.0
+  size: 11.0
   offset:
     x: 0
     y: 1
   normal:
-    family: Source Han Code JP R
+    family: Source Code Pro for Powerline
+    style: Regular
   bold:
-    family: Source Han Code JP B
+    family: Source Code Pro for Powerline
     style: Bold
   italic:
-    family: Source Han Code JP I
+    family: Source Code Pro for Powerline
     style: Italic
   bold_italic:
-    family: Source Han Code JP B
+    family: Source Code Pro for Powerline
     style: Bold Italic
 
 

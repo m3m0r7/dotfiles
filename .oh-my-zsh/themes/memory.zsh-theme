@@ -1,16 +1,18 @@
 local get_current_time() {
     date +"[%H:%M:%S]"
 }
+function git_prompt_info() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null)
+  if [ $? != 0 ]; then
+    echo "\u2212"
+    return
+  fi
+  echo "${ref#refs/heads/}"
+}
 
-PROMPT='%{$fg_bold[white]%}%F{148%}-〉%f%{$reset_color%}'
+PROMPT='%K{148}%F{236} \$ %{$reset_color%}%F{148}$(echo "\ue0b0")%f%k%{$reset_color%} '
 
-local return_status="%{$fg_bold[red]%}%(?..%?)%{$reset_color%}"
-RPROMPT='${return_status}%{$fg_bold[white]%}$(git_prompt_info)%{$reset_color%} $(get_current_time)%{$reset_color%}'
-
-ZSH_THEME_GIT_PROMPT_PREFIX=" "
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_DIRTY=""
-ZSH_THEME_GIT_PROMPT_CLEAN=""
+RPROMPT='%F{205}%(?..%?) %{$reset_color%}%F{234}$(echo "\ue0b2")%K{234}%F{250} $(git_prompt_info) %{$reset_color%}%K{234}%F{236}$(echo "\ue0b2")%K{236}%F{250} $(get_current_time) %{$reset_color%}'
 
 ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_bold[green]%}+"
 ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg_bold[blue]%}!"
