@@ -1,5 +1,5 @@
 local get_current_time() {
-    date +"[%H:%M:%S]"
+    date +"%H:%M:%S"
 }
 function git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null)
