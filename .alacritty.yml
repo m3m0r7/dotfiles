@@ -35,7 +35,7 @@ font:
     style: Bold Italic
 
 
-background_opacity: 0.9
+background_opacity: 0.925
 dynamic_title: true
 
 cursor:
