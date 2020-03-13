@@ -65,7 +65,7 @@ local fzf-git-branch() {
 
   local tags branches target
   branches=$(
-    git --no-pager branch --all \
+    git --no-pager branch \
       --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
     | sed '/^$/d') || return
   tags=$(
