@@ -3,13 +3,13 @@ env:
 
 window:
   dimensions:
-    columns: 260
-    lines: 50
+    columns: 240
+    lines: 70
   padding:
-    x: 4
-    y: 4
-  dynamic_padding: true
-  startup_mode: SimpleFullscreen
+    x: 0
+    y: 0
+  dynamic_padding: false
+  startup_mode: Windowed
 
 title: Terminal
 

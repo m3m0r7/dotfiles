@@ -1,13 +1,12 @@
 # Start-up  ------------------------------------------------------------------------------------------------------------
+export DISABLE_AUTO_UPDATE=true
 export PATH=$HOME/.nodebrew/current/bin:$HOME/.cargo/bin:$HOME/.original-scripts/bin:$HOME/.composer/vendor/bin:$HOME/bin:/usr/local/bin:$PATH.
-export ZSH="/Users/memory/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="memory"
 CASE_SENSITIVE="true"
 FZF_DEFAULT_OPTS="--height=100% --reverse"
 
-plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd fzf-zsh-completions)
-source $ZSH/oh-my-zsh.sh
+plugins=(zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd fzf-zsh-completions)
 
 # Exports --------------------------------------------------------------------------------------------------------------
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
@@ -18,6 +17,8 @@ export ENHANCD_FILTER="fzf --reverse"
 export ENHANCD_DISABLE_DOT=1
 export HISTCONTROL=erasedups
 export HISTIGNORE="history*:cd*:ls*"
+
+source $ZSH/oh-my-zsh.sh
 
 # Settings -------------------------------------------------------------------------------------------------------------
 setopt NO_BEEP
@@ -89,6 +90,7 @@ alias python='/usr/local/bin/python3'
 alias xxd='hexyl'
 alias tree='tree -a'
 alias sed='gsed'
+alias lsx='/bin/ls'
 alias ls='exa --color-scale -l --git-ignore -h --git -@ --time-style=iso -T -F -L=1'
 alias catx='bat'
 alias p='pbcopy'
@@ -136,6 +138,28 @@ optimize_history_precmd() {
     fi
     unset OPTIMIZE_HISTORY_CALLED
 }
+
+# Optimize oh-my-zsh ---------------------------------------------------------------------------------------------------
+# Optimize copy & paste
+# see: https://github.com/zsh-users/zsh-autosuggestions/issues/238#issuecomment-389324292
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+
+
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+  compinit;
+else
+  compinit -C;
+fi;
 
 # Show memory-chan  ----------------------------------------------------------------------------------------------------
 echo -e "\e[38;5;148m"
@@ -190,3 +214,22 @@ ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=245'
 
 # zstyle ---------------------------------------------------------------------------------------------------------------
 zstyle ':completion:*' list-colors "${LS_COLORS}"
+
+
+# Theme ----------------------------------------------------------------------------------------------------------------
+local get_current_time() {
+    date +"%H:%M:%S"
+}
+function git_prompt_info() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null)
+  if [ $? != 0 ]; then
+    echo "\u2212"
+    return
+  fi
+  echo "${ref#refs/heads/}"
+}
+
+PROMPT='$(print -n "\n%{%f%}")%K{148}%F{236} \$ %{$reset_color%}%F{148}$(echo "\ue0b0")%f%k%{$reset_color%} '
+RPROMPT='%F{205}%(?..%?) %{$reset_color%}%F{234}$(echo "\ue0b2")%K{234}%F{250} $(git_prompt_info) %{$reset_color%}%K{234}%F{236}$(echo "\ue0b2")%K{236}%F{250} $(get_current_time) %{$reset_color%}'
+
+

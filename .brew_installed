@@ -89,3 +89,4 @@ gdb
 dockerize
 tmux-mem-cpu-load
 fonts-powerline
+httpie
