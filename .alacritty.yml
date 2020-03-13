@@ -6,9 +6,9 @@ window:
     columns: 240
     lines: 70
   padding:
-    x: 0
-    y: 0
-  dynamic_padding: false
+    x: 4
+    y: 4
+  dynamic_padding: true
   startup_mode: Windowed
 
 title: Terminal
