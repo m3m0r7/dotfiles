@@ -6,8 +6,8 @@ window:
     columns: 240
     lines: 70
   padding:
-    x: 2
-    y: 2
+    x: 4
+    y: 4
   dynamic_padding: true
   startup_mode: Windowed
 
