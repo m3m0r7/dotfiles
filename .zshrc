@@ -83,16 +83,13 @@ zle -N fzf-git-branch
 bindkey '^b' fzf-git-branch
 
 # Aliases --------------------------------------------------------------------------------------------------------------
-alias pip2='/usr/local/bin/pip'
 alias pip='/usr/local/bin/pip3'
-alias python2='/usr/local/bin/python'
 alias python='/usr/local/bin/python3'
 alias xxd='hexyl'
 alias tree='tree -a'
 alias sed='gsed'
-alias lsx='/bin/ls'
 alias ls='exa --color-scale -l --git-ignore -h --git -@ --time-style=iso -T -F -L=1'
-alias catx='bat'
+alias cat='bat'
 alias p='pbcopy'
 alias pp='pbpaste'
 alias t='twterm'
@@ -100,6 +97,14 @@ alias grep='rg -n'
 alias tkw='tmux kill-window'
 alias cpy='pwd | p'
 alias cpt='cd $(pp) && cpy'
+
+# Use defaults runtime (suffix added with -)
+alias ls-='/bin/ls'
+alias grep-='/usr/bin/grep'
+alias xxd-='/usr/bin/xxd'
+alias python-='/usr/local/bin/python'
+alias pip-='/usr/local/bin/pip'
+alias cat-='/bin/cat'
 
 # histories ------------------------------------------------------------------------------------------------------------
 setopt hist_ignore_dups
@@ -163,7 +168,7 @@ fi;
 
 # Show memory-chan  ----------------------------------------------------------------------------------------------------
 echo -e "\e[38;5;148m"
-cat $HOME/.memory_chan
+cat- $HOME/.memory_chan
 echo -e "\e[m"
 
 eval $(gdircolors $HOME/dircolors-solarized/dircolors.256dark)
