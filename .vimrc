@@ -14,6 +14,7 @@ set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V
 set backupdir=~/.vimbackup
 set hlsearch
 set list
+set listchars=tab:»»,trail:-,extends:»,precedes:«,nbsp:%
 set showmatch
 
 
