@@ -90,3 +90,4 @@ dockerize
 tmux-mem-cpu-load
 fonts-powerline
 httpie
+openapi-generator
