@@ -48,10 +48,10 @@ ln -nsf $HOME/dotfiles/.oh-my-zsh/themes/memory.zsh-theme /Users/memory/.oh-my-z
 ln -nsf $HOME/dotfiles/.exa_colors $HOME/.exa_colors
 ln -nsf $HOME/dotfiles/.ls_colors $HOME/.ls_colors
 
-git clone https://github.com/seebi/dircolors-solarized.git $HOME/dircolors-solarized
+git clone https://github.com/seebi/dircolors-solarized.git $HOME/.oh-my-zsh/plugins/dircolors-solarized
 $(brew --prefix)/opt/fzf/install
 
-git clone https://github.com/chitoku-k/fzf-zsh-completions $HOME/fzf-zsh-completions
+git clone https://github.com/chitoku-k/fzf-zsh-completions $HOME/.oh-my-zsh/plugins/fzf-zsh-completions
 git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 
 git clone git@github.com:b4b4r07/enhancd.git $HOME/.oh-my-zsh/plugins/enhancd

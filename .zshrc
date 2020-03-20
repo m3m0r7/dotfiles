@@ -13,7 +13,7 @@ export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_231`
 export GOPATH=$HOME/.go
 export GO111MOD=on
 export LANG=en_US.UTF-8
-export ENHANCD_FILTER="fzf --reverse"
+export ENHANCD_FILTER="fzf --reverse --ansi"
 export ENHANCD_DISABLE_DOT=1
 export HISTCONTROL=erasedups
 export HISTIGNORE="history*:cd*:ls*"
@@ -27,11 +27,31 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 brew-installed() {
-    brew list | awk "{print $7}" >$HOME/.brew_installed
+  brew list | awk "{print $7}" >$HOME/.brew_installed
 }
 
+local fzf-pr() {
+  if [ ! -d '.git' ]; then
+    echo "$(pwd) is not a git repository."
+    return
+  fi
+  # gh_result=$(gh pr list -a $(git config --get user.name) 2>/dev/null)
+  local gh_result=$(gh pr list --limit 100 2>/dev/null)
+  local result=$(\
+    echo $gh_result |\
+    awk '{ printf "%s %s ", $1, $NF; $1 = $NF = ""; print }' |\
+    _fzf_complete_tabularize $fg[blue] $reset_color |\
+    fzf --ansi --height=100% --reverse --prompt "PULL REQUEST> "\
+  )
+  BUFFER=$LBUFFER$(echo $result | awk '{ print $2 }')
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N fzf-pr
+bindkey '^g' fzf-pr
+
 local fzf-files() {
-  COMMAND=$(echo $LBUFFER | awk '{print $1}')
+  local COMMAND=$(echo $LBUFFER | awk '{print $1}')
   FILE_TYPE="f"
   case "$COMMAND" in
     "cd")
@@ -58,9 +78,14 @@ zle -N fzf-history
 bindkey '^r' fzf-history
 
 local fzf-git-branch() {
+  if [ ! -d '.git' ]; then
+    echo "$(pwd) is not a git repository."
+    return
+  fi
+
   git branch -a 1>/dev/null 2>&1
   if [ $? != 0 ]; then
-    # Not found .git
+    echo "branch not found."
     return
   fi
 
@@ -73,7 +98,7 @@ local fzf-git-branch() {
     git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
   target=$(
     (echo "$branches"; echo "$tags") |
-    fzf --no-hscroll --no-multi -n 2  --ansi --height=100% --reverse --prompt "GIT BRANCH> ") || return
+    fzf --no-hscroll --no-multi -n 2 --ansi --height=100% --reverse --prompt "GIT BRANCH> ") || return
 
   BUFFER=$LBUFFER$(awk '{print $2}' <<<"$target" )
   CURSOR=$#BUFFER
