@@ -26,66 +26,65 @@ setopt NO_BEEP
 HISTSIZE=10000
 SAVEHIST=10000
 
-brew-installed() {
+make-brew-installed() {
   brew list | awk "{print $7}" >$HOME/.brew_installed
 }
 
-local fzf-pr() {
-  if [ ! -d '.git' ]; then
-    echo "$(pwd) is not a git repository."
+fzf-pr() {
+  # gh_result=$(gh pr list -a $(git config --get user.name) 2>/dev/null)
+  local gh_result result
+  gh_result=$(gh pr list --limit 100 2>/dev/null)
+  if [ $? != 0 ]; then
+    echo "Not found."
+    echo
+    zle reset-prompt
     return
   fi
-  # gh_result=$(gh pr list -a $(git config --get user.name) 2>/dev/null)
-  local gh_result=$(gh pr list --limit 100 2>/dev/null)
-  local result=$(\
-    echo $gh_result |\
-    awk '{ printf "%s %s ", $1, $NF; $1 = $NF = ""; print }' |\
-    _fzf_complete_tabularize $fg[blue] $reset_color |\
-    fzf --ansi --height=100% --reverse --prompt "PULL REQUEST> "\
+
+  result=$(
+    echo $gh_result |
+    awk '{ printf "%s %s ", $1, $NF; $1 = $NF = ""; print }' |
+    _fzf_complete_tabularize $fg[blue] $reset_color |
+    fzf --ansi --height=100% --reverse --prompt "PULL REQUEST> "
   )
   BUFFER=$LBUFFER$(echo $result | awk '{ print $2 }')
   CURSOR=$#BUFFER
-  zle clear-screen
 }
 zle -N fzf-pr
 bindkey '^g' fzf-pr
 
-local fzf-files() {
-  local COMMAND=$(echo $LBUFFER | awk '{print $1}')
-  local FILE_TYPE="f"
-  case "$COMMAND" in
+fzf-files() {
+  local command file_type
+  command=$(echo $LBUFFER | awk '{print $1}')
+  file_type="f"
+  case "$command" in
     "cd")
-        FILE_TYPE="d"
+        file_type="d"
     ;;
     "ls")
-        FILE_TYPE="d"
+        file_type="d"
     ;;
   esac
 
-  BUFFER=$LBUFFER$(fd -H -t $FILE_TYPE | fzf --height=100% --reverse --prompt "FILE> ")
+  BUFFER=$LBUFFER$(fd -H -t $file_type | fzf --height=100% --reverse --prompt "FILE> ")
   CURSOR=$#BUFFER
-  zle clear-screen
 }
 zle -N fzf-files
 bindkey '^f' fzf-files
 
-local fzf-history() {
+fzf-history() {
   BUFFER=$(history | awk -F ' ' '{for(i=2;i<NF;++i){printf("%s ",$i)}print $NF}' | awk '!a[$0]++' | sort -r | fzf --height=100% --reverse --prompt "HISTORY> ")
   CURSOR=$#BUFFER
-  zle clear-screen
 }
 zle -N fzf-history
 bindkey '^r' fzf-history
 
-local fzf-git-branch() {
-  if [ ! -d '.git' ]; then
-    echo "$(pwd) is not a git repository."
-    return
-  fi
-
+fzf-git-branch() {
   git branch -a 1>/dev/null 2>&1
   if [ $? != 0 ]; then
     echo "branch not found."
+    echo
+    zle reset-prompt
     return
   fi
 
@@ -102,7 +101,6 @@ local fzf-git-branch() {
 
   BUFFER=$LBUFFER$(awk '{print $2}' <<<"$target" )
   CURSOR=$#BUFFER
-  zle clear-screen
 }
 zle -N fzf-git-branch
 bindkey '^b' fzf-git-branch
@@ -247,10 +245,10 @@ zstyle ':completion:*' list-colors "${LS_COLORS}"
 
 
 # Theme ----------------------------------------------------------------------------------------------------------------
-local get_current_time() {
+get_current_time() {
     date +"%H:%M:%S"
 }
-function git_prompt_info() {
+git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null)
   if [ $? != 0 ]; then
     echo "\u2212"
