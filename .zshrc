@@ -44,6 +44,7 @@ fzf-pr() {
   result=$(
     echo $gh_result |
     awk '{ printf "%s %s ", $1, $NF; $1 = $NF = ""; print }' |
+    awk '$0 ~ /./{print $0}'
     _fzf_complete_tabularize $fg[blue] $reset_color |
     fzf --ansi --height=100% --reverse --prompt "PULL REQUEST> "
   )
