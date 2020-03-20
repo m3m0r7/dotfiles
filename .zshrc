@@ -52,7 +52,7 @@ bindkey '^g' fzf-pr
 
 local fzf-files() {
   local COMMAND=$(echo $LBUFFER | awk '{print $1}')
-  FILE_TYPE="f"
+  local FILE_TYPE="f"
   case "$COMMAND" in
     "cd")
         FILE_TYPE="d"
