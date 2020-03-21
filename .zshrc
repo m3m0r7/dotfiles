@@ -86,7 +86,7 @@ zle -N fzf-history
 bindkey '^r' fzf-history
 
 fzf-git-branch() {
-  git branch -a 1>/dev/null 2>&1
+  git branch 1>/dev/null 2>&1
   if [ $? != 0 ]; then
     show-error
     echo
@@ -102,7 +102,7 @@ fzf-git-branch() {
   tags=$(
     git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
   target=$(
-    (echo "$branches"; echo "$tags") |
+    (echo "$branches"; echo "$tags") | awk '$0 ~ /./{print $0}' |
     fzf --no-hscroll --no-multi -n 2 --ansi --height=100% --reverse --prompt "GIT BRANCH> ") || return
 
   BUFFER=$LBUFFER$(awk '{print $2}' <<<"$target" )
