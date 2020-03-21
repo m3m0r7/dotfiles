@@ -65,10 +65,10 @@ fzf-files() {
   file_type="f"
   case "$command" in
     "cd")
-        file_type="d"
+      file_type="d"
     ;;
     "ls")
-        file_type="d"
+      file_type="d"
     ;;
   esac
 
@@ -143,13 +143,13 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 
 zshaddhistory() {
-    local line=${1%%$'\n'}
-    local cmd=${line%% *}
+  local line=${1%%$'\n'}
+  local cmd=${line%% *}
 
-    [[  ${cmd} != (l|l[sal]|ls|cd|';')
-        && ${cmd} != (m|man)
-        && ${cmd} != (r[mr])
-    ]]
+  [[  ${cmd} != (l|l[sal]|ls|cd|';')
+    && ${cmd} != (m|man)
+    && ${cmd} != (r[mr])
+  ]]
 }
 
 #
@@ -159,18 +159,18 @@ add-zsh-hook preexec optimize_history_preexec
 add-zsh-hook precmd optimize_history_precmd
 
 optimize_history_preexec() {
-    OPTIMIZE_HISTORY_CALLED=1
+  OPTIMIZE_HISTORY_CALLED=1
 }
 
 optimize_history_precmd() {
-    local exit_status=$?
-    local history_file="${HISTFILE-"${ZDOTDIR-"${HOME}"}/.zsh_history"}"
-    # Exit Code 130: Script terminated by Ctrl-C
-    if [[ ! ${exit_status} =~ ^(0|130)$ ]] && [[ "${OPTIMIZE_HISTORY_CALLED}" -eq 1 ]]; then
-        # BSD || GNU
-        command sed -i '' '$d' "${history_file}" 2>/dev/null || command sed -i '$d' "${history_file}"
-    fi
-    unset OPTIMIZE_HISTORY_CALLED
+  local exit_status=$?
+  local history_file="${HISTFILE-"${ZDOTDIR-"${HOME}"}/.zsh_history"}"
+  # Exit Code 130: Script terminated by Ctrl-C
+  if [[ ! ${exit_status} =~ ^(0|130)$ ]] && [[ "${OPTIMIZE_HISTORY_CALLED}" -eq 1 ]]; then
+    # BSD || GNU
+    command sed -i '' '$d' "${history_file}" 2>/dev/null || command sed -i '$d' "${history_file}"
+  fi
+  unset OPTIMIZE_HISTORY_CALLED
 }
 
 # Optimize oh-my-zsh ---------------------------------------------------------------------------------------------------
@@ -252,7 +252,7 @@ zstyle ':completion:*' list-colors "${LS_COLORS}"
 
 # Theme ----------------------------------------------------------------------------------------------------------------
 get_current_time() {
-    date +"%H:%M:%S"
+  date +"%H:%M:%S"
 }
 git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null)
