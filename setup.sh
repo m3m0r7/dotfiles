@@ -41,6 +41,7 @@ ln -nsf $HOME/dotfiles/.fdignore $HOME/.fdignore
 ln -nsf $HOME/dotfiles/.original-scripts $HOME/.original-scripts
 ln -nsf $HOME/dotfiles/webpack.config.js $HOME/webpack.config.js
 ln -nsf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
+ln -nsf $HOME/dotfiles/.error_cat $HOME/.error_cat
 
 # Install theme
 ln -nsf $HOME/dotfiles/.oh-my-zsh/themes/memory.zsh-theme /Users/memory/.oh-my-zsh/themes/memory.zsh-theme

@@ -26,6 +26,11 @@ setopt NO_BEEP
 HISTSIZE=10000
 SAVEHIST=10000
 
+show-error() {
+  echo
+  /bin/cat $HOME/.error_cat
+}
+
 make-brew-installed() {
   brew list | awk "{print $7}" >$HOME/.brew_installed
 }
@@ -35,7 +40,7 @@ fzf-pr() {
   local gh_result result
   gh_result=$(gh pr list --limit 100 2>/dev/null)
   if [ $? != 0 ]; then
-    echo "Not found."
+    show-error
     echo
     zle reset-prompt
     return
@@ -83,7 +88,7 @@ bindkey '^r' fzf-history
 fzf-git-branch() {
   git branch -a 1>/dev/null 2>&1
   if [ $? != 0 ]; then
-    echo "branch not found."
+    show-error
     echo
     zle reset-prompt
     return
