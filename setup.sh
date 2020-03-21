@@ -33,7 +33,6 @@ if [ -f $HOME/.vimrc ]; then
 fi
 
 # Create symbolic links
-ln -nsf $HOME/dotfiles/.memory_chan $HOME/.memory_chan
 ln -nsf $HOME/dotfiles/.zshrc $HOME/.zshrc
 ln -nsf $HOME/dotfiles/.vimrc $HOME/.vimrc
 ln -nsf $HOME/dotfiles/.gitignore_global $HOME/.gitignore_global
@@ -41,13 +40,6 @@ ln -nsf $HOME/dotfiles/.fdignore $HOME/.fdignore
 ln -nsf $HOME/dotfiles/.original-scripts $HOME/.original-scripts
 ln -nsf $HOME/dotfiles/webpack.config.js $HOME/webpack.config.js
 ln -nsf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
-ln -nsf $HOME/dotfiles/.error_cat $HOME/.error_cat
-
-# Install theme
-ln -nsf $HOME/dotfiles/.oh-my-zsh/themes/memory.zsh-theme /Users/memory/.oh-my-zsh/themes/memory.zsh-theme
-
-ln -nsf $HOME/dotfiles/.exa_colors $HOME/.exa_colors
-ln -nsf $HOME/dotfiles/.ls_colors $HOME/.ls_colors
 
 git clone https://github.com/seebi/dircolors-solarized.git $HOME/.oh-my-zsh/plugins/dircolors-solarized
 $(brew --prefix)/opt/fzf/install
