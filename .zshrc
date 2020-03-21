@@ -27,12 +27,35 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 show-error() {
-  echo
-  /bin/cat $HOME/.error_cat
+  echo >&2
+  /bin/cat $HOME/.error_cat >&2
 }
 
 make-brew-installed() {
   brew list | awk "{print $7}" >$HOME/.brew_installed
+}
+
+fzf-checkout-histories() {
+  local branches result target
+  result=$(git --no-pager reflog 2>/dev/null)
+  if [[ ! $? =~ ^(0|130)$ ]]; then
+    show-error
+    echo
+    return
+  fi
+  branches=$(echo $result | awk '$3 == "checkout:" && /moving from/ {print $8}')
+  target=$(echo $branches | fzf --ansi --height=100% --reverse --prompt "HISTORY> ")
+  /usr/bin/git checkout $target
+}
+
+enhanced-git-alias() {
+  local cmd_result
+  cmd_result=$(echo $@ | sed 's/\s+/ /')
+  if [[ ${cmd_result} == 'checkout -' ]]; then
+    fzf-checkout-histories
+    return
+  fi
+  /usr/bin/git $(echo $@)
 }
 
 fzf-pr() {
@@ -127,6 +150,8 @@ alias tkw='tmux kill-window'
 alias p='pwd | q'
 alias pp='cd $(qq) && p'
 
+alias git='enhanced-git-alias'
+
 # Use defaults runtime (suffix added with -)
 alias ls-='/bin/ls'
 alias grep-='/usr/bin/grep'
@@ -166,7 +191,6 @@ optimize_history_precmd() {
   fi
   unset OPTIMIZE_HISTORY_CALLED
 }
-
 
 error_catcher_preexec() {
   ERROR_CATCHER_CALLED=1
