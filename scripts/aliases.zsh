@@ -14,8 +14,6 @@ alias tkw='tmux kill-window'
 alias p='pwd | q'
 alias pp='cd $(qq) && p'
 
-alias git='enhanced-git-alias'
-
 # Use defaults runtime (suffix added with -)
 alias ls-='/bin/ls'
 alias grep-='/usr/bin/grep'

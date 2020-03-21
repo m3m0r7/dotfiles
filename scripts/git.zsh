@@ -8,3 +8,4 @@ enhanced-git-alias() {
   /usr/bin/git $(echo $@)
 }
 
+alias git='enhanced-git-alias'
