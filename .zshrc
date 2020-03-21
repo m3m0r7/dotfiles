@@ -167,10 +167,17 @@ optimize_history_precmd() {
   unset OPTIMIZE_HISTORY_CALLED
 }
 
+
+error_catcher_preexec() {
+  ERROR_CATCHER_CALLED=1
+}
+
 error_catcher_precmd() {
-  if [[ ! $? =~ ^(0|130)$ ]]; then
+  local exit_status=$?
+  if [[ ! ${exit_status} =~ ^(0|130)$ ]] && [[ "${ERROR_CATCHER_CALLED}" -eq 1 ]]; then
     show-error
   fi
+  unset ERROR_CATCHER_CALLED
 }
 
 #
@@ -179,6 +186,7 @@ error_catcher_precmd() {
 add-zsh-hook preexec optimize_history_preexec
 add-zsh-hook precmd optimize_history_precmd
 
+add-zsh-hook preexec error_catcher_preexec
 add-zsh-hook precmd error_catcher_precmd
 
 # Optimize oh-my-zsh ---------------------------------------------------------------------------------------------------
