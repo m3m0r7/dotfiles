@@ -152,12 +152,6 @@ zshaddhistory() {
   ]]
 }
 
-#
-# Ref: https://gist.github.com/znppunfuv/060107438d8ea06d623f0cbcb019950f
-#
-add-zsh-hook preexec optimize_history_preexec
-add-zsh-hook precmd optimize_history_precmd
-
 optimize_history_preexec() {
   OPTIMIZE_HISTORY_CALLED=1
 }
@@ -172,6 +166,20 @@ optimize_history_precmd() {
   fi
   unset OPTIMIZE_HISTORY_CALLED
 }
+
+error_catcher_precmd() {
+  if [[ ! $? =~ ^(0|130)$ ]]; then
+    show-error
+  fi
+}
+
+#
+# Ref: https://gist.github.com/znppunfuv/060107438d8ea06d623f0cbcb019950f
+#
+add-zsh-hook preexec optimize_history_preexec
+add-zsh-hook precmd optimize_history_precmd
+
+add-zsh-hook precmd error_catcher_precmd
 
 # Optimize oh-my-zsh ---------------------------------------------------------------------------------------------------
 # Optimize copy & paste
