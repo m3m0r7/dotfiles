@@ -2,7 +2,7 @@ get_current_time() {
   date +"%H:%M:%S"
 }
 git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null)
+  ref=$(/usr/bin/git symbolic-ref HEAD 2> /dev/null)
   if [ $? != 0 ]; then
     echo "\u2212"
     return

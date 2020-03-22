@@ -1,16 +1,3 @@
-fzf-checkout-histories() {
-  local branches result target
-  result=$(git --no-pager reflog 2>/dev/null)
-  if [[ ! $? =~ ^(0|130)$ ]]; then
-    show-error
-    echo
-    return
-  fi
-  branches=$(echo $result | awk '$3 == "checkout:" && /moving from/ {print $8}')
-  target=$(echo $branches | fzf --ansi --height=100% --reverse --prompt "HISTORY> ")
-  /usr/bin/git checkout $target
-}
-
 fzf-pr() {
   # gh_result=$(gh pr list -a $(git config --get user.name) 2>/dev/null)
   local gh_result result
