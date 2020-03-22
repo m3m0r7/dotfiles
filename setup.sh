@@ -23,15 +23,6 @@ brew tap homebrew/cask-fonts
 cat .brew_installed | brew install
 cat .brew_cask_installed | brew cask install
 
-# Remove already installed files
-if [ -f $HOME/.zshrc ]; then
-  rm $HOME/.zshrc
-fi
-
-if [ -f $HOME/.vimrc ]; then
-  rm $HOME/.vimrc
-fi
-
 # Create symbolic links
 ln -nsf $HOME/dotfiles/.zshrc $HOME/.zshrc
 ln -nsf $HOME/dotfiles/.vimrc $HOME/.vimrc
