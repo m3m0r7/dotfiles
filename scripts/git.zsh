@@ -1,49 +1,46 @@
+_GIT_DIFF_FILES=
+_get_git_diff_files() {
+  ref=$(/usr/bin/git symbolic-ref HEAD 2> /dev/null)
+  if [[ ${ref#refs/heads/} == 'master' ]]; then
+    return 1
+  fi
+  _GIT_DIFF_FILES=$(/usr/bin/git diff --name-only --diff-filter=ACMR origin/master...origin/${ref#refs/heads/})
+  if [[ ! $? =~ ^(0|130)$ ]]; then
+    return 1
+  fi
+  return 0
+}
+
 fzf-checkout-histories() {
   local branches result target
   result=$(/usr/bin/git --no-pager reflog 2>/dev/null)
   if [[ ! $? =~ ^(0|130)$ ]]; then
-    show-error
-    echo
-    return
+    return 1
   fi
   branches=$(echo $result | awk '$3 == "checkout:" && /moving from/ {print $8}')
-  target=$(echo $branches | awk '$0 ~ /./{print $0}' | fzf --ansi --height=100% --reverse --prompt "HISTORY> ")
+  target=$(echo $branches | awk '$0 ~ /./{print $0}' | fzf --prompt "HISTORY> ")
   /usr/bin/git checkout $target
 }
 
 fzf-checkout-files() {
-  local result target
-  ref=$(/usr/bin/git symbolic-ref HEAD 2> /dev/null)
-  if [[ ${ref#refs/heads/} == 'master' ]]; then
-    echo "No diff"
-    return
+  local target
+  _get_git_diff_files
+  if [[ $? == 1 ]]; then
+    return 1
   fi
-  result=$(/usr/bin/git diff --name-only --diff-filter=ACMR origin/master...origin/${ref#refs/heads/})
-  if [[ ! $? =~ ^(0|130)$ ]]; then
-    show-error
-    echo
-    return
-  fi
-  target=$(echo $result | awk '$0 ~ /./{print $0}' | fzf --ansi --height=100% --reverse --prompt "FILE HISTORY> ")
+  target=$(echo "$_GIT_DIFF_FILES" | awk '$0 ~ /./{print $0}' | fzf --prompt "FILE HISTORY> ")
   /usr/bin/git checkout -- $target
 }
 
 fzf-reset-files() {
-  local result target
-  ref=$(/usr/bin/git symbolic-ref HEAD 2> /dev/null)
-  if [[ ${ref#refs/heads/} == 'master' ]]; then
-    echo "No diff"
-    return
+  local target
+  _get_git_diff_files
+  if [[ $? == 1 ]]; then
+    return 1
   fi
-  result=$(/usr/bin/git diff --name-only --diff-filter=ACMR origin/master...origin/${ref#refs/heads/})
-  if [[ ! $? =~ ^(0|130)$ ]]; then
-    show-error
-    echo
-    return
-  fi
-  target=$(echo $result | awk '$0 ~ /./{print $0}' | fzf --ansi --height=100% --reverse --prompt "FILE HISTORY> ")
-  /usr/bin/git reset master -- $target
-  /usr/bin/git checkout -- $target
+  target=$(echo "$_GIT_DIFF_FILES" | awk '$0 ~ /./{print $0}' | fzf --prompt "FILE HISTORY> ")
+  /usr/bin/git reset master -- "$target"
+  /usr/bin/git checkout -- "$target"
 }
 
 enhanced-git-alias() {
@@ -71,7 +68,9 @@ enhanced-git-alias() {
       ;;
     esac
   fi
-  /usr/bin/git $(echo $@)
+
+  # shellcheck disable=SC2068
+  /usr/bin/git $@
 }
 
 alias git='enhanced-git-alias'

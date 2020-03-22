@@ -3,6 +3,8 @@ FZF_DEFAULT_OPTS="--height=100% --reverse"
 
 plugins=(zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd fzf-zsh-completions)
 
+alias fzf='fzf --ansi --height=100% --reverse --no-hscroll --no-multi'
+
 source $HOME/scripts/exports.zsh
 source $ZSH/oh-my-zsh.sh
 source $HOME/scripts/settings.zsh

@@ -14,7 +14,7 @@ fzf-pr() {
     awk '$0 ~ /./{print $0}' |
     awk '{ printf "%s %s ", $1, $NF; $1 = $NF = ""; print }' |
     _fzf_complete_tabularize $fg[blue] $reset_color |
-    fzf --ansi --height=100% --reverse --prompt "PULL REQUEST> "
+    fzf --prompt "PULL REQUEST> "
   )
   BUFFER=$LBUFFER$(echo $result | awk '{ print $2 }')
   CURSOR=$#BUFFER
@@ -35,14 +35,14 @@ fzf-files() {
     ;;
   esac
 
-  BUFFER=$LBUFFER$(fd -H -t $file_type | fzf --height=100% --reverse --prompt "FILE> ")
+  BUFFER=$LBUFFER$(fd -H -t $file_type | fzf --prompt "FILE> ")
   CURSOR=$#BUFFER
 }
 zle -N fzf-files
 bindkey '^f' fzf-files
 
 fzf-history() {
-  BUFFER=$(history | awk -F ' ' '{for(i=2;i<NF;++i){printf("%s ",$i)}print $NF}' | awk '!a[$0]++' | sort -r | fzf --height=100% --reverse --prompt "HISTORY> ")
+  BUFFER=$(history | awk -F ' ' '{for(i=2;i<NF;++i){printf("%s ",$i)}print $NF}' | awk '!a[$0]++' | sort -r | fzf --prompt "HISTORY> ")
   CURSOR=$#BUFFER
 }
 zle -N fzf-history
@@ -66,7 +66,7 @@ fzf-git-branch() {
     git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
   target=$(
     (echo "$branches"; echo "$tags") | awk '$0 ~ /./{print $0}' |
-    fzf --no-hscroll --no-multi -n 2 --ansi --height=100% --reverse --prompt "GIT BRANCH> ") || return
+    fzf --prompt "GIT BRANCH> ") || return
 
   BUFFER=$LBUFFER$(awk '{print $2}' <<<"$target" )
   CURSOR=$#BUFFER
