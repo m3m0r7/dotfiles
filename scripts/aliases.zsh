@@ -21,5 +21,6 @@ alias xxd-='/usr/bin/xxd'
 alias python-='/usr/local/bin/python'
 alias pip-='/usr/local/bin/pip'
 alias cat-='/bin/cat'
+alias git-='/usr/bin/git'
 
 

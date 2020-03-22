@@ -50,7 +50,7 @@ fzf-reset-files() {
   /usr/bin/git checkout -- "$target"
 }
 
-enhanced-git-alias() {
+enhanced-/usr/bin/gitalias() {
   if [[ $1 == 'checkout' ]]; then
     case "$2" in
       "-")
@@ -80,4 +80,4 @@ enhanced-git-alias() {
   /usr/bin/git $@
 }
 
-alias git='enhanced-git-alias'
+alias git='enhanced-/usr/bin/gitalias'
