@@ -17,9 +17,16 @@ fzf-checkout-histories() {
   if [[ ! $? =~ ^(0|130)$ ]]; then
     return 1
   fi
-  branches=$(echo $result | awk '$3 == "checkout:" && /moving from/ {print $8}')
-  target=$(echo $branches | awk '$0 ~ /./{print $0}' | fzf --prompt "HISTORY> ")
-  /usr/bin/git checkout $target
+  branches=$(
+    echo "$result" |
+    awk '$3 == "checkout:" && !a[$8]++ && NR>1 && /moving from/ {print $8}'
+  )
+  target=$(
+    echo $branches |
+    awk '$0 ~ /./{print $0}' |
+    fzf --prompt "HISTORY> "
+  )
+  /usr/bin/git checkout "$target"
 }
 
 fzf-checkout-files() {
@@ -29,7 +36,7 @@ fzf-checkout-files() {
     return 1
   fi
   target=$(echo "$_GIT_DIFF_FILES" | awk '$0 ~ /./{print $0}' | fzf --prompt "FILE HISTORY> ")
-  /usr/bin/git checkout -- $target
+  /usr/bin/git checkout -- "$target"
 }
 
 fzf-reset-files() {
