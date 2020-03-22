@@ -13,3 +13,5 @@ make-brew-installed() {
   git- push origin master
   cd $oldpwd
 }
+
+alias mbi='make-brew-installed'
