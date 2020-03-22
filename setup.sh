@@ -23,9 +23,12 @@ brew tap homebrew/cask-fonts
 cat .brew_installed | brew install
 cat .brew_cask_installed | brew cask install
 
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 # Create symbolic links
 ln -nsf $HOME/dotfiles/.zshrc $HOME/.zshrc
-ln -nsf $HOME/dotfiles/.vimrc $HOME/.vimrc
+ln -nsf $HOME/dotfiles/.vimrc $HOME/.config/nvim/init.vim
 ln -nsf $HOME/dotfiles/.gitignore_global $HOME/.gitignore_global
 ln -nsf $HOME/dotfiles/.fdignore $HOME/.fdignore
 ln -nsf $HOME/dotfiles/.original-scripts $HOME/.original-scripts

@@ -13,6 +13,7 @@ alias grep='rg -n'
 alias tkw='tmux kill-window'
 alias p='pwd | q'
 alias pp='cd $(qq) && p'
+alias vim='nvim'
 
 # Use defaults runtime (suffix added with -)
 alias ls-='/bin/ls'
@@ -22,3 +23,4 @@ alias python-='/usr/local/bin/python'
 alias pip-='/usr/local/bin/pip'
 alias cat-='/bin/cat'
 alias git-='/usr/bin/git'
+alias vim-='/usr/bin/vim'
