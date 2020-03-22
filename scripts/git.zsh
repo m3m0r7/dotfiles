@@ -4,7 +4,7 @@ _get_git_diff_files() {
   if [[ ${ref#refs/heads/} == 'master' ]]; then
     return 1
   fi
-  _GIT_DIFF_FILES=$(/usr/bin/git diff --name-only --diff-filter=ACMR origin/master...origin/${ref#refs/heads/})
+  _GIT_DIFF_FILES=$(/usr/bin/git diff --name-only --diff-filter=ACMR origin/master...HEAD)
   if [[ ! $? =~ ^(0|130)$ ]]; then
     return 1
   fi
