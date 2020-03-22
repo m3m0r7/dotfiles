@@ -40,6 +40,7 @@ ln -nsf $HOME/dotfiles/.fdignore $HOME/.fdignore
 ln -nsf $HOME/dotfiles/.original-scripts $HOME/.original-scripts
 ln -nsf $HOME/dotfiles/webpack.config.js $HOME/webpack.config.js
 ln -nsf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
+ln -nsf $HOME/dotfiles/scripts $HOME/scripts
 
 git clone https://github.com/seebi/dircolors-solarized.git $HOME/.oh-my-zsh/plugins/dircolors-solarized
 $(brew --prefix)/opt/fzf/install
