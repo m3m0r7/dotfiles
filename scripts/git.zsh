@@ -12,14 +12,15 @@ _get_git_diff_files() {
 }
 
 fzf-checkout-histories() {
-  local branches result target
+  local branches result target current
   result=$(/usr/bin/git --no-pager reflog 2>/dev/null)
+  current=${$(/usr/bin/git symbolic-ref HEAD 2> /dev/null)#refs/heads/}
   if [[ ! $? =~ ^(0|130)$ ]]; then
     return 1
   fi
   branches=$(
     echo "$result" |
-    awk '$3 == "checkout:" && !a[$8]++ && NR>1 && /moving from/ {print $8}'
+    awk '$3 == "checkout:" && !a[$8]++ && NR>1 && a[$8] != "'"$current"'" && /moving from/ {print $8}'
   )
   target=$(
     echo $branches |
