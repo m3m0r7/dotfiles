@@ -20,7 +20,7 @@ fzf-checkout-histories() {
   fi
   branches=$(
     echo "$result" |
-    awk '$3 == "checkout:" && !a[$8]++ && NR>1 && a[$8] != "'"$current"'" && /moving from/ {print $8}'
+    awk '$3 == "checkout:" && !a[$8]++ && NR>1 && $8 != "'"$current"'" && /moving from/ {print $8}'
   )
   target=$(
     echo $branches |
