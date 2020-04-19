@@ -3,8 +3,8 @@ env:
 
 window:
   dimensions:
-    columns: 220
-    lines: 60
+    columns: 140
+    lines: 30
   padding:
     x: 4
     y: 4
@@ -15,7 +15,7 @@ title: Terminal
 
 font:
   use_anti_alias: true
-  size: 11.0
+  size: 10.0
   offset:
     x: 0
     y: 0
@@ -33,7 +33,7 @@ font:
     style: Bold Italic
 
 
-background_opacity: 0.925
+background_opacity: 0.825
 dynamic_title: true
 
 cursor:
@@ -43,10 +43,6 @@ live_config_reload: true
 
 shell:
   program: /bin/zsh
-  args:
-    - -l
-    - -c
-    - "tmux -u -f $HOME/.tmux.conf attach -t login-shell || tmux -u -l -f $HOME/.tmux.conf new -s login-shell \\; split-window -v \\; split-window -h \\; select-pane -L \\; select-pane -U \\; split-window -h \\; select-pane -L \\;"
 
 working_directory: /
 key_bindings:
