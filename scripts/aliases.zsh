@@ -11,9 +11,12 @@ alias qq='pbpaste'
 alias t='twterm'
 alias grep='rg -n'
 alias tkw='tmux kill-window'
+alias vim='nvim'
+
+# copy-and-paste aliases
 alias p='pwd | q'
 alias pp='cd $(qq) && p'
-alias vim='nvim'
+alias pg='_get_git_branch | q';
 
 # Use defaults runtime (suffix added with -)
 alias ls-='/bin/ls'

@@ -1,7 +1,12 @@
 _GIT_DIFF_FILES=
-_get_git_diff_files() {
+_get_git_branch() {
   ref=$(/usr/bin/git symbolic-ref HEAD 2> /dev/null)
-  if [[ ${ref#refs/heads/} == 'master' ]]; then
+  echo "${ref#refs/heads/}"
+}
+
+_get_git_diff_files() {
+  ref=$(_get_git_branch)
+  if [[ $ref == 'master' ]]; then
     return 1
   fi
   _GIT_DIFF_FILES=$(/usr/bin/git diff --name-only --diff-filter=ACMR origin/master...HEAD)
