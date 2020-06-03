@@ -1,5 +1,5 @@
 # dotfiles
 
 ```shell script
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/memory-agape/dotfiles/master/setup.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/m3m0r7/dotfiles/master/setup.sh)"
 ```
