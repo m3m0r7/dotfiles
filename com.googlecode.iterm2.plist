@@ -1478,7 +1478,7 @@
 			<key>Blur</key>
 			<true/>
 			<key>Blur Radius</key>
-			<real>17.362222398477158</real>
+			<real>18.590664657360406</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -2317,7 +2317,7 @@
 			<key>Title Components</key>
 			<integer>256</integer>
 			<key>Transparency</key>
-			<real>0.25344622461928934</real>
+			<real>0.093886817893401017</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -2375,7 +2375,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>38510A52-1267-4780-AFB3-8DF4BC9F89D1</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>390</integer>
+	<integer>391</integer>
 	<key>NoSyncNeverAskAboutSettingAlternateMouseScroll</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
