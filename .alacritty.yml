@@ -2,20 +2,20 @@ env:
   TERM: xterm-256color
 
 window:
-  dimensions:
-    columns: 140
-    lines: 30
+#  dimensions:
+#    columns: 200
+#    lines: 60
   padding:
     x: 4
     y: 4
   dynamic_padding: true
-  startup_mode: Windowed
+  startup_mode: SimpleFullscreen
 
 title: Terminal
 
 font:
-  use_anti_alias: true
-  size: 10.0
+  use_anti_alias: false
+  size: 11.0
   offset:
     x: 0
     y: 0
@@ -43,6 +43,11 @@ live_config_reload: true
 
 shell:
   program: /bin/zsh
+
+  args:
+    - -l
+    - -c
+    - "tmux -u -f $HOME/.tmux.conf attach -t login-shell || tmux -u -f $HOME/.tmux.conf new -s login-shell \\; split-window -v \\; split-window -h \\; select-pane -L \\; select-pane -U \\; split-window -h \\; select-pane -L \\;"
 
 working_directory: /
 key_bindings:

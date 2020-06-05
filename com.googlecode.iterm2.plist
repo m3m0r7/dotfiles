@@ -543,6 +543,8 @@
 			<integer>0</integer>
 			<key>Initial Text</key>
 			<string></string>
+			<key>Initial Use Transparency</key>
+			<false/>
 			<key>Jobs to Ignore</key>
 			<array>
 				<string>rlogin</string>
@@ -1264,7 +1266,7 @@
 			<key>Title Components</key>
 			<integer>256</integer>
 			<key>Transparency</key>
-			<real>0.17829750951776649</real>
+			<real>0.0</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -1308,21 +1310,21 @@
 	<key>NoSyncFrame_SessionsPreferences</key>
 	<dict>
 		<key>screenFrame</key>
-		<string>{{0, 0}, {1792, 1120}}</string>
+		<string>{{0, 0}, {2048, 1280}}</string>
 		<key>topLeft</key>
-		<string>{544, 742}</string>
+		<string>{269, 595}</string>
 	</dict>
 	<key>NoSyncFrame_SharedPreferences</key>
 	<dict>
 		<key>screenFrame</key>
-		<string>{{0, 0}, {2048, 1280}}</string>
+		<string>{{2048, 200}, {2560, 1080}}</string>
 		<key>topLeft</key>
-		<string>{341, 993}</string>
+		<string>{3202, 1029}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>38510A52-1267-4780-AFB3-8DF4BC9F89D1</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>322</integer>
+	<integer>382</integer>
 	<key>NoSyncNeverAskAboutSettingAlternateMouseScroll</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
@@ -2140,7 +2142,7 @@
 	<key>NoSyncSavePanelSavedSettings_SaveProfile</key>
 	<dict>
 		<key>Initial Directory</key>
-		<string>/Volumes/src/m3m0r7/dotfiles</string>
+		<string>/Volumes/src/memory-agape/dotfiles</string>
 	</dict>
 	<key>NoSyncTipOfTheDayEligibilityBeganTime</key>
 	<real>596025554.507465</real>
@@ -2204,7 +2206,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2020-04-19T05:29:39Z</date>
+	<date>2020-06-04T09:34:58Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SeparateStatusBarsPerPane</key>
