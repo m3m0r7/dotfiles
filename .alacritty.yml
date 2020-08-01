@@ -53,3 +53,32 @@ key_bindings:
   - { key: Left,     mods: Alt,     chars: "\e[1;5D" }
   - { key: Right,    mods: Alt,     chars: "\e[1;5C" }
   - { key: Q,    mods: Command,     chars: "\x1bq" }
+
+# Monokai Pro (edited)
+colors:
+  # Default colors
+  primary:
+    background: '#000000'
+    foreground: '#FCFCFA'
+
+  # Normal colors
+  normal:
+    black:   '#403E41'
+    red:     '#FF6188'
+    green:   '#A9DC76'
+    yellow:  '#FFD866'
+    blue:    '#FC9867'
+    magenta: '#AB9DF2'
+    cyan:    '#78DCE8'
+    white:   '#FCFCFA'
+
+  # Bright colors
+  bright:
+    black:   '#727072'
+    red:     '#FF6188'
+    green:   '#A9DC76'
+    yellow:  '#FFD866'
+    blue:    '#FC9867'
+    magenta: '#AB9DF2'
+    cyan:    '#78DCE8'
+    white:   '#FCFCFA'
