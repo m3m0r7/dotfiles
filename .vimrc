@@ -24,7 +24,7 @@ map <C-n> :NERDTreeToggle<CR>
 "autocmd vimenter * NERDTree
 
 call plug#begin('~/.nvim/plugged')
-    Plug 'jdkanani/vim-material-theme'
+    Plug 'sickill/vim-monokai'
     Plug 'tomasr/molokai'
     Plug 'tomtom/tcomment_vim'
     Plug 'nathanaelkane/vim-indent-guides'
@@ -36,7 +36,7 @@ call plug#begin('~/.nvim/plugged')
     Plug 'sheerun/vim-polyglot'
 call plug#end()
 
-colorscheme material-theme
+colorscheme monokai
 
 let g:indent_guides_enable_on_vim_startup = 1
 let g:airline_theme = 'wombat'
