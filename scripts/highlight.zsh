@@ -9,8 +9,8 @@ _zsh_highlight_style_inactive() {
   ZSH_HIGHLIGHT_STYLES[command]='fg=239'
   ZSH_HIGHLIGHT_STYLES[alias]='fg=239'
 
-  ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=bold'
-  ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=bold'
+  ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=239,bold'
+  ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=239,bold'
 
   ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=239'
 
@@ -33,9 +33,10 @@ _zsh_highlight_style_inactive() {
 
   ZSH_HIGHLIGHT_STYLES[assign]='fg=239'
 
-  ZSH_HIGHLIGHT_STYLES[redirection]='fg=bold'
-  ZSH_HIGHLIGHT_STYLES[path]='none'
-  ZSH_HIGHLIGHT_STYLES[globbing]='fg=bold'
+  ZSH_HIGHLIGHT_STYLES[redirection]='fg=239,bold'
+  ZSH_HIGHLIGHT_STYLES[path]='fg=239'
+  ZSH_HIGHLIGHT_STYLES[globbing]='fg=239,bold'
+  ZSH_HIGHLIGHT_STYLES[path]='fg=239'
 
   ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=239'
 }
