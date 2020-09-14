@@ -17,7 +17,9 @@ _prompt_format() {
   local bg1=$1
   local fg1=$2
   local type=$3
-  _zsh_prompt_format[$type-prefix]='$(print -n "\n%{%f%}")%K{'$bg1'}%F{'$fg1'} \$ %{$reset_color%}%F{'$bg1'}$(echo "\ue0b0")%f%k%{$reset_color%} '
+  local append=$4
+  _zsh_prompt_format[$type-prefix]='$(print -n "\n%{%f%}")%K{'$bg1'}%F{'$fg1'} \$ %{$reset_color%}%F{'$bg1'}$(echo "\ue0b0")%f%k%{$reset_color%} '$append
+
 }
 
 _right_prompt_format() {
@@ -36,12 +38,14 @@ _right_prompt_format 234 250 236 250 205 normal
 _right_prompt_format 232 238 233 239 239 finish
 
 _zsh_prompt_redraw() {
-    if [[ $1 = '0' ]] || [[ $WIDGET =~ finish ]]; then
-        _zsh_prompt 'finish'
-        return
-    fi
+  if [[ $1 = '0' ]] || [[ $WIDGET =~ finish ]]; then
+    _zsh_highlight_style_inactive
+    _zsh_prompt 'finish'
+    return
+  fi
 
-    _zsh_prompt 'normal'
+  _zsh_highlight_style_defaults
+  _zsh_prompt 'normal'
 }
 
 _zsh_prompt() {
