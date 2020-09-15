@@ -33,7 +33,7 @@ _right_prompt_format() {
 }
 
 _prompt_format 148 236 normal
-_prompt_format 233 239 finish
+_prompt_format 235 244 finish
 _right_prompt_format 234 250 236 250 205 normal
 _right_prompt_format 232 238 233 239 239 finish
 
