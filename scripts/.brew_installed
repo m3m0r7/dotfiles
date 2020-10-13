@@ -30,6 +30,7 @@ freetds
 freetype
 frei0r
 fribidi
+fswatch
 fzf
 fzy
 gd
@@ -55,6 +56,7 @@ hub
 icu4c
 jansson
 jasper
+jc
 jemalloc
 jp2a
 jpeg
@@ -146,6 +148,7 @@ speex
 sqlite
 srt
 telnet
+terraform
 tesseract
 theora
 tidy-html5
