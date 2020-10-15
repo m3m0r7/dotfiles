@@ -119,6 +119,7 @@ openssl@1.1
 opus
 p11-kit
 p7zip
+packer
 pango
 pcre
 pcre2
