@@ -5,7 +5,7 @@ make-brew-installed() {
   path1=$(echo $realpath/scripts/.brew_installed)
   path2=$(echo $realpath/scripts/.brew_cask_installed)
   brew list | awk "{print $7}" >"$path1"
-  brew cask list | awk "{print $7}" >"$path2"
+  brew list --cask | awk "{print $7}" >"$path2"
   cd $realpath
   git- add "$path1"
   git- add "$path2"
