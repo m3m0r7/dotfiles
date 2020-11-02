@@ -4,7 +4,7 @@ make-brew-installed() {
   oldpwd=$(pwd)
   path1=$(echo $realpath/scripts/.brew_installed)
   path2=$(echo $realpath/scripts/.brew_cask_installed)
-  brew list | awk "{print $7}" >"$path1"
+  brew list --formula | awk "{print $7}" >"$path1"
   brew list --cask | awk "{print $7}" >"$path2"
   cd $realpath
   git- add "$path1"
