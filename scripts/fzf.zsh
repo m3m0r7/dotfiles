@@ -42,7 +42,7 @@ zle -N fzf-files
 bindkey '^f' fzf-files
 
 fzf-history() {
-  BUFFER=$(history | awk -F ' ' '{for(i=2;i<NF;++i){printf("%s ",$i)}print $NF}' | awk '!a[$0]++' | sort -r | fzf --prompt "HISTORY> ")
+  BUFFER=$(history | awk -F ' ' '{for(i=2;i<NF;++i){printf("%s ",$i)}print $NF}' | awk '!a[$0]++' | fzf --prompt "HISTORY> ")
   CURSOR=$#BUFFER
 }
 zle -N fzf-history
