@@ -16,7 +16,7 @@ alias top='procs --watch --insert TcpPort --sortd cpu'
 alias ps='procs --color=disable --sorta pid'
 alias cloc='tokei'
 alias du='dust'
-alias htop='bottom'
+alias htop='btm'
 alias which='tldr'
 
 # copy-and-paste aliases
