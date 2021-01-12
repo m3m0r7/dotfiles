@@ -25,3 +25,4 @@ source $HOME/scripts/highlight.zsh
 source $HOME/scripts/aliases.zsh
 source $HOME/scripts/tools.zsh
 source $HOME/scripts/initialize.zsh
+
