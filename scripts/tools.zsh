@@ -7,10 +7,10 @@ make-brew-installed() {
   brew list --formula | awk "{print $7}" >"$path1"
   brew list --cask | awk "{print $7}" >"$path2"
   cd $realpath
-  git- add "$path1"
-  git- add "$path2"
-  git- commit -m "Update homebrew"
-  git- push origin master
+  \git add "$path1"
+  \git add "$path2"
+  \git commit -m "Update homebrew"
+  \git push origin master
   cd $oldpwd
 }
 
