@@ -56,7 +56,7 @@ fzf-reset-files() {
   \git checkout -- "$target"
 }
 
-enhanced-\gitalias() {
+enhanced-gitalias() {
   if [[ $1 == 'checkout' ]]; then
     case "$2" in
       "-")
