@@ -56,7 +56,16 @@ fzf-reset-files() {
   \git checkout -- "$target"
 }
 
+GIT_LOGGED=0
 enhanced-gitalias() {
+  if [[ $1 == 'log' ]]; then
+    if [[ $GIT_LOGGED == 0 ]]; then
+      GIT_LOGGED=1
+      glo
+      GIT_LOGGED=0
+      return
+    fi
+  fi
   if [[ $1 == 'checkout' ]]; then
     case "$2" in
       "-")
