@@ -41,6 +41,8 @@ ln -nsf $HOME/dotfiles/scripts $HOME/scripts
 mkdir $HOME/Library/Application Support/Sublime Text 3/Packages/Default && \
   ln -nsf "$HOME/dotfiles/theme/sublimetext3/Default (OSX).sublime-keymap" "$HOME/Library/Application Support/Sublime Text 3/Packages/Default/"
 
+git clone https://github.com/wfxr/forgit.git $HOME/.oh-my-zsh/plugins/forgit
+
 git clone https://github.com/seebi/dircolors-solarized.git $HOME/.oh-my-zsh/plugins/dircolors-solarized
 $(brew --prefix)/opt/fzf/install
 

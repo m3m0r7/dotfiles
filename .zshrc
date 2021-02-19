@@ -1,7 +1,7 @@
 CASE_SENSITIVE="true"
 FZF_DEFAULT_OPTS="--height=100% --reverse"
 
-plugins=(zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd fzf-zsh-completions)
+plugins=(zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd fzf-zsh-completions forgit)
 
 alias fzf='fzf --ansi --height=100% --reverse --no-hscroll --no-multi'
 
