@@ -4,7 +4,7 @@ env:
 window:
   dynamic_title: true
   dimensions:
-    columns: 240
+    columns: 200
     lines: 60
   padding:
     x: 4
