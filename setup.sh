@@ -37,6 +37,10 @@ ln -nsf $HOME/dotfiles/webpack.config.js $HOME/webpack.config.js
 ln -nsf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
 ln -nsf $HOME/dotfiles/scripts $HOME/scripts
 
+# Copy SSH config
+mkdir $HOME/.ssh && \
+  ln -nsf $HOME/dotfiles/ssh-config/ssh-config $HOME/.ssh/config
+
 # Make sublime text settings
 mkdir $HOME/Library/Application Support/Sublime Text 3/Packages/Default && \
   ln -nsf "$HOME/dotfiles/theme/sublimetext3/Default (OSX).sublime-keymap" "$HOME/Library/Application Support/Sublime Text 3/Packages/Default/"
