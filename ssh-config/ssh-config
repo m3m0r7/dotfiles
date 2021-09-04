@@ -1,0 +1,3 @@
+Host github.com
+ PKCS11Provider /usr/local/lib/libykcs11.dylib
+ IdentitiesOnly yes
