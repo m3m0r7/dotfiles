@@ -26,3 +26,5 @@ source $HOME/scripts/aliases.zsh
 source $HOME/scripts/tools.zsh
 source $HOME/scripts/initialize.zsh
 source $HOME/scripts/aws.zsh
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
