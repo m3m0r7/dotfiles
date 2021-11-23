@@ -48,7 +48,7 @@ shell:
   args:
     - -l
     - -c
-    - " tmux -u -f $HOME/.tmux.conf new -A -s login-shell \\; split-window -h \\; split-window -v \\; select-pane -L \\; split-window -v"
+    - "tmux -u -f $HOME/.tmux.conf attach -t login-shell 2>/dev/null || tmux -u -f $HOME/.tmux.conf new -s login-shell \\; split-window -h \\; split-window -v \\; select-pane -L \\; split-window -v"
 
 working_directory: /
 key_bindings:
