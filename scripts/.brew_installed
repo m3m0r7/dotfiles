@@ -88,6 +88,7 @@ jasper
 jbig2dec
 jc
 jemalloc
+jid
 jp2a
 jpeg
 jpeg-xl
@@ -237,6 +238,7 @@ snappy
 speex
 sqlite
 srt
+stripe
 tcl-tk
 telnet
 terraform
