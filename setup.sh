@@ -17,8 +17,7 @@ brew tap homebrew/cask
 brew tap homebrew/cask-fonts
 
 # Install brew packages
-cat .brew_installed | brew install
-cat .brew_cask_installed | brew cask install
+brew bundle
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
