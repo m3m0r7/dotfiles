@@ -29,3 +29,5 @@ source $HOME/scripts/aws.zsh
 export OPENSSH="/usr/local/opt/openssh"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$OPENSSH/bin:$VOLTA_HOME/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
