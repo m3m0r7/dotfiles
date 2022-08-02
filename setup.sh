@@ -12,6 +12,8 @@ brew install git
 # Clone this repository
 git clone --depth 1 git@github.com:m3m0r7/dotfiles.git $HOME/dotfiles
 
+ln -s $(pwd) $HOME/dotfiles
+
 # Move to current directory
 cd $HOME/dotfiles
 
@@ -20,8 +22,7 @@ brew tap homebrew/cask
 brew tap homebrew/cask-fonts
 
 # Install brew packages
-cat .brew_installed | brew install
-cat .brew_cask_installed | brew cask install
+brew bundle
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
