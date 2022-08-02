@@ -12,8 +12,6 @@ brew install git
 # Clone this repository
 git clone --depth 1 git@github.com:m3m0r7/dotfiles.git $HOME/dotfiles
 
-ln -s $(pwd) $HOME/dotfiles
-
 # Move to current directory
 cd $HOME/dotfiles
 
