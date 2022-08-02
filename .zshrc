@@ -11,7 +11,7 @@ source $ZSH/oh-my-zsh.sh
 source $HOME/scripts/settings.zsh
 source $HOME/scripts/errors.zsh
 
-eval $(gdircolors $HOME/dircolors-solarized/dircolors.256dark)
+eval $(gdircolors $HOME/.oh-my-zsh/plugins/dircolors-solarized/dircolors.256dark)
 
 export LS_COLORS=${(pj;:;)$(< $HOME/scripts/.ls_colors)}
 export EXA_COLORS=${(pj;:;)$(< $HOME/scripts/.exa_colors)}
