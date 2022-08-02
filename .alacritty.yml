@@ -2,6 +2,7 @@ env:
   TERM: alacritty
 
 window:
+  opacity: 0.9
   dynamic_title: true
   dimensions:
     columns: 200
@@ -33,8 +34,6 @@ font:
     family: Source Code Pro for Powerline
     style: Bold Italic
 
-
-background_opacity: 0.9
 
 cursor:
   style: Underline
