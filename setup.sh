@@ -34,11 +34,11 @@ ln -nsf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
 ln -nsf $HOME/dotfiles/scripts $HOME/scripts
 
 # Copy SSH config
-cp $HOME/dotfiles/ssh-config/ssh-config $HOME/.ssh/config
+ln -nsf $HOME/dotfiles/ssh-config/ssh-config $HOME/.ssh/config
 
 # Make sublime text settings
-mkdir $HOME/Library/Application Support/Sublime Text 3/Packages/Default && \
-  ln -nsf "$HOME/dotfiles/theme/sublimetext3/Default (OSX).sublime-keymap" "$HOME/Library/Application Support/Sublime Text 3/Packages/Default/"
+mkdir $HOME/Library/Application Support/Sublime Text 3/Packages/Default
+ln -nsf "$HOME/dotfiles/theme/sublimetext3/Default (OSX).sublime-keymap" "$HOME/Library/Application Support/Sublime Text 3/Packages/Default/"
 
 git clone https://github.com/wfxr/forgit.git $HOME/.oh-my-zsh/plugins/forgit
 
@@ -59,3 +59,5 @@ source $HOME/.zshrc
 
 defaults write -g InitialKeyRepeat -int 10
 defaults write -g KeyRepeat -int 5
+defaults write com.apple.desktopservices DSDontWriteNetworkStores True
+killall Finder
