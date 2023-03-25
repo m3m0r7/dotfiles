@@ -5,8 +5,8 @@ window:
   opacity: 0.9
   dynamic_title: true
   dimensions:
-    columns: 200
-    lines: 60
+    columns: 120
+    lines: 40
   padding:
     x: 4
     y: 4
@@ -48,12 +48,7 @@ shell:
     - -l
     - -c
     - |
-      tmux -u -f $HOME/.tmux.conf attach -t login-shell 2>/dev/null || \
-      tmux -u -f $HOME/.tmux.conf new -s login-shell \; \
-        split-window -h \; \
-        split-window -v \; \
-        select-pane -L \; \
-        split-window -v
+      tmux -u -f $HOME/.tmux.conf
 
 working_directory: /
 key_bindings:
