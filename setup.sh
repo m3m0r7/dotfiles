@@ -54,6 +54,10 @@ git clone git@github.com:zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/plugins/
 git clone git@github.com:zsh-users/zsh-completions $HOME/.oh-my-zsh/plugins/zsh-completions
 git clone git@github.com:zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting
 
+# Install rust packages (no brewed)
+cargo install cpz
+cargo install rmz
+
 # Source
 source $HOME/.zshrc
 
