@@ -1,2 +1,4 @@
+Include ~/.orbstack/ssh/config
+
 Host github.com
  PKCS11Provider /opt/homebrew/lib/libykcs11.dylib

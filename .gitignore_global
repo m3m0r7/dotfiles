@@ -1,6 +1,8 @@
-.git
 .DS_Store
 .idea
 *.icloud
 a.php
+test.php
+a.rb
+test.rb
 
