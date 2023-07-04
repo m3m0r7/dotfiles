@@ -26,7 +26,7 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 ln -nsf $HOME/dotfiles/.procs.toml $HOME/.procs.toml
 ln -nsf $HOME/dotfiles/.zshrc $HOME/.zshrc
 ln -nsf $HOME/dotfiles/.vimrc $HOME/.config/nvim/init.vim
-ln -nsf $HOME/dotfiles/.gitignore_global $HOME/.gitignore_global
+mkdir -p $HOME/.config/git/ignore && ln -nsf $HOME/dotfiles/.gitignore_global $HOME/.config/git/ignore
 ln -nsf $HOME/dotfiles/.fdignore $HOME/.fdignore
 ln -nsf $HOME/dotfiles/.original-scripts $HOME/.original-scripts
 ln -nsf $HOME/dotfiles/webpack.config.js $HOME/webpack.config.js
