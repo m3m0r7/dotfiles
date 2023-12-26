@@ -13,10 +13,7 @@ window:
   dynamic_padding: true
   startup_mode: Windowed
 
-title: Terminal
-
 font:
-  use_anti_alias: false
   size: 10.5
   offset:
     x: 0
@@ -34,13 +31,15 @@ font:
     family: Source Code Pro for Powerline
     style: Bold Italic
 
-
 cursor:
-  style: Underline
+  style:
+    shape: Underline
+    blinking: Always
 
 live_config_reload: true
 
 decorations: buttonless
+
 
 shell:
   program: /bin/zsh
@@ -49,6 +48,7 @@ shell:
     - -c
     - |
       tmux -u -f $HOME/.tmux.conf
+
 
 working_directory: /
 key_bindings:
