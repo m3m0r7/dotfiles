@@ -1,5 +1,15 @@
 #!/usr/bin/env zsh
 
+# Definition of download versions
+FONT_VERSION_0xProto="1.602"
+DOWNLOAD_NAME_0xProto="0xProto_1_602"
+
+FONT_VERSION_HackGen="v2.9.0"
+DOWNLOAD_NAME_HackGen="HackGen_NF_v2.9.0"
+
+FONT_VERSION_SourceHanCodeJP="2.012R"
+DOWNLOAD_NAME_SourceHanCodeJP="SourceHanCodeJP.ttc"
+
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -57,6 +67,24 @@ git clone git@github.com:zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/plug
 # Install rust packages (no brewed)
 cargo install cpz
 cargo install rmz
+
+
+# Install fonts (0xProto)
+wget https://github.com/0xType/0xProto/releases/download/$FONT_VERSION_0xProto/$DOWNLOAD_NAME_0xProto.zip && \
+  unzip $DOWNLOAD_NAME_0xProto.zip && \
+  cd $DOWNLOAD_NAME_0xProto && \
+  cp ./* ~/Library/Fonts/
+
+
+# Install fonts (HackGen)
+wget https://github.com/yuru7/HackGen/releases/download/$FONT_VERSION_HackGen/$DOWNLOAD_NAME_HackGen.zip && \
+  unzip $DOWNLOAD_NAME_HackGen.zip && \
+  cd $DOWNLOAD_NAME_HackGen && \
+  cp ./* ~/Library/Fonts/
+
+
+# Install fonts (Source Han Code JP)
+wget -O ~/Library/Fonts/$DOWNLOAD_NAME_SourceHanCodeJP https://github.com/adobe-fonts/source-han-code-jp/releases/download/$FONT_VERSION_SourceHanCodeJP/$DOWNLOAD_NAME_SourceHanCodeJP
 
 # Source
 source $HOME/.zshrc
