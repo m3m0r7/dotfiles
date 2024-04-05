@@ -1,0 +1,91 @@
+live_config_reload = true
+working_directory = "/"
+
+[colors.bright]
+black = "#727072"
+blue = "#AB9DF2"
+cyan = "#78DCE8"
+green = "#A9DC76"
+magenta = "#f54966"
+red = "#FF6188"
+white = "#FCFCFA"
+yellow = "#FFD866"
+
+[colors.normal]
+black = "#727072"
+blue = "#AB9DF2"
+cyan = "#78DCE8"
+green = "#A9DC76"
+magenta = "#f54966"
+red = "#FF6188"
+white = "#FCFCFA"
+yellow = "#FFD866"
+
+[colors.primary]
+background = "#000000"
+foreground = "#FCFCFA"
+
+[cursor.style]
+blinking = "Always"
+shape = "Underline"
+
+[env]
+TERM = "alacritty"
+
+[font]
+size = 10.5
+
+[font.bold]
+family = "Source Code Pro for Powerline"
+style = "Bold"
+
+[font.bold_italic]
+family = "Source Code Pro for Powerline"
+style = "Bold Italic"
+
+[font.italic]
+family = "Source Code Pro for Powerline"
+style = "Italic"
+
+[font.normal]
+family = "Source Code Pro for Powerline"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[[keyboard.bindings]]
+chars = "\u001B[1;5D"
+key = "Left"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001B[1;5C"
+key = "Right"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bq"
+key = "Q"
+mods = "Command"
+
+[shell]
+args = ["-l", "-c", """
+tmux -u -f $HOME/.tmux.conf
+"""]
+program = "/bin/zsh"
+
+[window]
+dynamic_padding = true
+dynamic_title = true
+opacity = 0.9
+startup_mode = "Windowed"
+
+[window.dimensions]
+columns = 120
+lines = 40
+
+[window.padding]
+x = 4
+y = 4

@@ -42,6 +42,7 @@ ln -nsf $HOME/dotfiles/.original-scripts $HOME/.original-scripts
 ln -nsf $HOME/dotfiles/webpack.config.js $HOME/webpack.config.js
 ln -nsf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
 ln -nsf $HOME/dotfiles/scripts $HOME/scripts
+ln -nsf $HOME/dotfiles/.alacritty.toml $HOME/.alacritty.toml
 
 # Copy SSH config
 ln -nsf $HOME/dotfiles/ssh-config/ssh-config $HOME/.ssh/config
