@@ -9,5 +9,3 @@ export ENHANCD_FILTER="fzf --reverse --ansi"
 export ENHANCD_DISABLE_DOT=1
 export TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling
 
-# Export Github Tokens
-\source $HOME/.github_tokens
