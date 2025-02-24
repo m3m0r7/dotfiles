@@ -1,5 +1,86 @@
-Include ~/.orbstack/ssh/config
-
 Host github.com
     PKCS11Provider /opt/homebrew/lib/libykcs11.dylib
     #IdentityFile ~/.ssh/id_rsa_temp
+    #
+# 「sign_and_send_pubkey: no mutual signature supported」 が出た人はコメントアウトを外す
+Host *
+  HostkeyAlgorithms +ssh-rsa
+  PubkeyAcceptedAlgorithms +ssh-rsa
+
+# Liiga EC2
+## dev
+Host dev-liiga-bastion
+  Hostname bastion.dev.liiga.me
+  User keiinoue
+  Port 55755
+  ForwardAgent yes
+Host dev-liiga-service1
+  Hostname service-221.dev.liiga.me
+  Port 55755
+  User keiinoue
+Host dev-liiga-job1
+  Hostname job-221.dev.liiga.me
+  Port 55755
+  User keiinoue
+Host dev-liiga-node1
+  Hostname 10.97.30.53
+  Port 22
+  User keiinoue
+Host dev-liiga-* !dev-liiga-bastion
+  Port 55755
+  Proxycommand ssh dev-liiga-bastion -W %h:%p
+
+## dev-ecs
+Host dev-ecs-liiga-bastion
+  Hostname bastion.dev-ecs.liiga.me
+  User keiinoue
+  ForwardAgent yes
+  Port 55755
+Host dev-ecs-liiga-service1
+  Hostname service-ecs1.dev-ecs.liiga.me
+  User keiinoue
+  Port 55755
+Host dev-ecs-liiga-job1
+  Hostname job-ecs1.dev-ecs.liiga.me
+  User keiinoue
+  Port 55755
+Host dev-ecs-liiga-node1
+  Hostname 10.98.31.146
+  User keiinoue
+  Port 22
+Host dev-ecs-liiga-* !dev-ecs-liiga-bastion
+  Port 55755
+  Proxycommand ssh dev-ecs-liiga-bastion -W %h:%p
+  User keiinoue
+
+## prod
+Host prod-liiga-bastion
+  Hostname 52.192.199.117
+  Port 55755
+  User keiinoue
+  ForwardAgent yes
+  # ここだけなぜか IdentitiFile を明示的に指定しないと入れないので注意
+  IdentityFile ~/.ssh/id_rsa.pem
+Host prod-liiga-service1
+  Hostname service1.liiga.me
+Host prod-liiga-service2
+  Hostname service2.liiga.me
+Host prod-liiga-jobs
+  Hostname 10.1.100.178
+  User ubuntu
+  IdentityFile ~/.ssh/prod-liiga.pem
+Host prod-liiga-node1
+  Hostname 10.1.100.59
+  Port 22
+  User keiinoue
+Host prod-liiga-redash-masked
+  Hostname 13.230.238.52
+  User ubuntu
+  IdentityFile ~/.ssh/prod-liiga.pem
+Host prod-liiga-antenna
+  Hostname antenna.liiga.me
+Host prod-liiga-* !prod-liiga-bastion
+  Port 55755
+  ProxyCommand ssh prod-liiga-bastion -W %h:%p
+  User keiinoue
+  ForwardAgent yes
