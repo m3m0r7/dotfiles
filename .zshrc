@@ -7,6 +7,11 @@ plugins=(zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd fzf
 alias fzf='fzf --ansi --height=100% --reverse --no-hscroll --no-multi'
 
 source $HOME/scripts/exports.zsh
+
+if [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+  return
+fi
+
 source $ZSH/oh-my-zsh.sh
 source $HOME/scripts/settings.zsh
 source $HOME/scripts/errors.zsh
@@ -33,3 +38,9 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$OPENSSH/bin:$VOLTA_HOME/bin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=($HOME/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions

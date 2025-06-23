@@ -1,4 +1,4 @@
-live_config_reload = true
+[general]
 working_directory = "/"
 
 [colors.bright]
@@ -70,10 +70,8 @@ chars = "\u001Bq"
 key = "Q"
 mods = "Command"
 
-[shell]
-args = ["-l", "-c", """
-tmux -u -f $HOME/.tmux.conf
-"""]
+[terminal.shell]
+args = ["-l", "-c", "exec tmux -u -f \"$HOME/.tmux.conf\""]
 program = "/bin/zsh"
 
 [window]
