@@ -19,7 +19,6 @@ alias cloc='tokei'
 alias du='dust'
 alias htop='btm'
 alias cp='cpz'
-alias rm='rmz'
 
 # copy-and-paste aliases
 alias p='pwd | q'

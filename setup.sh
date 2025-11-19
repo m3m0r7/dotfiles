@@ -45,6 +45,19 @@ ln -nsf $HOME/dotfiles/scripts $HOME/scripts
 ln -nsf $HOME/dotfiles/.alacritty.toml $HOME/.alacritty.toml
 ln -nsf $HOME/dotfiles/.zshenv $HOME/.zshenv
 
+# Install claude settings
+mkdir -p $HOME/.claude
+ln -nsf $HOME/dotfiles/.claude/CLAUDE.md $HOME/.claude/CLAUDE.md
+ln -nsf $HOME/dotfiles/.claude/agents $HOME/.claude/agents
+cp ./mcp/.env.example ./mcp/.env || true
+npm --prefix ./mcp install
+npm install -g @anthropic-ai/claude-code@latest
+
+claude mcp add default-memory-mcp tsx $HOME/dotfiles/mcp/src/index.ts
+
+# Install codex
+npm install -g @openai/codex@latest
+
 # Copy SSH config
 ln -nsf $HOME/dotfiles/ssh-config/ssh-config $HOME/.ssh/config
 
@@ -68,8 +81,6 @@ git clone git@github.com:zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/plug
 
 # Install rust packages (no brewed)
 cargo install cpz
-cargo install rmz
-
 
 # Install fonts (0xProto)
 wget https://github.com/0xType/0xProto/releases/download/$FONT_VERSION_0xProto/$DOWNLOAD_NAME_0xProto.zip && \
@@ -90,6 +101,7 @@ wget -O ~/Library/Fonts/$DOWNLOAD_NAME_SourceHanCodeJP https://github.com/adobe-
 
 # Source
 source $HOME/.zshrc
+
 
 defaults write -g InitialKeyRepeat -int 10
 defaults write -g KeyRepeat -int 5
