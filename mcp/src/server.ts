@@ -11,10 +11,12 @@
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { registerListModelsTool } from "./tools/listModels.js";
-import { registerCallOpenaiModelTool } from "./tools/callOpenaiModel.js";
-import { registerGithubGraphqlAgentTool } from "./tools/githubGraphqlAgent.js";
-import { registerPlaywrightAgentTool } from "./tools/playwrightAgent.js";
+import { registerListModelsTool } from "./tools/listModels";
+import { registerCallOpenaiModelTool } from "./tools/callOpenaiModel";
+import { registerListGeminiModelsTool } from "./tools/listGeminiModels";
+import { registerCallGeminiModelTool } from "./tools/callGeminiModel";
+import { registerGithubGraphqlAgentTool } from "./tools/githubGraphqlAgent";
+import { registerPlaywrightAgentTool } from "./tools/playwrightAgent";
 
 /**
  * createMcpServer
@@ -33,6 +35,8 @@ export function createMcpServer(): McpServer {
 
   registerListModelsTool(server);
   registerCallOpenaiModelTool(server);
+  registerListGeminiModelsTool(server);
+  registerCallGeminiModelTool(server);
   registerGithubGraphqlAgentTool(server);
   registerPlaywrightAgentTool(server);
 

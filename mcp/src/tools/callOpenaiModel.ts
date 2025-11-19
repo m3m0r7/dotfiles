@@ -1,7 +1,7 @@
 /**
  * @layer Application
  * @role MCP tool for calling OpenAI chat models
- * @deps ../infrastructure/openaiClient, ../domain/schemas, ../domain/utils, @modelcontextprotocol/sdk
+ * @deps ../infrastructure/clients, ../domain/schemas, ../domain/utils, @modelcontextprotocol/sdk
  * @exports registerCallOpenaiModelTool
  * @invariants
  *   - Validates input against callOpenaiModelInputSchema
@@ -12,9 +12,9 @@
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { getOpenAIClient } from "../infrastructure/openaiClient.js";
-import { callOpenaiModelInputSchema, type CallOpenaiModelInput } from "../domain/schemas.js";
-import { buildMessages, normalizeContent, toErrorMessage } from "../domain/utils.js";
+import { OpenAIClientFactory } from "../infrastructure/clients/index";
+import { callOpenaiModelInputSchema, type CallOpenaiModelInput } from "../domain/schemas/index";
+import { buildMessages, normalizeContent, ResponseFormatter } from "../domain/utils/index";
 
 /**
  * registerCallOpenaiModelTool
@@ -43,7 +43,7 @@ export function registerCallOpenaiModelTool(server: McpServer): void {
       temperature,
       max_tokens
     }: CallOpenaiModelInput) => {
-      const client = getOpenAIClient();
+      const client = OpenAIClientFactory.create();
       const messages = buildMessages(instructions, system, json_schema);
 
       const completion = await client.chat.completions.create({
@@ -57,40 +57,8 @@ export function registerCallOpenaiModelTool(server: McpServer): void {
       const content = completion.choices[0]?.message?.content ?? null;
       const text = normalizeContent(content);
 
-      if (!text) {
-        throw new Error(
-          "OpenAI から有効なレスポンステキストを取得できませんでした。"
-        );
-      }
-
-      // JSON スキーマが指定されている場合のみ JSON としてパース
-      if (json_schema) {
-        let parsed: unknown;
-        try {
-          parsed = JSON.parse(text);
-        } catch (error: unknown) {
-          throw new Error(`JSON のパースに失敗しました: ${toErrorMessage(error)}`);
-        }
-
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify(parsed, null, 2)
-            } satisfies { type: "text"; text: string }
-          ]
-        };
-      }
-
-      // JSON スキーマが指定されていない場合はそのまま返す
-      return {
-        content: [
-          {
-            type: "text",
-            text
-          } satisfies { type: "text"; text: string }
-        ]
-      };
+      // 共通のレスポンスフォーマッターを使用
+      return ResponseFormatter.formatModelResponse(text, Boolean(json_schema));
     }
   );
 }

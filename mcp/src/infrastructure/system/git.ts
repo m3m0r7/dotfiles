@@ -1,12 +1,12 @@
 /**
  * @layer Infrastructure
  * @role Git helper utilities (root detection, remote parsing)
- * @deps ./commandRunner, node:path
+ * @deps ./command-runner, node:path
  * @exports findGitRoot, getGitRemoteUrl, parseGitHubRepoSlug, detectGitHubRepo
  */
 
 import path from "node:path";
-import { CommandError, runCommand } from "./commandRunner.js";
+import { CommandError, runCommand } from "./command-runner";
 
 /**
  * Discover git root by ascending directories and invoking git rev-parse

@@ -14,8 +14,8 @@ import { config as loadEnv } from "dotenv";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { createMcpServer } from "./server.js";
-import { toErrorMessage } from "./domain/utils.js";
+import { createMcpServer } from "./server";
+import { toErrorMessage } from "./domain/utils/index";
 
 /**
  * Guard: Load environment variables at process start

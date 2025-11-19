@@ -1,7 +1,7 @@
 /**
  * @layer Application
  * @role MCP tool for Playwright browser automation
- * @deps ../infrastructure/playwright, ../domain/schemas, @modelcontextprotocol/sdk
+ * @deps ../infrastructure/system, ../domain/schemas, @modelcontextprotocol/sdk
  * @exports registerPlaywrightAgentTool
  * @invariants
  *   - Browser instance properly cleaned up after execution
@@ -13,11 +13,11 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   playwrightAgentInputSchema,
   type PlaywrightAgentInput
-} from "../domain/schemas.js";
+} from "../domain/schemas/index";
 import {
   executePlaywrightTask,
   type PlaywrightTaskResult
-} from "../infrastructure/playwright.js";
+} from "../infrastructure/system/index";
 
 /**
  * registerPlaywrightAgentTool

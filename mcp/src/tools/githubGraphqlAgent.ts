@@ -1,7 +1,7 @@
 /**
  * @layer Application
  * @role MCP tool for executing arbitrary GitHub GraphQL queries
- * @deps ../domain/githubGraphqlAgent, ../domain/schemas, @modelcontextprotocol/sdk
+ * @deps ../domain/services, ../domain/schemas, @modelcontextprotocol/sdk
  * @exports registerGithubGraphqlAgentTool
  */
 
@@ -9,11 +9,11 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   githubGraphqlAgentInputSchema,
   type GithubGraphqlAgentInput
-} from "../domain/schemas.js";
+} from "../domain/schemas/index";
 import {
   runGithubGraphqlAgent,
   type GithubGraphqlAgentResult
-} from "../domain/githubGraphqlAgent.js";
+} from "../domain/services/index";
 
 /**
  * Register github_graphql_agent MCP tool

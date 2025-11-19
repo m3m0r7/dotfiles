@@ -1,14 +1,14 @@
 /**
- * @layer Domain/Application boundary
+ * @layer Domain
  * @role Execute arbitrary GitHub GraphQL queries with auto-detected repo context
- * @deps ../infrastructure/git, ../infrastructure/githubApi
+ * @deps ../../infrastructure/system, ../../infrastructure/clients
  * @exports runGithubGraphqlAgent, GithubGraphqlAgentResult
  */
 
-import type { GithubGraphqlAgentInput } from "./schemas.js";
-import { toErrorMessage } from "./utils.js";
-import { callGitHubGraphql } from "../infrastructure/githubApi.js";
-import { detectGitHubRepo, findGitRoot } from "../infrastructure/git.js";
+import type { GithubGraphqlAgentInput } from "../schemas/index";
+import { toErrorMessage } from "../utils/index";
+import { callGitHubGraphql } from "../../infrastructure/clients/index";
+import { detectGitHubRepo, findGitRoot } from "../../infrastructure/system/index";
 
 export interface GithubGraphqlAgentResult {
   repository?: string;

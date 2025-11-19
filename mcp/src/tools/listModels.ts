@@ -1,7 +1,7 @@
 /**
  * @layer Application
  * @role MCP tool for listing OpenAI models
- * @deps ../infrastructure/openaiClient, @modelcontextprotocol/sdk
+ * @deps ../infrastructure/clients, @modelcontextprotocol/sdk
  * @exports registerListModelsTool
  * @invariants
  *   - Returns JSON string with model count and sorted models array
@@ -10,7 +10,8 @@
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { getOpenAIClient } from "../infrastructure/openaiClient.js";
+import { OpenAIClientFactory } from "../infrastructure/clients/index";
+import { ResponseFormatter } from "../domain/utils/index";
 
 /**
  * registerListModelsTool
@@ -30,31 +31,17 @@ export function registerListModelsTool(server: McpServer): void {
       description: "OpenAI API の model 一覧を取得し、基本情報を返します。"
     },
     async () => {
-      const client = getOpenAIClient();
+      const client = OpenAIClientFactory.create();
       const response = await client.models.list();
 
-      const models = response.data
-        .map((rawModel) => ({
-          id: rawModel.id,
-          created: rawModel.created,
-          ownedBy: rawModel.owned_by
-        }))
-        .sort((modelA, modelB) => modelA.id.localeCompare(modelB.id));
+      const models = response.data.map((rawModel) => ({
+        id: rawModel.id,
+        created: rawModel.created,
+        ownedBy: rawModel.owned_by
+      }));
 
-      const textContent = JSON.stringify(
-        { count: models.length, models },
-        null,
-        2
-      );
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: textContent
-          } satisfies { type: "text"; text: string }
-        ]
-      };
+      // 共通のフォーマッターを使用
+      return ResponseFormatter.formatModelList(models, "id");
     }
   );
 }
