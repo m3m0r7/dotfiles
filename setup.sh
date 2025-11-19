@@ -17,7 +17,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 brew install git
 
 # Clone this repository
-git clone --depth 1 git@github.com:m3m0r7/dotfiles.git /Volumes/develop/dotfiles
+git clone --recurse-submodules git@github.com:m3m0r7/dotfiles.git /Volumes/develop/dotfiles
 
 # Move to current directory
 cd /Volumes/develop/dotfiles
@@ -57,9 +57,6 @@ claude mcp add default-memory-mcp tsx $HOME/dotfiles/mcp/src/index.ts
 
 # Install codex
 npm install -g @openai/codex@latest
-
-# Copy SSH config
-ln -nsf $HOME/dotfiles/ssh-config/ssh-config $HOME/.ssh/config
 
 # Make sublime text settings
 mkdir $HOME/Library/Application Support/Sublime Text 3/Packages/Default
@@ -102,8 +99,9 @@ wget -O ~/Library/Fonts/$DOWNLOAD_NAME_SourceHanCodeJP https://github.com/adobe-
 # Source
 source $HOME/.zshrc
 
-
 defaults write -g InitialKeyRepeat -int 10
 defaults write -g KeyRepeat -int 5
 defaults write com.apple.desktopservices DSDontWriteNetworkStores True
 killall Finder
+
+private/setup.sh
