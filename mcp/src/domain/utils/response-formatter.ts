@@ -9,7 +9,7 @@
  * @notes Centralized response formatting logic
  */
 
-import type { ToolContent, ToolResponse, BaseModel } from "../types/index";
+import type { ToolContent, ToolResponse, BaseModel } from "../types";
 import { toErrorMessage } from "./error-handler";
 
 /**
@@ -119,6 +119,28 @@ export class ResponseFormatter {
           text
         } satisfies ToolContent
       ]
+    };
+  }
+
+  /**
+   * formatError
+   * @role Format error as ToolResponse with isError flag
+   * @input error: unknown error object
+   * @output ToolResponse with error message and isError flag
+   * @invariants
+   *   - Always includes isError: true
+   *   - Converts error to human-readable message
+   */
+  static formatError(error: unknown): ToolResponse & { isError: true } {
+    const message = toErrorMessage(error);
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Error: ${message}`
+        } satisfies ToolContent
+      ],
+      isError: true
     };
   }
 }

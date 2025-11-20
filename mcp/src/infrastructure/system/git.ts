@@ -92,7 +92,7 @@ export function parseGitHubRepoSlug(remoteUrl: string): GitHubRepoSlug | null {
   if (!trimmed) return null;
 
   // SSH style: git@github.com:owner/repo.git
-  const sshMatch = trimmed.match(/git@github\.com:(?<owner>[^\/]+)\/(?<name>.+)$/i);
+  const sshMatch = trimmed.match(/git@github\.com:(?<owner>[^/]+)\/(?<name>.+)$/i);
   if (sshMatch?.groups) {
     const owner = sshMatch.groups.owner;
     const name = normalizeRepoName(sshMatch.groups.name);
@@ -113,7 +113,7 @@ export function parseGitHubRepoSlug(remoteUrl: string): GitHubRepoSlug | null {
     return { owner, name, slug: `${owner}/${name}` };
   } catch {
     // fall back to loose matching: github.com/<owner>/<repo>
-    const genericMatch = trimmed.match(/github\.com[:\/](?<owner>[^\/]+)\/(?<name>.+)$/i);
+    const genericMatch = trimmed.match(/github\.com[:/](?<owner>[^/]+)\/(?<name>.+)$/i);
     if (genericMatch?.groups) {
       const owner = genericMatch.groups.owner;
       const name = normalizeRepoName(genericMatch.groups.name);

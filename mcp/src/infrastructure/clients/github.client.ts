@@ -1,15 +1,16 @@
 /**
  * @layer Infrastructure
  * @role GitHub GraphQL client factory with dependency injection support
- * @deps @octokit/graphql, process.env
+ * @deps @octokit/graphql, ../config/env
  * @exports GitHubClientFactory, IGitHubClient, GraphqlVariables
  * @invariants
  *   - Factory creates new instances (no singleton)
- *   - Throws if GITHUB_TOKEN/GH_TOKEN not set
+ *   - Uses validated environment variables
  * @notes Supports dependency injection for better testability
  */
 
 import { graphql } from "@octokit/graphql";
+import { env } from "../../config/env";
 
 /**
  * GraphqlVariables
@@ -29,25 +30,19 @@ export type IGitHubClient = typeof graphql;
  * GitHubClientFactory
  * @role Factory for creating GitHub GraphQL client instances
  * @invariants
- *   - Validates GitHub token before creating client
+ *   - Uses validated environment configuration
  *   - Supports both GITHUB_TOKEN and GH_TOKEN env vars
- *   - Throws descriptive error if token is missing
+ *   - Supports token override for testing
  */
 export class GitHubClientFactory {
   /**
    * create
    * @role Create new GitHub GraphQL client instance
-   * @input token: optional GitHub token (defaults to env var)
+   * @input token: optional GitHub token (defaults to validated env var)
    * @output Configured graphql client
-   * @throws Error when neither GITHUB_TOKEN nor GH_TOKEN is set
    */
   static create(token?: string): IGitHubClient {
-    const githubToken = token ?? process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
-    if (!githubToken) {
-      throw new Error(
-        "GitHub API へ接続するには GITHUB_TOKEN もしくは GH_TOKEN を設定してください。"
-      );
-    }
+    const githubToken = token ?? env.GITHUB_TOKEN ?? env.GH_TOKEN;
 
     return graphql.defaults({
       headers: {

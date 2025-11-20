@@ -5,10 +5,10 @@
  * @exports runGithubGraphqlAgent, GithubGraphqlAgentResult
  */
 
-import type { GithubGraphqlAgentInput } from "../schemas/index";
-import { toErrorMessage } from "../utils/index";
-import { callGitHubGraphql } from "../../infrastructure/clients/index";
-import { detectGitHubRepo, findGitRoot } from "../../infrastructure/system/index";
+import type { GithubGraphqlAgentInput } from "../schemas";
+import { toErrorMessage } from "../utils";
+import { callGitHubGraphql } from "../../infrastructure/clients";
+import { detectGitHubRepo, findGitRoot } from "../../infrastructure/system";
 
 export interface GithubGraphqlAgentResult {
   repository?: string;

@@ -1,10 +1,11 @@
 /**
  * @layer Application
  * @role Application entrypoint
- * @deps dotenv, @modelcontextprotocol/sdk, ./server, ./domain/utils
+ * @deps dotenv, @modelcontextprotocol/sdk, ./server, ./domain/utils, ./config/env
  * @exports None (main execution)
  * @invariants
  *   - Loads environment variables on startup
+ *   - Validates environment configuration before server creation
  *   - Creates and connects MCP server via stdio transport
  *   - Exits with code 1 on connection failure
  * @notes Keep minimal - only environment setup and server startup
@@ -24,6 +25,13 @@ import { toErrorMessage } from "./domain/utils/index";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 loadEnv({ path: resolve(__dirname, "../.env") });
+
+/**
+ * Guard: Validate environment variables after loading
+ * @effect Triggers environment validation on import
+ * @note This will throw if validation fails, preventing server startup
+ */
+import "./config/env";
 
 /**
  * main

@@ -10,8 +10,8 @@
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { OpenAIClientFactory } from "../infrastructure/clients/index";
-import { ResponseFormatter } from "../domain/utils/index";
+import { OpenAIClientFactory } from "../infrastructure/clients";
+import { ResponseFormatter } from "../domain/utils";
 
 /**
  * registerListModelsTool
@@ -31,17 +31,22 @@ export function registerListModelsTool(server: McpServer): void {
       description: "OpenAI API の model 一覧を取得し、基本情報を返します。"
     },
     async () => {
-      const client = OpenAIClientFactory.create();
-      const response = await client.models.list();
+      try {
+        const client = OpenAIClientFactory.create();
+        const response = await client.models.list();
 
-      const models = response.data.map((rawModel) => ({
-        id: rawModel.id,
-        created: rawModel.created,
-        ownedBy: rawModel.owned_by
-      }));
+        const models = response.data.map((rawModel) => ({
+          id: rawModel.id,
+          created: rawModel.created,
+          ownedBy: rawModel.owned_by
+        }));
 
-      // 共通のフォーマッターを使用
-      return ResponseFormatter.formatModelList(models, "id");
+        // 共通のフォーマッターを使用
+        return ResponseFormatter.formatModelList(models, "id");
+      } catch (error: unknown) {
+        // エラーを構造化して返す（プロセスを落とさない）
+        return ResponseFormatter.formatError(error);
+      }
     }
   );
 }

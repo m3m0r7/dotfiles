@@ -13,11 +13,11 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   playwrightAgentInputSchema,
   type PlaywrightAgentInput
-} from "../domain/schemas/index";
+} from "../domain/schemas";
 import {
   executePlaywrightTask,
   type PlaywrightTaskResult
-} from "../infrastructure/system/index";
+} from "../infrastructure/system";
 
 /**
  * registerPlaywrightAgentTool
@@ -34,24 +34,40 @@ export function registerPlaywrightAgentTool(server: McpServer): void {
       inputSchema: playwrightAgentInputSchema
     },
     async (input: PlaywrightAgentInput) => {
-      const result = await executePlaywrightTask(
-        input.task,
-        input.url,
-        input.headless ?? true,
-        input.screenshot ?? false,
-        input.screenshot_path ?? "./screenshot.png"
-      );
+      try {
+        const result = await executePlaywrightTask(
+          input.task,
+          input.url,
+          input.headless ?? true,
+          input.screenshot ?? false,
+          input.screenshot_path ?? "./screenshot.png"
+        );
 
-      const text = formatResult(result, input);
+        const text = formatResult(result, input);
 
-      return {
-        content: [
-          {
-            type: "text",
-            text
-          } satisfies { type: "text"; text: string }
-        ]
-      };
+        return {
+          content: [
+            {
+              type: "text",
+              text
+            } satisfies { type: "text"; text: string }
+          ],
+          // Mark as error if the task execution failed
+          ...(result.success ? {} : { isError: true })
+        };
+      } catch (error: unknown) {
+        // エラーを構造化して返す（プロセスを落とさない）
+        const message = error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${message}`
+            } satisfies { type: "text"; text: string }
+          ],
+          isError: true
+        };
+      }
     }
   );
 }

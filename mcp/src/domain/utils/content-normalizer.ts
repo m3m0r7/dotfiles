@@ -9,7 +9,7 @@
  * @notes Pure functions for content processing
  */
 
-import type { MessageContent, MessageContentPart } from "../types/index";
+import type { MessageContent, MessageContentPart } from "../types";
 
 /**
  * isMessageContentArray
@@ -25,10 +25,11 @@ export function isMessageContentArray(
 ): value is MessageContentPart[] {
   if (!Array.isArray(value)) return false;
 
-  return value.every((contentPart) => {
+  return value.every((contentPart: unknown) => {
     if (typeof contentPart !== "object" || contentPart === null) return false;
-    if (!("type" in contentPart) || typeof contentPart.type !== "string") return false;
-    if ("text" in contentPart && typeof contentPart.text !== "string") return false;
+    const part = contentPart as Record<string, unknown>;
+    if (!("type" in part) || typeof part.type !== "string") return false;
+    if ("text" in part && typeof part.text !== "string") return false;
     return true;
   });
 }

@@ -12,9 +12,9 @@
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { OpenAIClientFactory } from "../infrastructure/clients/index";
-import { callOpenaiModelInputSchema, type CallOpenaiModelInput } from "../domain/schemas/index";
-import { buildMessages, normalizeContent, ResponseFormatter } from "../domain/utils/index";
+import { OpenAIClientFactory } from "../infrastructure/clients";
+import { callOpenaiModelInputSchema, type CallOpenaiModelInput } from "../domain/schemas";
+import { buildMessages, normalizeContent, ResponseFormatter } from "../domain/utils";
 
 /**
  * registerCallOpenaiModelTool
@@ -43,22 +43,27 @@ export function registerCallOpenaiModelTool(server: McpServer): void {
       temperature,
       max_tokens
     }: CallOpenaiModelInput) => {
-      const client = OpenAIClientFactory.create();
-      const messages = buildMessages(instructions, system, json_schema);
+      try {
+        const client = OpenAIClientFactory.create();
+        const messages = buildMessages(instructions, system, json_schema);
 
-      const completion = await client.chat.completions.create({
-        model,
-        messages,
-        temperature,
-        max_tokens,
-        ...(json_schema ? { response_format: { type: "json_object" } } : {})
-      });
+        const completion = await client.chat.completions.create({
+          model,
+          messages,
+          temperature,
+          max_tokens,
+          ...(json_schema ? { response_format: { type: "json_object" } } : {})
+        });
 
-      const content = completion.choices[0]?.message?.content ?? null;
-      const text = normalizeContent(content);
+        const content = completion.choices[0]?.message?.content ?? null;
+        const text = normalizeContent(content);
 
-      // 共通のレスポンスフォーマッターを使用
-      return ResponseFormatter.formatModelResponse(text, Boolean(json_schema));
+        // 共通のレスポンスフォーマッターを使用
+        return ResponseFormatter.formatModelResponse(text, Boolean(json_schema));
+      } catch (error: unknown) {
+        // エラーを構造化して返す（プロセスを落とさない）
+        return ResponseFormatter.formatError(error);
+      }
     }
   );
 }

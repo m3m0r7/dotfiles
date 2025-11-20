@@ -1,15 +1,56 @@
 /**
  * @layer Infrastructure
- * @role Execute shell commands and normalize results/errors
+ * @role Execute shell commands and normalize results/errors with security restrictions
  * @deps node:child_process
  * @exports runCommand, CommandError
  * @invariants
  *   - Always resolves stdout/stderr as UTF-8 strings
  *   - Rejects with CommandError when exit code is non-zero
  *   - Supports optional cwd/env/timeout overrides
+ *   - Commands are validated against whitelist
  */
 
 import { spawn } from "node:child_process";
+
+/**
+ * Allowed commands for execution
+ * @note Override via ALLOWED_COMMANDS env var (comma-separated)
+ */
+const DEFAULT_ALLOWED_COMMANDS = [
+  "git",
+  "node",
+  "npm",
+  "npx",
+  "pnpm",
+  "yarn",
+  "tsc",
+  "eslint"
+];
+
+/**
+ * Get allowed commands from environment or use defaults
+ */
+function getAllowedCommands(): string[] {
+  const envCommands = process.env.ALLOWED_COMMANDS;
+  if (envCommands) {
+    return envCommands.split(",").map(c => c.trim()).filter(Boolean);
+  }
+  return DEFAULT_ALLOWED_COMMANDS;
+}
+
+/**
+ * Validate command against whitelist
+ * @throws Error if command is not allowed
+ */
+function validateCommand(command: string): void {
+  const allowedCommands = getAllowedCommands();
+  if (!allowedCommands.includes(command)) {
+    throw new Error(
+      `Security Error: Command "${command}" is not in the allowed list. ` +
+      `Allowed commands: ${allowedCommands.join(", ")}`
+    );
+  }
+}
 
 /**
  * Command execution options
@@ -62,6 +103,7 @@ export class CommandError extends Error {
 
 /**
  * Execute a command and collect stdout/stderr buffers
+ * @note Command is validated against whitelist before execution
  */
 export function runCommand(
   command: string,
@@ -69,6 +111,14 @@ export function runCommand(
   options: CommandOptions = {}
 ): Promise<CommandResult> {
   return new Promise((resolve, reject) => {
+    // Security: validate command before execution
+    try {
+      validateCommand(command);
+    } catch (error) {
+      reject(error instanceof Error ? error : new Error(String(error)));
+      return;
+    }
+
     const spawnOptions = {
       cwd: options.cwd,
       env: { ...process.env, ...options.env }

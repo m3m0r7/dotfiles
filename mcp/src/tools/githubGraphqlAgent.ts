@@ -9,11 +9,11 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   githubGraphqlAgentInputSchema,
   type GithubGraphqlAgentInput
-} from "../domain/schemas/index";
+} from "../domain/schemas";
 import {
   runGithubGraphqlAgent,
   type GithubGraphqlAgentResult
-} from "../domain/services/index";
+} from "../domain/services";
 
 /**
  * Register github_graphql_agent MCP tool
@@ -27,16 +27,30 @@ export function registerGithubGraphqlAgentTool(server: McpServer): void {
       inputSchema: githubGraphqlAgentInputSchema
     },
     async (input: GithubGraphqlAgentInput) => {
-      const result = await runGithubGraphqlAgent(input);
-      const text = formatResult(result);
-      return {
-        content: [
-          {
-            type: "text",
-            text
-          } satisfies { type: "text"; text: string }
-        ]
-      };
+      try {
+        const result = await runGithubGraphqlAgent(input);
+        const text = formatResult(result);
+        return {
+          content: [
+            {
+              type: "text",
+              text
+            } satisfies { type: "text"; text: string }
+          ]
+        };
+      } catch (error: unknown) {
+        // エラーを構造化して返す（プロセスを落とさない）
+        const message = error instanceof Error ? error.message : String(error);
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${message}`
+            } satisfies { type: "text"; text: string }
+          ],
+          isError: true
+        };
+      }
     }
   );
 }

@@ -10,8 +10,8 @@
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { ResponseFormatter } from "../domain/utils/index";
-import { getGeminiApiKey } from "../infrastructure/clients/index";
+import { ResponseFormatter } from "../domain/utils";
+import { getGeminiApiKey } from "../infrastructure/clients";
 
 /**
  * GeminiModel
@@ -57,29 +57,34 @@ export function registerListGeminiModelsTool(server: McpServer): void {
       description: "Gemini API の model 一覧を取得し、基本情報を返します。"
     },
     async () => {
-      const apiKey = getGeminiApiKey();
+      try {
+        const apiKey = getGeminiApiKey();
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Gemini API returned ${response.status}: ${response.statusText}`
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
         );
+
+        if (!response.ok) {
+          throw new Error(
+            `Gemini API returned ${response.status}: ${response.statusText}`
+          );
+        }
+
+        const data = (await response.json()) as GeminiModelsResponse;
+
+        const models = data.models.map((rawModel) => ({
+          name: rawModel.name,
+          displayName: rawModel.displayName,
+          description: rawModel.description ?? "",
+          supportedGenerationMethods: rawModel.supportedGenerationMethods ?? []
+        }));
+
+        // 共通のフォーマッターを使用
+        return ResponseFormatter.formatModelList(models, "name");
+      } catch (error: unknown) {
+        // エラーを構造化して返す（プロセスを落とさない）
+        return ResponseFormatter.formatError(error);
       }
-
-      const data = (await response.json()) as GeminiModelsResponse;
-
-      const models = data.models.map((rawModel) => ({
-        name: rawModel.name,
-        displayName: rawModel.displayName,
-        description: rawModel.description ?? "",
-        supportedGenerationMethods: rawModel.supportedGenerationMethods ?? []
-      }));
-
-      // 共通のフォーマッターを使用
-      return ResponseFormatter.formatModelList(models, "name");
     }
   );
 }

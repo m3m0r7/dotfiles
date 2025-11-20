@@ -1,15 +1,70 @@
 /**
  * @layer Infrastructure
- * @role Playwright browser automation wrapper
+ * @role Playwright browser automation wrapper with security restrictions
  * @deps playwright
  * @exports executePlaywrightTask
  * @invariants
  *   - Browser instance properly cleaned up after execution
  *   - Screenshots saved to specified path
+ *   - URL access restricted to whitelist domains
  * @notes Provides browser automation capabilities using Playwright
  */
 
 import { chromium, Browser, Page } from "playwright";
+
+/**
+ * Default allowed domains for browser navigation
+ * @note Override via PLAYWRIGHT_ALLOWED_DOMAINS env var (comma-separated)
+ */
+const DEFAULT_ALLOWED_DOMAINS = [
+  "github.com",
+  "www.github.com",
+  "docs.github.com",
+  "stackoverflow.com",
+  "www.stackoverflow.com",
+  "developer.mozilla.org",
+  "www.npmjs.com",
+  "npmjs.com"
+];
+
+/**
+ * Get allowed domains from environment or use defaults
+ */
+function getAllowedDomains(): string[] {
+  const envDomains = process.env.PLAYWRIGHT_ALLOWED_DOMAINS;
+  if (envDomains) {
+    return envDomains.split(",").map(d => d.trim()).filter(Boolean);
+  }
+  return DEFAULT_ALLOWED_DOMAINS;
+}
+
+/**
+ * Validate if URL is allowed based on domain whitelist
+ * @throws Error if domain is not in whitelist
+ */
+function validateUrl(url: string, allowedDomains: string[]): void {
+  try {
+    const parsedUrl = new URL(url);
+    const hostname = parsedUrl.hostname.toLowerCase();
+
+    const isAllowed = allowedDomains.some(domain => {
+      const normalizedDomain = domain.toLowerCase();
+      return hostname === normalizedDomain || hostname.endsWith(`.${normalizedDomain}`);
+    });
+
+    if (!isAllowed) {
+      throw new Error(
+        `Security Error: Domain "${hostname}" is not in the allowed list. ` +
+        `Allowed domains: ${allowedDomains.join(", ")}`
+      );
+    }
+  } catch (error) {
+    if (error instanceof Error && error.message.startsWith("Security Error:")) {
+      throw error;
+    }
+    throw new Error(`Invalid URL format: ${url}`);
+  }
+}
 
 /**
  * @type PlaywrightTaskResult
@@ -45,6 +100,13 @@ export async function executePlaywrightTask(
   let page: Page | null = null;
 
   try {
+    const allowedDomains = getAllowedDomains();
+
+    // Guard: validate URL if provided
+    if (url) {
+      validateUrl(url, allowedDomains);
+    }
+
     browser = await chromium.launch({
       headless,
       args: ['--disable-blink-features=AutomationControlled']
@@ -61,7 +123,7 @@ export async function executePlaywrightTask(
       });
     });
 
-    // Guard: navigate to URL if provided
+    // Guard: navigate to URL if provided (already validated above)
     if (url) {
       await page.goto(url, { waitUntil: "load", timeout: 60000 });
     }
@@ -105,6 +167,7 @@ export async function executePlaywrightTask(
  * @input page: Playwright Page instance
  * @input task: natural language task description
  * @output execution result message
+ * @note Validates URLs before navigation for security
  */
 async function executeTaskInstructions(
   page: Page,
@@ -112,6 +175,7 @@ async function executeTaskInstructions(
 ): Promise<string> {
   const taskLower = task.toLowerCase();
   const actions: string[] = [];
+  const allowedDomains = getAllowedDomains();
 
   // Pattern matching for common tasks
   if (taskLower.includes("screenshot") || taskLower.includes("撮影")) {
@@ -143,6 +207,10 @@ async function executeTaskInstructions(
     const urlMatch = task.match(/(?:navigate|go)\s+(?:to\s+)?(?:https?:\/\/)?([^\s]+)/i);
     if (urlMatch) {
       const targetUrl = urlMatch[1].startsWith("http") ? urlMatch[1] : `https://${urlMatch[1]}`;
+
+      // Security: validate URL before navigation
+      validateUrl(targetUrl, allowedDomains);
+
       await page.goto(targetUrl, { waitUntil: "load", timeout: 60000 });
       actions.push(`Navigated to: ${targetUrl}`);
     }

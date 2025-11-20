@@ -1,15 +1,16 @@
 /**
  * @layer Infrastructure
  * @role Gemini client factory with dependency injection support
- * @deps @google/generative-ai, process.env
+ * @deps @google/generative-ai, ../config/env
  * @exports GeminiClientFactory, IGeminiClient (re-export), getGeminiApiKey
  * @invariants
  *   - Factory creates new instances (no singleton)
- *   - Throws error if GEMINI_API_KEY is not set
+ *   - Uses validated environment variables
  * @notes Supports dependency injection for better testability
  */
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { env } from "../../config";
 
 /**
  * IGeminiClient
@@ -23,35 +24,26 @@ export type IGeminiClient = GoogleGenerativeAI;
  * @role Get validated Gemini API key from environment
  * @returns string - API key
  * @invariants
- *   - Returns non-empty string
- *   - Throws if GEMINI_API_KEY is not set in environment
- * @throws Error when GEMINI_API_KEY is missing
- * @notes Centralizes API key validation logic
+ *   - Returns non-empty string from validated config
+ * @notes Uses centralized environment validation
  */
 export function getGeminiApiKey(): string {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    throw new Error(
-      "GEMINI_API_KEY is not set. Place it in a .env file at the project root."
-    );
-  }
-  return apiKey;
+  return env.GEMINI_API_KEY;
 }
 
 /**
  * GeminiClientFactory
  * @role Factory for creating Gemini client instances
  * @invariants
- *   - Validates API key before creating client
- *   - Throws descriptive error if key is missing
+ *   - Uses validated environment configuration
+ *   - Supports API key override for testing
  */
 export class GeminiClientFactory {
   /**
    * create
    * @role Create new Gemini client instance
-   * @input apiKey: optional API key (defaults to env var)
+   * @input apiKey: optional API key (defaults to validated env var)
    * @output GoogleGenerativeAI client instance
-   * @throws Error when GEMINI_API_KEY is missing
    */
   static create(apiKey?: string): IGeminiClient {
     const key = apiKey ?? getGeminiApiKey();
