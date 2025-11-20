@@ -11,6 +11,17 @@
  */
 
 import { z } from "zod";
+import { fileURLToPath } from "url";
+import { dirname, resolve } from "path";
+import { config as loadEnv } from "dotenv";
+
+/**
+ * Guard: Load environment variables at process start
+ * @effect Reads .env file from project root into process.env
+ */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+loadEnv({ path: resolve(__dirname, "../../.env") });
 
 /**
  * Environment variable schema

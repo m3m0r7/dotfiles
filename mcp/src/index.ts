@@ -11,20 +11,9 @@
  * @notes Keep minimal - only environment setup and server startup
  */
 
-import { config as loadEnv } from "dotenv";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { createMcpServer } from "./server";
-import { toErrorMessage } from "./domain/utils/index";
-
-/**
- * Guard: Load environment variables at process start
- * @effect Reads .env file from project root into process.env
- */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-loadEnv({ path: resolve(__dirname, "../.env") });
+import { toErrorMessage } from "./domain/utils";
 
 /**
  * Guard: Validate environment variables after loading
