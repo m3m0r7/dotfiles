@@ -2,7 +2,23 @@ export LANG=en_US.UTF-8
 export DISABLE_AUTO_UPDATE=true
 export PYENV_ROOT="$HOME/.pyenv"
 
-export PATH=$HOME/.volta/bin:$PYENV_ROOT/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:$HOME/.nodebrew/current/bin:/opt/homebrew/opt/mysql@8.4/bin/:/opt/homebrew/bin:$HOME/.docker/bin:/opt/homebrew/Cellar/bison/3.8.2/bin/:$HOME/.rbenv/shims:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:$HOME/.nodebrew/current/bin:$HOME/.cargo/bin:$HOME/.original-scripts/bin:$HOME/.composer/vendor/bin:$HOME/bin:/usr/local/bin:/bin:$PATH
+export PATH=$(echo \
+  $HOME/.volta/bin:$PYENV_ROOT/bin:\
+  /opt/homebrew/opt/coreutils/libexec/gnubin:\
+  $HOME/.nodebrew/current/bin:\
+  /opt/homebrew/bin:$HOME/.docker/bin:\
+  /opt/homebrew/Cellar/bison/3.8.2/bin/:\
+  $HOME/.rbenv/shims:\
+  /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:\
+  $HOME/.nodebrew/current/bin:\
+  $HOME/.cargo/bin:\
+  $HOME/.original-scripts/bin:\
+  $HOME/.composer/vendor/bin:\
+  $HOME/bin:\
+  /usr/local/bin:\
+  /bin:\
+  $PATH\
+| tr -d ' ')
 
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
