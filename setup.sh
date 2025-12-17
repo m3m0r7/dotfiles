@@ -104,4 +104,8 @@ defaults write -g KeyRepeat -int 5
 defaults write com.apple.desktopservices DSDontWriteNetworkStores True
 killall Finder
 
+# Private setup
 private/setup.sh
+
+# Install coderabbit
+curl -fsSL https://cli.coderabbit.ai/install.sh | sh
