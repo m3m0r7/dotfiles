@@ -14,6 +14,7 @@ export PATH=$(echo \
   $HOME/.cargo/bin:\
   $HOME/.original-scripts/bin:\
   $HOME/.composer/vendor/bin:\
+  $HOME/.local/bin:\
   $HOME/bin:\
   /usr/local/bin:\
   /bin:\
