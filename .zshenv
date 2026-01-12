@@ -1,2 +1,4 @@
 export PATH=/opt/homebrew/opt/coreutils/libexec/gnubin:$HOME/.nodebrew/current/bin:/opt/homebrew/opt/mysql@8.4/bin/:/opt/homebrew/bin:$HOME/.docker/bin:/opt/homebrew/Cellar/bison/3.8.2/bin/:$HOME/.rbenv/shims:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:$HOME/.nodebrew/current/bin:$HOME/.cargo/bin:$HOME/.original-scripts/bin:$HOME/.composer/vendor/bin:$HOME/bin:/usr/local/bin:/bin:$PATH
 . "$HOME/.cargo/env"
+
+source $HOME/dotfiles/private/secret_keys.sh
