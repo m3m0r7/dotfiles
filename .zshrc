@@ -5,6 +5,7 @@ TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins"
 plugins=(zsh-syntax-highlighting zsh-completions zsh-autosuggestions enhancd fzf-zsh-completions forgit)
 
 alias c='claude --dangerously-skip-permissions'
+alias t='llm-translator-rust'
 alias fzf='fzf --ansi --height=100% --reverse --no-hscroll --no-multi'
 
 source $HOME/dotfiles/scripts/exports.zsh
