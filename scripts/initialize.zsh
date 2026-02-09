@@ -29,7 +29,7 @@ tmux-window-name() {
 
     newName=$(printf "% ${left}s" "")"$newName"$(printf "% ${right}s" "")
   fi
-  tmux rename-window $newName
+  tmux rename-window -- "$newName"
 }
 
 tmux-window-name

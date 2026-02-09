@@ -52,7 +52,7 @@ ln -nsf $HOME/dotfiles/.claude/agents $HOME/.claude/agents
 cp ./mcp/.env.example ./mcp/.env || true
 npm --prefix ./mcp install
 
-curl -fsSL https://claude.ai/install.sh | bash 
+curl -fsSL https://claude.ai/install.sh | bash
 
 claude mcp add default-memory-mcp tsx $HOME/dotfiles/mcp/src/index.ts
 
