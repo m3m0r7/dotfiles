@@ -10,7 +10,11 @@ alias fzf='fzf --ansi --height=100% --reverse --no-hscroll --no-multi'
 
 source $HOME/dotfiles/scripts/exports.zsh
 
-if [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+is_jetbrains_terminal() {
+  [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]
+}
+
+if is_jetbrains_terminal; then
   return
 fi
 

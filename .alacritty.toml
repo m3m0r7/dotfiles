@@ -70,6 +70,16 @@ chars = "\u001Bq"
 key = "Q"
 mods = "Command"
 
+[[keyboard.bindings]]
+chars = "\u000A"
+key = "Return"
+mods = "Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B[13;3u"
+key = "Return"
+mods = "Alt"
+
 [terminal.shell]
 args = ["-l", "-c", "exec tmux -u -f \"$HOME/.tmux.conf\""]
 program = "/bin/zsh"
