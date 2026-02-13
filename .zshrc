@@ -8,7 +8,7 @@ alias c='claude --dangerously-skip-permissions'
 alias t='llm-translator-rust'
 alias fzf='fzf --ansi --height=100% --reverse --no-hscroll --no-multi'
 
-source $HOME/dotfiles/scripts/exports.zsh
+source $DOTFILES_DIR/scripts/exports.zsh
 
 is_jetbrains_terminal() {
   [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]
@@ -19,26 +19,26 @@ if is_jetbrains_terminal; then
 fi
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/dotfiles/scripts/settings.zsh
-source $HOME/dotfiles/scripts/errors.zsh
+source $DOTFILES_DIR/scripts/settings.zsh
+source $DOTFILES_DIR/scripts/errors.zsh
 
 eval $(gdircolors $HOME/.oh-my-zsh/plugins/dircolors-solarized/dircolors.256dark)
 
 #source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #source $HOME/enhancd/init.sh
 
-export LS_COLORS=${(pj;:;)$(< $HOME/dotfiles/scripts/.ls_colors)}
-source $HOME/dotfiles/scripts/zstyle.zsh
+export LS_COLORS=${(pj;:;)$(< $DOTFILES_DIR/scripts/.ls_colors)}
+source $DOTFILES_DIR/scripts/zstyle.zsh
 
-source $HOME/dotfiles/scripts/fzf.zsh
-source $HOME/dotfiles/scripts/git.zsh
-source $HOME/dotfiles/scripts/theme.zsh
-source $HOME/dotfiles/scripts/optimizer.zsh
-source $HOME/dotfiles/scripts/highlight.zsh
-source $HOME/dotfiles/scripts/aliases.zsh
-source $HOME/dotfiles/scripts/tools.zsh
-source $HOME/dotfiles/scripts/initialize.zsh
-source $HOME/dotfiles/scripts/aws.zsh
+source $DOTFILES_DIR/scripts/fzf.zsh
+source $DOTFILES_DIR/scripts/git.zsh
+source $DOTFILES_DIR/scripts/theme.zsh
+source $DOTFILES_DIR/scripts/optimizer.zsh
+source $DOTFILES_DIR/scripts/highlight.zsh
+source $DOTFILES_DIR/scripts/aliases.zsh
+source $DOTFILES_DIR/scripts/tools.zsh
+source $DOTFILES_DIR/scripts/initialize.zsh
+source $DOTFILES_DIR/scripts/aws.zsh
 export OPENSSH="/usr/local/opt/openssh"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$OPENSSH/bin:$VOLTA_HOME/bin:$PATH"

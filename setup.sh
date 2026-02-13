@@ -10,6 +10,8 @@ DOWNLOAD_NAME_HackGen="HackGen_NF_v2.9.0"
 FONT_VERSION_SourceHanCodeJP="2.012R"
 DOWNLOAD_NAME_SourceHanCodeJP="SourceHanCodeJP.ttc"
 
+export DOTFILES_DIR="$(<"${${(%):-%N}:A:h}/.dotfiles_dir")"
+
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -17,10 +19,10 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 brew install git
 
 # Clone this repository
-git clone --recurse-submodules git@github.com:m3m0r7/dotfiles.git /Volumes/develop/dotfiles
+git clone --recurse-submodules git@github.com:m3m0r7/dotfiles.git $DOTFILES_DIR
 
 # Move to current directory
-cd /Volumes/develop/dotfiles
+cd $DOTFILES_DIR
 
 # Update brew
 brew tap homebrew/cask
@@ -33,22 +35,22 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Create symbolic links
-ln -nsf $HOME/dotfiles/.procs.toml $HOME/.procs.toml
-ln -nsf $HOME/dotfiles/.zshrc $HOME/.zshrc
-ln -nsf $HOME/dotfiles/.vimrc $HOME/.config/nvim/init.vim
-mkdir -p $HOME/.config/git/ignore && ln -nsf $HOME/dotfiles/.gitignore_global $HOME/.config/git/ignore
-ln -nsf $HOME/dotfiles/.fdignore $HOME/.fdignore
-ln -nsf $HOME/dotfiles/.original-scripts $HOME/.original-scripts
-ln -nsf $HOME/dotfiles/webpack.config.js $HOME/webpack.config.js
-ln -nsf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
-ln -nsf $HOME/dotfiles/scripts $HOME/scripts
-ln -nsf $HOME/dotfiles/.alacritty.toml $HOME/.alacritty.toml
-ln -nsf $HOME/dotfiles/.zshenv $HOME/.zshenv
+ln -nsf $DOTFILES_DIR/.procs.toml $HOME/.procs.toml
+ln -nsf $DOTFILES_DIR/.zshrc $HOME/.zshrc
+ln -nsf $DOTFILES_DIR/.vimrc $HOME/.config/nvim/init.vim
+mkdir -p $HOME/.config/git/ignore && ln -nsf $DOTFILES_DIR/.gitignore_global $HOME/.config/git/ignore
+ln -nsf $DOTFILES_DIR/.fdignore $HOME/.fdignore
+ln -nsf $DOTFILES_DIR/.original-scripts $HOME/.original-scripts
+ln -nsf $DOTFILES_DIR/webpack.config.js $HOME/webpack.config.js
+ln -nsf $DOTFILES_DIR/.tmux.conf $HOME/.tmux.conf
+ln -nsf $DOTFILES_DIR/scripts $HOME/scripts
+ln -nsf $DOTFILES_DIR/.alacritty.toml $HOME/.alacritty.toml
+ln -nsf $DOTFILES_DIR/.zshenv $HOME/.zshenv
 
 # Install claude settings
 mkdir -p $HOME/.claude
-ln -nsf $HOME/dotfiles/.claude/CLAUDE.md $HOME/.claude/CLAUDE.md
-ln -nsf $HOME/dotfiles/.claude/agents $HOME/.claude/agents
+ln -nsf $DOTFILES_DIR/.claude/CLAUDE.md $HOME/.claude/CLAUDE.md
+ln -nsf $DOTFILES_DIR/.claude/agents $HOME/.claude/agents
 cp ./mcp/.env.example ./mcp/.env || true
 npm --prefix ./mcp install
 
@@ -61,7 +63,7 @@ npm install -g @openai/codex@latest
 
 # Make sublime text settings
 mkdir $HOME/Library/Application Support/Sublime Text 3/Packages/Default
-ln -nsf "$HOME/dotfiles/theme/sublimetext3/Default (OSX).sublime-keymap" "$HOME/Library/Application Support/Sublime Text 3/Packages/Default/"
+ln -nsf "$DOTFILES_DIR/theme/sublimetext3/Default (OSX).sublime-keymap" "$HOME/Library/Application Support/Sublime Text 3/Packages/Default/"
 
 git clone https://github.com/wfxr/forgit.git $HOME/.oh-my-zsh/plugins/forgit
 
