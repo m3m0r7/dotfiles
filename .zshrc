@@ -9,6 +9,12 @@ alias x='codex --dangerously-bypass-approvals-and-sandbox'
 
 alias t='llm-translator-rust'
 alias fzf='fzf --ansi --height=100% --reverse --no-hscroll --no-multi'
+alias zi='osascript -e '\''tell application "System Events" to key code 24 using {command down, option down}'\'''
+alias zo='osascript -e '\''tell application "System Events" to key code 27 using {command down, option down}'\'''
+alias ze='osascript -e '\''tell application "System Events" to key code 28 using {command down, option down}'\'''
+alias zoom-in='zi'
+alias zoom-out='zo'
+alias zoom-end='ze'
 
 source $DOTFILES_DIR/scripts/exports.zsh
 
