@@ -1,0 +1,7 @@
+interface:
+  display_name: "Hermes Project Prep"
+  short_description: "Prepare unfamiliar repos before non-trivial code changes"
+  default_prompt: "Use $hermes to inspect this repository, prepare the project state notes, and then implement the requested change with the smallest safe diff."
+
+policy:
+  allow_implicit_invocation: true

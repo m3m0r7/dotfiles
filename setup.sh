@@ -46,11 +46,15 @@ ln -nsf $DOTFILES_DIR/.tmux.conf $HOME/.tmux.conf
 ln -nsf $DOTFILES_DIR/scripts $HOME/scripts
 ln -nsf $DOTFILES_DIR/.alacritty.toml $HOME/.alacritty.toml
 ln -nsf $DOTFILES_DIR/.zshenv $HOME/.zshenv
+ln -nsf $DOTFILES_DIR/.agents $HOME/.agents
 
 # Install claude settings
 mkdir -p $HOME/.claude
-ln -nsf $DOTFILES_DIR/.claude/CLAUDE.md $HOME/.claude/CLAUDE.md
+mkdir -p $HOME/.codex
+ln -nsf $DOTFILES_DIR/AGENTS.md $HOME/.claude/CLAUDE.md
+ln -nsf $DOTFILES_DIR/AGENTS.md $HOME/.codex/AGENTS.md
 ln -nsf $DOTFILES_DIR/.claude/agents $HOME/.claude/agents
+ln -nsf $DOTFILES_DIR/.claude/skills $HOME/.claude/skills
 cp ./mcp/.env.example ./mcp/.env || true
 npm --prefix ./mcp install
 

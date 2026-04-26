@@ -5,6 +5,8 @@ a.php
 test.php
 a.rb
 test.rb
-
+test*.log
+.tmp/
+.hermes-prj-states/
 
 **/.claude/settings.local.json

@@ -4,3 +4,6 @@
 *.icloud
 a.php
 
+.agents/skills/*
+!.agents/skills/hermes
+.agents/skills/.skill-lock.json

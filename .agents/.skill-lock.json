@@ -1,0 +1,52 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-04-13T01:30:50.613Z",
+      "updatedAt": "2026-04-13T01:30:50.613Z"
+    },
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "skillFolderHash": "67d654a553c1bd21b4cff0d9d61d75cd9a67e635",
+      "installedAt": "2026-04-13T01:32:06.324Z",
+      "updatedAt": "2026-04-13T01:32:06.324Z"
+    },
+    "docker-expert": {
+      "source": "davila7/claude-code-templates",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/davila7/claude-code-templates.git",
+      "skillPath": "cli-tool/components/skills/development/docker-expert/SKILL.md",
+      "skillFolderHash": "45853e487ac0d45f8cded5d33ac97fa34d2f3c0a",
+      "installedAt": "2026-04-23T14:35:19.117Z",
+      "updatedAt": "2026-04-23T14:35:19.117Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp",
+    "claude-code",
+    "kilo",
+    "kiro-cli"
+  ]
+}
