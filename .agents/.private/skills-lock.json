@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "hermes": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private/hermes",
+      "sourceType": "local",
+      "computedHash": "4cf7dfc3b8c1dd55b8d068881e2debc93e7731dff2152dca53515355c9669620"
+    }
+  }
+}
