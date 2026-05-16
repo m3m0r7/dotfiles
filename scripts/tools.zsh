@@ -9,4 +9,8 @@ kill_unnecessary_processes() {
   \ps ax | \rg -i $1 | awk '{ print $1 }' | xargs -I{} sh -c 'sudo kill "$1"' _ {}
 }
 
-alias ka="kill_unnecessary_processes '[c]hromium|[a]gent-browser'"
+cw() {
+  git worktree list | awk 'NR > 1 { print $1 }' | xargs -I{} git worktree remove --force {}
+}
+
+alias ka="kill_unnecessary_processes '[c]hromium_headless|[a]gent-browser|[c]odex|[c]laude'"
