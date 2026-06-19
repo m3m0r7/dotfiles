@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "automatic-e2e": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private/automatic-e2e",
+      "sourceType": "local",
+      "computedHash": "56384568eefacc461f2ad1d609023ddda7a694052a86c47f7c15434623b96317"
+    }
+  }
+}
