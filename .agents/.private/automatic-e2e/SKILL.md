@@ -123,6 +123,7 @@ E2E 操作後、確認可能な範囲で `quality-mind` の状態整合性観点
 
 - 保存先は `init-e2e.sh` が用意・リセットした `e2e-evidence/`。パスは手で `<branch>` を埋めず、`init-e2e.sh` が出力する `EVIDENCE_DIR`（クイックスタート参照）をそのまま使う。
   例: `bash scripts/ab.sh --session e2e-normal screenshot --screenshot-dir "$EVIDENCE_DIR"`
+- スクリーンショットを撮る際は、対象箇所が確実に見えるように事前にスクロールするか、必要に応じてウィンドウ幅を広げてから撮影する。
 - ファイル名は観点・ケースが分かる形にする（例: `normal_login_ok.png`、`abnormal_invalid_email.png`、`regression_dashboard.png`。i18n がある場合は言語も含める: `en_normal_login_ok.png`）。
 - **E2E を回し直すときの「1 からの取り直し」は `init-e2e.sh` がエビデンスdir のリセットで自動的に担保する。** 手動でスクショを消す必要はないが、過去実行のスクショを残したまま混在させないこと。
 
