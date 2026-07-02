@@ -1,0 +1,4 @@
+interface:
+  display_name: "Final Verification"
+  short_description: "Verify changes before commit or PR"
+  default_prompt: "Use $final-verification to verify this change against the user request, PR context, linked issues, review comments, CI, and tests before committing or pushing."

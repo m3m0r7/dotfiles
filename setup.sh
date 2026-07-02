@@ -48,19 +48,17 @@ ln -nsf $DOTFILES_DIR/.alacritty.toml $HOME/.alacritty.toml
 ln -nsf $DOTFILES_DIR/.zshenv $HOME/.zshenv
 ln -nsf $DOTFILES_DIR/.agents $HOME/.agents
 
+mkdir -p $HOME/.config
+ln -nsf $DOTFILES_DIR/.config/herdr/config.toml $HOME/.config/herdr/config.toml
+
 # Install claude settings
 mkdir -p $HOME/.claude
-mkdir -p $HOME/.codex
+ln -nsf $DOTFILES_DIR/.agents/skills $HOME/.claude/skills
 ln -nsf $DOTFILES_DIR/AGENTS.md $HOME/.claude/CLAUDE.md
-ln -nsf $DOTFILES_DIR/AGENTS.md $HOME/.codex/AGENTS.md
-ln -nsf $DOTFILES_DIR/.claude/agents $HOME/.claude/agents
-ln -nsf $DOTFILES_DIR/.claude/skills $HOME/.claude/skills
-cp ./mcp/.env.example ./mcp/.env || true
-npm --prefix ./mcp install
+
+mkdir -p $HOME/.codex
 
 curl -fsSL https://claude.ai/install.sh | bash
-
-claude mcp add default-memory-mcp tsx $HOME/dotfiles/mcp/src/index.ts
 
 # Install codex
 npm install -g @openai/codex@latest

@@ -1,5 +1,5 @@
 [general]
-working_directory = "/"
+working_directory = "$HOME"
 
 [colors.bright]
 black = "#727072"
@@ -81,7 +81,7 @@ key = "Return"
 mods = "Alt"
 
 [terminal.shell]
-args = ["-l", "-c", "exec tmux -u -f \"$HOME/.tmux.conf\""]
+args = ["-l", "-c", "exec herdr"]
 program = "/bin/zsh"
 
 [window]
@@ -91,7 +91,7 @@ opacity = 0.9
 startup_mode = "Windowed"
 
 [window.dimensions]
-columns = 120
+columns = 160
 lines = 40
 
 [window.padding]

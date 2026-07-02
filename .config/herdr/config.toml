@@ -1,0 +1,28 @@
+onboarding = false
+[keys]
+focus_pane_left = ["prefix+h", "cmd+shift+left"]
+focus_pane_down = ["prefix+j", "cmd+shift+down"]
+focus_pane_up = ["prefix+k", "cmd+shift+up"]
+focus_pane_right = ["prefix+l", "cmd+shift+right"]
+
+previous_tab = ["prefix+p", "cmd+shift+["]
+next_tab = ["prefix+n", "cmd+shift+]"]
+new_tab = ["prefix+c", "cmd+shift+t"]
+
+split_vertical = ["prefix+v", "cmd+shift+ctrl+minus"]
+split_horizontal = ["prefix+minus", "cmd+shift+minus"]
+
+zoom = ["prefix+z", "cmd+shift+z"]
+
+switch_tab = ["prefix+1..9", "cmd+shift+1..9"]
+
+close_tab = ["prefix+shift+x", "cmd+shift+w"]
+new_workspace = ["prefix+shift+n", "cmd+shift+n"]
+close_workspace = ["prefix+shift+d", "cmd+shift+ctrl+w"]
+
+[ui.sound.agents]
+codex = "on"
+claude = "on"
+
+[advanced]
+scrollback_limit_bytes = 10485760
