@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Initialize the E2E workspace for the current branch under hermes state.
-# - Resolves the branch slug (same sanitization rule as hermes).
+# Initialize the E2E workspace for the current branch under ./tmp/e2e.
+# - Resolves the branch slug (sanitized for filesystem use).
 # - Ensures the branch e2e dir exists and seeds HOW_TO_E2E_TEST.md.
 # - RESETS the evidence dir every run, so re-running E2E always starts from
 #   scratch and never mixes screenshots from a previous run.
@@ -9,8 +9,8 @@ set -euo pipefail
 PROJECT_ROOT="${1:-$(pwd)}"
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REF_DIR="${SCRIPT_DIR}/../references"
-STATE_DIR="${PROJECT_ROOT}/.hermes-prj-states"
-BRANCH_STATE_ROOT_DIR="${STATE_DIR}/states"
+STATE_DIR="${PROJECT_ROOT}/tmp/e2e"
+BRANCH_STATE_ROOT_DIR="${STATE_DIR}"
 
 current_branch_name() {
   if git -C "$PROJECT_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then

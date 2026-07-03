@@ -1,32 +1,69 @@
 # Agent Guidance
 
-This repository contains local Codex agent configuration, reusable skills, and private skills.
+すべてのエージェント(Claude Code / Codex ほか)・すべてのプロジェクトで常に適用する共通契約。
+`~/.claude/CLAUDE.md` と `~/.codex/AGENTS.md` はこのファイルへの symlink(`setup.sh` が作成する)。
+プロジェクト固有の事実(環境・アカウント・ポート・ドメイン用語・ブランチ戦略)はここに書かず、各リポジトリの AGENTS.md / docs を正とする。
 
-## Scope
+## 言語
 
-- Put repository-wide rules in this file.
-- Put task-specific workflows in each skill's `SKILL.md`.
-- Do not duplicate the same instructions in both places unless the overlap is intentional and short.
+- 応答・説明・質問・コミットメッセージ・コードコメントは日本語で書く。
+- README・技術ドキュメント・識別子・i18n キー・DB 投入データは英語で書く。
 
-## Skills in This Repo
+## Git と変更の統制
 
-- Public or reusable repo-local skills live under `.agents/skills/`.
-- Private local-only skills may live under `.agents/.private/`.
-- If a skill is heavy, specialized, or only appropriate for some tasks, keep the workflow inside the skill instead of promoting it to this file.
+- commit / push / PR の作成・更新は、ユーザーの明示指示があるまで行わない。完了時の打診も不要(実行はユーザーが指示する)。
+- コミット・PR に AI のクレジット(Co-Authored-By、"Generated with" 等)を絶対に入れない。
+- 共有ブランチ(main / master / develop / staging)へ直接 push しない。変更は必ず PR 経由。
+- issue / PR 単位の作業や並行作業は worktree を分けて行う。
+- コミットは意味のある粒度に分割し、それぞれに適切なメッセージを付ける。
+- 無関係な変更を作業ツリーに残したまま別タスクへ移らない。
 
-## Hermes Boundary
+## モード分離とスコープ
 
-- `hermes` is for unfamiliar repositories, non-trivial code changes, CI-failure investigation, or tasks that need project-state notes before implementation.
-- Do not use `hermes` for read-only questions, trivial one-file edits, or simple command execution.
-- `hermes` may create `.hermes-prj-states/` for repository state notes and temporary artifacts.
+- 調査・原因分析・計画立案の依頼では、コードを一切変更しない。提案までにとどめる。
+- 指示されたスコープの外に手を出さない。勝手なリネーム・削除・revert・public API 追加・無関係なリファクタリングをしない。
+- 影響範囲が複数機能・永続データ・公開 API・権限モデルに及ぶ破壊的変更は、実装前にユーザーへ確認する。それ以外は完了まで自走する。
 
-## Editing Guidance
+## 自律性と継続
 
-- When editing a skill, keep `SKILL.md` focused on trigger conditions, workflow, and stop conditions.
-- Put reusable note templates or detailed examples under the skill's `references/`.
-- Put deterministic setup helpers under the skill's `scripts/`.
+- 着手したタスクは完了条件まで自走する。軽微な確認のために途中停止しない(git 操作と上記の閾値超え確認を除く)。
+- 停止・中断する場合は、残タスク一覧と進捗を必ず明示する。
+- 長期タスクは plan / handoff / QA 系の md を更新してから終了し、次セッションが文脈なしで再開できる状態にする。
+- セッションや PR で確定した仕様上の決定は、口頭のままにせずドキュメントへ永続化する。
 
-## Repository Hygiene
+## 完了の定義
 
-- Treat `.hermes-prj-states/` as generated working notes unless a task explicitly requires committing them.
-- Prefer small, reviewable changes to skill definitions and metadata.
+- 実際に動かして確認するまで「できた」「直った」と言わない。テストが green でも、対象の導線を実際に動かしたエビデンス(スクリーンショット等)を添える。
+- 画面表示と永続化された値(DB / API / storage)の両方を突合する。件数だけでなく中身まで確認する。
+- サーバー・コンテナのログやブラウザコンソールにエラーが残った状態を pass にしない。
+- バグ修正では、報告された再現手順そのものを実行して before / after を確認する。再現できない場合は正直にそう報告する。
+
+## 報告
+
+- 結論を先頭に書く。経営層・非エンジニアへそのまま転送できるサマリから始める。
+- バグ修正の報告には、根本原因・混入時期・なぜ既存のテストや確認で捕まらなかったかを含める。
+- 複数課題の進捗は「課題 × 状態 × 確認方法」のマトリクスで示し、人間の確認が必要な項目を分けて提示する。
+- ユーザーへの質問はナンバリングし、番号で回答できる形にする。
+
+## 秘密情報
+
+- トークン・パスワード・接続情報を応答・コード・コミットへ平文で書かない。gh auth / 環境変数 / secrets 管理を前提にする。
+- テスト用資格情報は、プロジェクト側の AGENTS.md / docs に定められた場所を参照する。
+
+## Mind Skills(思考の高さ)
+
+作業種別に応じて対応する skill を必ず併用する。迷ったら次を自問する。
+
+- どう壊れるか・どの前提が誤りか・どの値がありえないかを確認したか → `quality-mind`(常時)
+- これは本質的な解決か、対症療法か → `implementation-mind`
+- 既存に同種の実装・コンポーネント・規約はないか → `implementation-mind` / `design-mind`
+- 権限・所有・テナントの境界は信頼できる情報から導出されているか → `security-mind`
+- この仕様・UX は実際の利用者にとって適切か。決定は文書化したか → `product-mind`
+- この報告で読み手は次の行動を決められるか → `reporting-mind`
+
+## この dotfiles リポジトリでの作業
+
+- 再利用可能な skill は `.agents/skills/`、非公開 skill は `.agents/.private/` に置く。
+- `SKILL.md` はトリガー条件・ワークフロー・停止条件に集中させる。テンプレートは skill の `references/`、決定的なセットアップは `scripts/` へ。
+- このリポジトリは公開されている。企業名・顧客名・人名・内部 URL・資格情報・アカウント ID を公開領域(`.agents/.private/` と `private/` 以外)に書かない。コミット前に固有情報の混入を確認する。
+- 作業メモ・エビデンス等の生成物は `./tmp/` 配下（または各プロジェクトの慣習の場所）に置き、明示指示がない限りコミットしない。次回以降も使う恒久的な知見は memory に記載する。

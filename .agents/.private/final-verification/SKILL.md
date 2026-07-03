@@ -70,7 +70,7 @@ PR が存在する場合は、実装だけでなく PR 周辺の状態も確認�
 # 5. 検証を実行する
 
 リポジトリの既存手順に従い、必要な検証を実行する。
-不明な場合は package scripts、README、CI 設定、既存 skill の hermes notes を確認する。
+不明な場合は package scripts、README、CI 設定、memory、プロジェクトの plan / QA 系 md を確認する。
 
 - 変更範囲に対応する unit / integration tests
 - lint、format check、type check

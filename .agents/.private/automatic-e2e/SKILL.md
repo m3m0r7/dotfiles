@@ -1,13 +1,13 @@
 ---
 name: automatic-e2e
-description: Web アプリの E2E テストを「計画 → 実行 → エビデンス保存 → 後始末」まで自律的に進めるための skill。グローバルの agent-browser CLI を headless で使い、quality-mind の共通品質観点（正常系、境界値、ドメイン外値、悪意ある異常系、状態整合性、リグレッション）に沿ってブラウザ操作と検証を行い、確認結果をスクリーンショットとして hermes に残す。認証が必要なアプリの動作確認、フォーム投入・バリデーションの検証、リリース前の通し確認をするときに使う。単体テストや read-only のコード調査だけで完結するとき、ブラウザ操作を伴わないときは使わない。
+description: Web アプリの E2E テストを「計画 → 実行 → エビデンス保存 → 後始末」まで自律的に進めるための skill。グローバルの agent-browser CLI を headless で使い、quality-mind の共通品質観点（正常系、境界値、ドメイン外値、悪意ある異常系、状態整合性、リグレッション）に沿ってブラウザ操作と検証を行い、確認結果をスクリーンショットとして ./tmp/e2e/ 配下にエビデンスとして残す。認証が必要なアプリの動作確認、フォーム投入・バリデーションの検証、リリース前の通し確認をするときに使う。単体テストや read-only のコード調査だけで完結するとき、ブラウザ操作を伴わないときは使わない。
 allowed-tools: Bash(*)
 ---
 
 # 目的
 
 Web アプリの E2E テストを、再現可能・エビデンス付きの形で一貫して実施するための workflow。
-ブラウザ操作はグローバルの `agent-browser` CLI を使い、テスト計画・認証情報・スクリーンショットは hermes のブランチ領域に残して次回以降に再利用する。
+ブラウザ操作はグローバルの `agent-browser` CLI を使い、テスト計画・認証情報・スクリーンショットは `./tmp/e2e/` のブランチ領域に残す。次回以降も変わらない知見（認証情報の所在、対象 URL、観点の学び）は memory（MEMORY.md）にも適宜記載して再利用する。
 
 # 使うとき
 
@@ -25,7 +25,7 @@ Web アプリの E2E テストを、再現可能・エビデンス付きの形�
 
 - E2E テストは必ずグローバルの `agent-browser` CLI を使う（`agent-browser` / `npx agent-browser`）。これは invoke できる skill ではなくコマンドラインツール。コマンド一覧は `agent-browser --help` か `.agents/skills/agent-browser/SKILL.md` を参照する。
 - **必ず headless で起動する。** `agent-browser` はデフォルト headless だが、環境変数 `AGENT_BROWSER_HEADED` や config の `"headed": true` で headed になり得る。GUI ウィンドウが立ち上がってユーザーの作業を妨げないよう、起動コマンドに必ず `--headed false` を明示し、`AGENT_BROWSER_HEADED` を設定しない。
-- 成果物は hermes のブランチ領域 `.hermes-prj-states/states/<branch>/` 配下に置く。ブランチslug等の特定は同梱スクリプトが行う。
+- 成果物はプロジェクトの `./tmp/e2e/<branch>/` 配下に置く。ブランチslug等の特定は同梱スクリプトが行う。
 - E2E の品質観点は `quality-mind` を正とする。自動で併用されていない場合は `.agents/skills/quality-mind/SKILL.md` または `.agents/.private/quality-mind/SKILL.md` を読み、共通観点をテスト計画へ反映する。
 
 # クイックスタート
@@ -79,10 +79,11 @@ bash scripts/finish-e2e.sh
 - 各言語で `quality-mind` の共通観点を実施する。
 - 言語切り替えで文言・レイアウト・バリデーションメッセージが正しく出るかを確認する。
 
-## 1-3. 計画を hermes に記録する
+## 1-3. 計画を記録する
 
-- テスト計画を `.hermes-prj-states/states/<branch>/HOW_TO_E2E_TEST.md` にまとめ、次回から参照できるようにする。
+- テスト計画を `./tmp/e2e/<branch>/HOW_TO_E2E_TEST.md` にまとめ、次回から参照できるようにする。
 - 認証情報・対象 URL・前提条件・各観点の確認項目を含める。ユーザーが探す手間を省くことが目的。
+- 認証情報の所在・対象 URL・起動手順など次回以降も変わらない知見は、memory（MEMORY.md）にも適宜記載し、`./tmp/` が消えても復元できるようにする。
 
 ---
 
@@ -119,7 +120,7 @@ E2E 操作後、確認可能な範囲で `quality-mind` の状態整合性観点
 
 ## 2-5. スクリーンショットでエビデンスを残す
 
-**仕様に関連する箇所・異常系・状態整合性・リグレッションの確認では、必ずスクリーンショットを撮ってエビデンスとして hermes に格納する。**
+**仕様に関連する箇所・異常系・状態整合性・リグレッションの確認では、必ずスクリーンショットを撮ってエビデンスとして格納する。**
 
 - 保存先は `init-e2e.sh` が用意・リセットした `e2e-evidence/`。パスは手で `<branch>` を埋めず、`init-e2e.sh` が出力する `EVIDENCE_DIR`（クイックスタート参照）をそのまま使う。
   例: `bash scripts/ab.sh --session e2e-normal screenshot --screenshot-dir "$EVIDENCE_DIR"`
@@ -141,4 +142,4 @@ E2E 操作後、確認可能な範囲で `quality-mind` の状態整合性観点
 
 - 起動した agent-browser のセッション／プロセスを**必ず**終了させる。`scripts/finish-e2e.sh` を実行して全セッションを閉じ、残プロセスがないことを確認する。
 - 収集した「関係なさそうなエラー」を docker・ブラウザ分まとめてユーザーへ報告する。
-- エビデンス（スクリーンショット）と `HOW_TO_E2E_TEST.md` が hermes のブランチ領域に揃っていることを確認する。
+- エビデンス（スクリーンショット）と `HOW_TO_E2E_TEST.md` が `./tmp/e2e/<branch>/` に揃っていることを確認し、次回以降に再利用すべき知見があれば memory を更新する。

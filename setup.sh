@@ -57,6 +57,7 @@ ln -nsf $DOTFILES_DIR/.agents/skills $HOME/.claude/skills
 ln -nsf $DOTFILES_DIR/AGENTS.md $HOME/.claude/CLAUDE.md
 
 mkdir -p $HOME/.codex
+ln -nsf $DOTFILES_DIR/AGENTS.md $HOME/.codex/AGENTS.md
 
 curl -fsSL https://claude.ai/install.sh | bash
 
