@@ -26,3 +26,6 @@ claude = "on"
 
 [advanced]
 scrollback_limit_bytes = 10485760
+
+[ui]
+agent_panel_sort = "priority"

@@ -1,10 +1,70 @@
 {
   "version": 1,
   "skills": {
-    "automatic-e2e": {
-      "source": "/Volumes/develop/dotfiles/.agents/.private/automatic-e2e",
+    "agent-browser": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
       "sourceType": "local",
-      "computedHash": "56384568eefacc461f2ad1d609023ddda7a694052a86c47f7c15434623b96317"
+      "computedHash": "fbf66fd85ccad0d42a287d346503782d7a97848e67595d7e8c840434d572ee81"
+    },
+    "automatic-e2e": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "e91fed31fc5256d05d493692b67e5eab24e0fb55ae603f9b5cff8d11573fd32d"
+    },
+    "clear-japanese": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "8262bfe9e9ecd8bf17ff25b10601c0f0b648bd08bdc4becb4407899b67584d7f"
+    },
+    "cognitive-rhythm-writing": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "c4129cc441e5e303fefeb5880a3e92737ddacdbf5bc5ff5866f27e59d17a4339"
+    },
+    "design-mind": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "fa404f14c9d1952a5432ac5a7225eb2cc0adb4581fa3fc0a560d5995c7aa24a4"
+    },
+    "docker-expert": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "2c1a7f95b15db6c92d2cb27c3d59d584eb596593eab193f23765465b9d212f14"
+    },
+    "final-verification": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "b78ae63178c57df3522ba70b46f5c8890fba1d523e12d8ac604ecfc5c18db011"
+    },
+    "find-skills": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "d31e234f0c90694a670222cdd1dafa853e051d7066beda389f1097c22dadd461"
+    },
+    "implementation-mind": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "f6a52c93f135f82b7ad845ab637672f068dfd92fd34e0b584ea1c0a13ab5ea55"
+    },
+    "product-mind": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "112e5559de87c39588f8935559f53877a155c9e76e30332e3c62e585270057f3"
+    },
+    "quality-mind": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "95decd89448fc0475fdd67cce0b434847e722ad458a3762c5543437072d18baf"
+    },
+    "reporting-mind": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "a9a8885cdd87c8505af6c5a1d308c2b57d015f482fd7e3e5f3a8a19a9bc51b72"
+    },
+    "security-mind": {
+      "source": "/Volumes/develop/dotfiles/.agents/.private",
+      "sourceType": "local",
+      "computedHash": "0a5501091b9193a3428ea6a6bf5f46dcaeea184555da7e1c32e6295b7ffbc160"
     }
   }
 }
