@@ -1,48 +1,65 @@
 # HOW_TO_E2E_TEST
 
-このブランチの E2E テスト計画と前提情報。次回以降の E2E はこのファイルを最初に読む。
+E2E test plan and prerequisites for this branch.
+Read this file before subsequent E2E runs.
 
-## 対象
+## Target
 
-- アプリ名 / URL:
-- 起動方法（Docker 構成か、起動コマンド）:
-- i18n の有無（対象言語: 日本語 / 英語 / その他）:
+- App / base URL:
+- Environment:
+- Start command:
+- Docker services:
+- Languages:
 
-## 認証情報
+## Authentication
 
-<!-- 次回ヒアリング不要にするため、ここに認証手段を記録する。
-     agent-browser の auth vault / profile / session を使う場合はその名前も書く。 -->
+Do not record secret values. Record only the approved storage location and usage method.
 
-- ログイン URL:
-- 認証手段（profile / session / auth vault / 直接入力）:
-- アカウント / 役割:
+- Login URL:
+- Method (`auth vault` / `profile` / `restore` / environment variable):
+- Credential location:
+- Roles:
 
-## テスト計画（quality-mind 共通観点）
+## Code reconnaissance
 
-### 正常系
-- [ ]
+- Route definition:
+- Target page / component:
+- Validation schema:
+- Existing E2E / integration tests:
+- Fixture / seed / factory:
+- API contract:
+- Persistence target:
 
-### 境界値
-- [ ]
+## Execution map
 
-### ドメイン外値
-- [ ]
+| Scenario | Purpose | Start URL | Locator | Wait condition | Expected UI | Expected API / DB / storage | Language | Evidence |
+|---|---|---|---|---|---|---|---|---|
+| | | | | | | | | |
 
-### 悪意ある異常系（セキュリティ・不正入力）
-- [ ]
+## Quality coverage
 
-### 状態整合性（DB / API / cookie / localStorage / sessionStorage）
-- [ ]
+| Category | Covered by | Scenario / test | Reason if omitted |
+|---|---|---|---|
+| Normal | | | |
+| Boundary | | | |
+| Out-of-domain | | | |
+| Malicious input | | | |
+| State consistency | | | |
+| Regression | | | |
 
-### リグレッション
-- [ ]
+## Diagnostics
 
-## i18n 確認（言語がある場合）
+- Browser errors baseline:
+- Console baseline:
+- Server / container log baseline:
+- Known unrelated errors:
 
-- [ ] 日本語: quality-mind 共通観点
-- [ ] 英語（デフォルト別言語）: quality-mind 共通観点
-- [ ] 言語切り替えで文言・レイアウト・バリデーションメッセージが正しいか
+## Results
 
-## 既知のエラー / 注意点
+| Scenario | Status | Verification | Evidence |
+|---|---|---|---|
+| | | | |
 
-<!-- docker logs / ブラウザコンソールで既知の無関係エラーがあればここに残す。 -->
+## Unverified risks
+
+-

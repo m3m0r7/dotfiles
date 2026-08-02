@@ -64,6 +64,9 @@ curl -fsSL https://claude.ai/install.sh | bash
 # Install codex
 npm install -g @openai/codex@latest
 
+# agent-browser 用の Chrome を導入する
+agent-browser install
+
 # Make sublime text settings
 mkdir $HOME/Library/Application Support/Sublime Text 3/Packages/Default
 ln -nsf "$DOTFILES_DIR/theme/sublimetext3/Default (OSX).sublime-keymap" "$HOME/Library/Application Support/Sublime Text 3/Packages/Default/"

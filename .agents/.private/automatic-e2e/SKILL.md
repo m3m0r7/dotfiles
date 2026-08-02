@@ -1,145 +1,119 @@
 ---
 name: automatic-e2e
-description: Web アプリの E2E テストを「計画 → 実行 → エビデンス保存 → 後始末」まで自律的に進めるための skill。グローバルの agent-browser CLI を headless で使い、quality-mind の共通品質観点（正常系、境界値、ドメイン外値、悪意ある異常系、状態整合性、リグレッション）に沿ってブラウザ操作と検証を行い、確認結果をスクリーンショットとして ./tmp/e2e/ 配下にエビデンスとして残す。認証が必要なアプリの動作確認、フォーム投入・バリデーションの検証、リリース前の通し確認をするときに使う。単体テストや read-only のコード調査だけで完結するとき、ブラウザ操作を伴わないときは使わない。
-allowed-tools: Bash(*)
+description: Web アプリの E2E テストを、既存コードとテストから実行経路を先に組み立て、headless browser で検証し、UI と API・DB・storage の整合性およびログを確認して証跡を残す。認証が必要な導線、フォーム、バリデーション、リグレッション、リリース前確認に使う。コード調査や unit・integration test だけで完結する依頼には使わない。
 ---
 
-# 目的
+# Automatic E2E
 
-Web アプリの E2E テストを、再現可能・エビデンス付きの形で一貫して実施するための workflow。
-ブラウザ操作はグローバルの `agent-browser` CLI を使い、テスト計画・認証情報・スクリーンショットは `./tmp/e2e/` のブランチ領域に残す。次回以降も変わらない知見（認証情報の所在、対象 URL、観点の学び）は memory（MEMORY.md）にも適宜記載して再利用する。
+既存コードから URL、locator、待機条件、期待状態を先に確定し、ブラウザ上で必要な事実だけを確認する。
 
-# 使うとき
+## 実行原則
 
-- 認証が必要なアプリで、正常ルートが期待どおり動くかを確認するとき
-- フォーム投入・入力バリデーション・動作機序を検証するとき
-- セキュリティ・不正入力など異常系の挙動を確認するとき
-- 変更後にリグレッション（既存機能の破壊）が起きていないか通しで確認するとき
+- グローバルの `agent-browser` を headless で使う。
+- 最初に `scripts/init-e2e.sh` を実行する。CLI の互換性と headless 起動が通らない場合は、ブラウザ操作へ進まない。
+- `agent-browser skills get core` を実行し、インストール済み CLI と一致する core workflow を最後まで読む。
+- ブラウザ操作は `scripts/ab.sh` 経由に限定する。
+- 一つの実利用導線は画面遷移を最初から通す。反復する境界値や異常系は直接 URL を使ってよい。
+- 所有する名前付き session だけを使い、終了時は `scripts/finish-e2e.sh` でその session だけを閉じる。
+- 本番、staging、共有 DB は明示指示がない限り read-only とする。対象環境を判別できない場合は本番として扱う。
 
-# 使わないとき
+## 1. 初期化
 
-- 単体テストやコード調査だけで完結するとき
-- ブラウザ操作を伴わない確認のとき
-
-# 前提
-
-- E2E テストは必ずグローバルの `agent-browser` CLI を使う（`agent-browser` / `npx agent-browser`）。これは invoke できる skill ではなくコマンドラインツール。コマンド一覧は `agent-browser --help` か `.agents/skills/agent-browser/SKILL.md` を参照する。
-- **必ず headless で起動する。** `agent-browser` はデフォルト headless だが、環境変数 `AGENT_BROWSER_HEADED` や config の `"headed": true` で headed になり得る。GUI ウィンドウが立ち上がってユーザーの作業を妨げないよう、起動コマンドに必ず `--headed false` を明示し、`AGENT_BROWSER_HEADED` を設定しない。
-- 成果物はプロジェクトの `./tmp/e2e/<branch>/` 配下に置く。ブランチslug等の特定は同梱スクリプトが行う。
-- E2E の品質観点は `quality-mind` を正とする。自動で併用されていない場合は `.agents/skills/quality-mind/SKILL.md` または `.agents/.private/quality-mind/SKILL.md` を読み、共通観点をテスト計画へ反映する。
-
-# クイックスタート
-
-この skill ディレクトリ内の `scripts/` を使う（パスはこの skill からの相対）。
+skill directory を基準に、次を実行する。
 
 ```bash
-# 1. ワークスペース初期化（ブランチslug 解決 + エビデンスdir リセット + 計画ファイル seed）
-#    slug 解決済みのパスを変数に取り込む（EVIDENCE_DIR / HOW_TO_FILE が定義される）
-eval "$(bash scripts/init-e2e.sh | grep -E '^(EVIDENCE_DIR|HOW_TO_FILE)=')"
-
-# 2. ブラウザ操作は必ず headless 強制ラッパー ab.sh 経由で実行する
-#    保存先は手で <branch> を埋めず、上で得た "$EVIDENCE_DIR" をそのまま使う
-bash scripts/ab.sh --session e2e-normal open https://app.example.com
-bash scripts/ab.sh --session e2e-normal screenshot --screenshot-dir "$EVIDENCE_DIR"
-
-# 3. 終了時に必ず後始末（全セッションを閉じ、残プロセスを確認）
-bash scripts/finish-e2e.sh
+eval "$(bash scripts/init-e2e.sh | grep '^export ')"
+agent-browser skills get core
 ```
 
-同梱スクリプト:
+初期化で次の変数が export される。
 
-- `scripts/init-e2e.sh` — ブランチ領域を初期化。`HOW_TO_E2E_TEST.md` を seed し、**エビデンスdir を毎回リセット**する（回し直し＝1から取り直しを自動担保）。
-- `scripts/ab.sh` — `agent-browser` の **headless 強制ラッパー**。`AGENT_BROWSER_HEADED` を unset し `--headed false` を必ず注入するので、GUI ウィンドウが立ち上がらない。ブラウザ操作は必ずこれ経由で行う。
-- `scripts/finish-e2e.sh` — 全セッションを閉じ、残プロセスを確認する。
+- `HOW_TO_FILE`: テスト計画と実行マップ
+- `EVIDENCE_DIR`: 今回の run 専用の証跡 directory
+- `E2E_SESSION_PREFIX`: 所有 session 名の prefix
+- `E2E_SESSION_REGISTRY`: 今回起動した session の記録先
 
----
+認証情報が必要な場合は、リポジトリの `AGENTS.md` と docs に定められた場所を確認する。
+`HOW_TO_FILE` には secret を書かず、auth vault、profile、session、環境変数など認証手段の名前と所在だけを記録する。
+認証手段を確保できない場合は、ブラウザ操作前にユーザーへ確認する。
 
-# 1. テスト前の準備
+## 2. コードから実行マップを作る
 
-## 1-1. 認証情報を確保する
+ブラウザを起動する前に、対象リポジトリで次を確認する。
 
-1. ユーザーから認証情報が伝えられているか確認する。
-2. 無ければリポジトリ内（`.env`、設定ファイル、docs 等）を探す。
-3. それでも見つからなければ、**テストを開始する前に**ユーザーへヒアリングする。
+1. `AGENTS.md`、仕様、起動手順、base URL、認証手順を読む。
+2. route 定義から開始 URL と遷移先 URL を特定する。
+3. 対象 page、component、form、validation schema を読む。
+4. 既存 E2E、integration test、fixture、seed、factory を読む。
+5. label、role、`data-testid`、安定した name 属性を収集する。
+6. API request と response、永続化先、期待する状態変更を特定する。
+7. 各 scenario の開始 URL、操作列、待機条件、期待結果、証跡名を `HOW_TO_FILE` に記録する。
 
-確保した認証情報は次回ヒアリング不要にするため `HOW_TO_E2E_TEST.md`（後述）に記録する。
+locator は label・role、`data-testid`、安定した属性、CSS selector の順で選ぶ。
+生成 class、表示順、翻訳で変わる文言へ依存しない。
 
-## 1-2. テスト計画を立てる
+## 3. テスト範囲を決める
 
-確認すべき仕様を事前に洗い出し、`quality-mind` の共通観点を E2E で確認可能な操作に落とす。
+`quality-mind` の正常系、境界値、ドメイン外値、悪意ある異常系、状態整合性、リグレッションから、変更リスクに対応する scenario を選ぶ。
+すべてを E2E へ移さず、純粋な validation は unit、API・DB 境界は integration、実利用導線と client state は E2E で確認する。
 
-- 正常系、境界値、ドメイン外値、悪意ある異常系、状態整合性、リグレッションを含める。
-- UI 操作だけでなく、可能なら API response、cookie、localStorage、sessionStorage、ローカル DB の値まで確認する。
-- E2E では拾えない unit / integration レベルの観点があれば、未検証リスクとして明示する。
+i18n がある場合も全 scenario を全言語で重複実行しない。
+主要な正常導線は日本語と既定の別言語で通し、言語依存の文言、layout、validation message だけを追加確認する。
+認可や DB 制約など言語に依存しない scenario は一言語でよい。
 
-### i18n がある場合は言語の両軸で確認する
+複数 scenario の並列化は、認証状態とテストデータを分離でき、起動コストを上回る効果がある場合だけ行う。
 
-リポジトリに言語設定（i18n 等）の仕組みがある場合は、**日本語と別の言語（デフォルトは英語）の両軸**で確認する。
+## 4. ブラウザで実行する
 
-- 各言語で `quality-mind` の共通観点を実施する。
-- 言語切り替えで文言・レイアウト・バリデーションメッセージが正しく出るかを確認する。
+session 名には初期化で得た prefix を使う。
 
-## 1-3. 計画を記録する
+```bash
+bash scripts/ab.sh --session "${E2E_SESSION_PREFIX}-normal" open "$TARGET_URL"
+```
 
-- テスト計画を `./tmp/e2e/<branch>/HOW_TO_E2E_TEST.md` にまとめ、次回から参照できるようにする。
-- 認証情報・対象 URL・前提条件・各観点の確認項目を含める。ユーザーが探す手間を省くことが目的。
-- 認証情報の所在・対象 URL・起動手順など次回以降も変わらない知見は、memory（MEMORY.md）にも適宜記載し、`./tmp/` が消えても復元できるようにする。
+- コードから操作列を確定できる場合は、インストール済み CLI の batch 機能で一回の CLI 呼び出しへまとめる。
+- snapshot は、初見の runtime DOM、コードと異なる表示、曖昧な locator、視覚確認が必要な状態で使う。
+- DOM 変更後も次の locator と期待状態が既知なら、再 snapshot せず具体的な URL、要素、文言、JavaScript 条件を待つ。
+- `open` 後の重複 wait と固定時間 wait を避ける。固定時間は、観測可能な完了条件がない場合の最終手段とする。
+- destructive な送信や外部副作用を batch の判断境界越しに置かない。実行前に対象、環境、期待される副作用を確定する。
 
----
+## 5. scenario 単位で診断する
 
-# 2. テスト実行
+各 click や fill の直後に診断コマンドを挟まない。
 
-## 2-1. agent-browser を headless で起動する
+1. scenario 開始前に browser errors、console、Docker logs の基準位置を決める。
+2. 操作列を実行する。
+3. scenario 終了時に `agent-browser errors`、`agent-browser console`、関連する server・container logs の差分を確認する。
+4. 失敗した場合だけ、失敗操作の直後へ診断を細分化して再現する。
 
-- ブラウザ操作は必ず `scripts/ab.sh` 経由で実行する。`--headed false` が常に注入され、GUI ウィンドウが立ち上がらない。素の `agent-browser` を直接叩かない。
-- 並列で複数観点を回す場合は、観点ごとに `--session <name>`（例: `--session e2e-normal`）でセッションを分け、プロセス・状態を独立させる。
+関係する error が残っている scenario を pass にしない。
 
-## 2-2. docker logs を確認する（Docker 構成のリポジトリの場合）
+## 6. 表示と実体を突合する
 
-ユーザーから特段の指示がなければ、各ステップごとに `docker logs` を確認する。
+操作後は、確認可能な範囲で次を突合する。
 
-- 関係がありそうなエラー → その場で修復する（ユーザーへの事前確認が不要な範囲で）。
-- 関係なさそうなエラー → 収集しておき、最後にまとめてユーザーへ報告する。
+- UI の表示値と状態
+- API response の status、body、必要な headers
+- DB の対象 record、関連 record、履歴、集計、監査情報
+- cookie、localStorage、sessionStorage
 
-## 2-3. ブラウザのエラーを必ず確認する
+件数だけでなく対象データの中身を確認する。
+テスト都合の認証 bypass や本番相当の防御を弱める設定は追加しない。
 
-各操作のあとにブラウザ側のエラーを必ず確認する。
+## 7. 証跡を残す
 
-- `agent-browser errors` でページエラー、`agent-browser console` でコンソールメッセージを確認する。
-- 関係がありそうなエラー → 修復する。
-- 関係なさそうなエラー → 収集しておき、最後にユーザーへ報告する。
+正常系の到達結果、重要な異常系、状態整合性、リグレッションについて、対象箇所が写る screenshot を `EVIDENCE_DIR` に保存する。
+途中操作を機械的に全件撮影せず、scenario の成否を判定できる状態を残す。
+ファイル名には scenario ID、言語、結果を含める。
 
-## 2-4. 状態整合性を確認する
+再試行は新しい run directory に保存されるため、過去の証跡を削除しない。
 
-E2E 操作後、確認可能な範囲で `quality-mind` の状態整合性観点を確認する。
+## 8. 後始末
 
-- ローカル DB を参照できる場合は、関連テーブル、履歴、集計、監査ログ、削除状態、権限状態が期待どおりか確認する。
-- API response、status code、headers、権限外フィールドの有無を確認する。
-- cookie、localStorage、sessionStorage の値、期限、ログアウト後の消去、権限変更後の更新を確認する。
-- UI 表示と DB/API/クライアント状態が食い違っていないか確認する。
+完了時と中断時に必ず実行する。
 
-## 2-5. スクリーンショットでエビデンスを残す
+```bash
+bash scripts/finish-e2e.sh "$E2E_SESSION_REGISTRY"
+```
 
-**仕様に関連する箇所・異常系・状態整合性・リグレッションの確認では、必ずスクリーンショットを撮ってエビデンスとして格納する。**
-
-- 保存先は `init-e2e.sh` が用意・リセットした `e2e-evidence/`。パスは手で `<branch>` を埋めず、`init-e2e.sh` が出力する `EVIDENCE_DIR`（クイックスタート参照）をそのまま使う。
-  例: `bash scripts/ab.sh --session e2e-normal screenshot --screenshot-dir "$EVIDENCE_DIR"`
-- スクリーンショットを撮る際は、対象箇所が確実に見えるように事前にスクロールするか、必要に応じてウィンドウ幅を広げてから撮影する。
-- ファイル名は観点・ケースが分かる形にする（例: `normal_login_ok.png`、`abnormal_invalid_email.png`、`regression_dashboard.png`。i18n がある場合は言語も含める: `en_normal_login_ok.png`）。
-- **E2E を回し直すときの「1 からの取り直し」は `init-e2e.sh` がエビデンスdir のリセットで自動的に担保する。** 手動でスクショを消す必要はないが、過去実行のスクショを残したまま混在させないこと。
-
-## 2-6. 複数観点は子エージェントに分散する
-
-複数観点を並行してテストする場合は、観点ごとに子エージェントへ割り振る。
-
-- 各子エージェントは `--session <name>` で**独立した agent-browser セッション**を使い、プロセスを共有しない。
-- 観点が多い場合は、正常系、境界値・ドメイン外値、悪意ある異常系、状態整合性、リグレッションなどに分担する。
-- 各子エージェントも本 skill のルール（headless 起動・エラー確認・エビデンス保存）に従う。
-
----
-
-# 3. テスト後の後始末
-
-- 起動した agent-browser のセッション／プロセスを**必ず**終了させる。`scripts/finish-e2e.sh` を実行して全セッションを閉じ、残プロセスがないことを確認する。
-- 収集した「関係なさそうなエラー」を docker・ブラウザ分まとめてユーザーへ報告する。
-- エビデンス（スクリーンショット）と `HOW_TO_E2E_TEST.md` が `./tmp/e2e/<branch>/` に揃っていることを確認し、次回以降に再利用すべき知見があれば memory を更新する。
+`HOW_TO_FILE` へ実行結果、確認方法、未検証事項、既知の無関係 error を記録する。

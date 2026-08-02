@@ -4,12 +4,12 @@
     "agent-browser": {
       "source": "/Volumes/develop/dotfiles/.agents/.private",
       "sourceType": "local",
-      "computedHash": "fbf66fd85ccad0d42a287d346503782d7a97848e67595d7e8c840434d572ee81"
+      "computedHash": "57c30f7333568f1c1df1207ed587bb673a06b16210c2a71ef78f39a2108b216e"
     },
     "automatic-e2e": {
       "source": "/Volumes/develop/dotfiles/.agents/.private",
       "sourceType": "local",
-      "computedHash": "e91fed31fc5256d05d493692b67e5eab24e0fb55ae603f9b5cff8d11573fd32d"
+      "computedHash": "e9a635f49f04c0453c014666edf5a79b2918166a1eae0c8fc5957fa3492ca21a"
     },
     "clear-japanese": {
       "source": "/Volumes/develop/dotfiles/.agents/.private",
