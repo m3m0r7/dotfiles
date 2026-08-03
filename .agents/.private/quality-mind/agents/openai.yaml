@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quality Mind"
+  short_description: "Check assumptions and failure conditions"
+  default_prompt: "Use $quality-mind to check this task for invalid assumptions, failure conditions, and unverified risks."

@@ -1,98 +1,43 @@
 ---
 name: final-verification
-description: Final pre-commit, pre-push, or pre-merge verification for implementation work. Use when Codex needs to confirm the change satisfies the user's request before committing, pushing, opening, updating, or merging a PR; when asked for a final check; or when PR-linked context such as issues, review comments, CI checks, changed files, and acceptance criteria must be verified against the implementation.
+description: Commit、push、PR 作成や更新、merge の直前、または明示的な最終確認で、変更が依頼、issue、review、CI、test を満たすか判定する。
 ---
 
 # Final Verification
 
-変更を commit / push / PR 更新 / merge する直前に、実装が本当に仕様を満たしているか確認する workflow。
-不一致、未解決レビュー、CI 失敗、未検証の重要リスクがある場合は作業を止め、commit / push / merge へ進まない。
+仕様未達、重要な未検証、失敗した test、未解決 review がある状態で commit、push、merge へ進めない。
 
-# 1. 確認元を集める
+## 1. 確認元
 
-次の情報を、推測ではなく確認元として扱う。
+- 最新の依頼、制約、受け入れ条件。
+- `git status --short`、local diff、必要なら base branch との差分。
+- 関連 test、lint、typecheck、build、実行手順。
+- PR がある場合は title、body、files、commits、review、comments、CI、linked issue。
 
-- ユーザーの最新依頼、会話内の制約、明示された受け入れ条件
-- `git status --short`、`git diff`、必要に応じて base branch との差分
-- 関連するテスト、lint、型チェック、ビルド設定
-- PR がある場合は PR の title / body / changed files / commits / comments / reviews / CI checks
-- PR に紐づく issue、closing keywords、本文やコメント内の issue / ticket / docs リンク
+外部情報を取得できない場合は、その範囲を未確認とする。
 
-PR 情報を取れる場合は `gh` を優先する。
+## 2. 対応付け
 
-```bash
-gh pr view --json number,title,body,url,baseRefName,headRefName,state,isDraft,files,commits,comments,reviews,latestReviews,reviewDecision,statusCheckRollup
-gh pr view --comments
-```
+要件ごとに変更箇所、確認方法、結果を対応付ける。
+次を横断して不足と余計な変更を探す。
 
-PR 本文・タイトル・コメントから `Closes` / `Fixes` / `Resolves`、`#123`、`owner/repo#123`、GitHub issue URL、外部 ticket URL を探す。
-GitHub issue は可能なら `gh issue view <number> --comments` で確認する。
-`gh` が使えない、未ログイン、ネットワーク不可、外部 ticket が認証不可の場合は、その制約を最終報告に明示する。
+- API、schema、保存データ、権限、validation、error、i18n、accessibility。
+- 同じ修正が必要な類似箇所。
+- debug code、不要な log、生成物、secret、scope 外の refactor。
+- 実装の重要な分岐を test が確認しているか。
 
-# 2. 仕様チェックリストを作る
+PR の内容と local diff が異なる場合は、確認対象を明示する。
 
-確認元から満たすべき仕様を短いチェックリストに分解する。
+## 3. 実行確認
 
-- ユーザー依頼の必須要件
-- PR / issue の受け入れ条件
-- レビューコメントで要求された修正
-- 既存挙動を壊してはいけない箇所
-- UI 変更、API 契約、DB 状態、権限、エラー処理などの品質観点
+- 変更に最も近い test から実行し、必要範囲の lint、typecheck、build を追加する。
+- UI 変更は実 browser で主要導線、console、必要な API や保存値を確認する。
+- 実行不能な確認は理由と代替確認を示し、重要なら進行を止める。
 
-各項目について「対応する変更箇所」「確認方法」「結果」を対応付ける。
-対応箇所や確認方法が見つからない項目は未達または未検証として扱う。
+## 4. 判定
 
-# 3. 差分を検査する
+- `OK`: 要件と必要な検証を満たし、既知の未解決事項がない。
+- `Blocked`: 仕様未達、test や CI の失敗、未解決 review、重要な未検証がある。
+- `Limited`: 外部権限などで一部を確認できないが、local で確認可能な範囲は満たす。
 
-`git diff` を読み、仕様チェックリストと差分が対応しているか確認する。
-
-- 要件に対して実装が不足していないか
-- 仕様と無関係な変更、デバッグコード、不要なログ、生成物、秘密情報が混ざっていないか
-- 同じ修正が必要な類似箇所に横展開されているか
-- 既存 API、保存データ、権限、バリデーション、エラー表示、i18n、アクセシビリティに副作用がないか
-- テストが実装の重要な分岐とリグレッションを押さえているか
-
-PR の changed files とローカル diff が食い違う場合は、どちらを確認対象にしたか明示する。
-
-# 4. PR に紐づくものを確認する
-
-PR が存在する場合は、実装だけでなく PR 周辺の状態も確認する。
-
-- PR title / body が実装内容と一致しているか
-- linked issue / ticket の要求、受け入れ条件、コメントに未対応がないか
-- review comments と requested changes が解決済み、または今回の差分で明確に対応済みか
-- CI / status checks が成功しているか。失敗・pending・skipped があれば意味を確認する
-- draft / base branch / head branch / merge target が意図どおりか
-- PR に含まれる commit と changed files が今回の目的に対して過不足ないか
-
-レビューコメントを確認した場合は、重要な指摘ごとに「対応済み」「未対応」「対象外」の判断を残す。
-
-# 5. 検証を実行する
-
-リポジトリの既存手順に従い、必要な検証を実行する。
-不明な場合は package scripts、README、CI 設定、memory、プロジェクトの plan / QA 系 md を確認する。
-
-- 変更範囲に対応する unit / integration tests
-- lint、format check、type check
-- build または compile
-- UI 変更がある場合はブラウザ確認。必要なら `automatic-e2e` を使い、スクリーンショットを残す
-- DB / API / cookie / localStorage / sessionStorage など状態整合性が関係する場合は `quality-mind` の観点で確認する
-
-検証を実行できない場合は、理由と代替確認を明示する。
-重要な検証が未実行のままなら、commit / push / merge に進まない判断を優先する。
-
-# 6. 最終判断を出す
-
-最後に、commit / push / merge に進めるかを明確に判断する。
-
-- **OK**: 仕様チェックリストを満たし、必要な検証が通り、PR 関連の未解決事項がない
-- **Blocked**: 仕様未達、テスト失敗、CI 失敗、未解決レビュー、PR-linked issue の未対応、重要な未検証リスクがある
-- **Limited**: 外部情報や権限不足で一部確認できないが、ローカルで確認可能な範囲は満たしている
-
-最終報告には次を含める。
-
-- 満たした仕様
-- 確認した PR / issue / review / CI の範囲
-- 実行した検証コマンドと結果
-- 未対応または未検証のリスク
-- commit / push / merge に進めるかの判断
+報告には満たした要件、確認範囲、実行 command、残る risk、次の Git 操作へ進めるかを含める。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reporting Mind"
+  short_description: "Structure decision-ready technical reports"
+  default_prompt: "Use $reporting-mind to turn these findings into a concise, decision-ready report."

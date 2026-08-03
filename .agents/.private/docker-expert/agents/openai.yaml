@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docker Expert"
+  short_description: "Build and review Docker configurations"
+  default_prompt: "Use $docker-expert to analyze and improve this Docker configuration for its target environment."

@@ -22,7 +22,10 @@ brew install git
 git clone --recurse-submodules git@github.com:m3m0r7/dotfiles.git $DOTFILES_DIR
 
 # Move to current directory
-cd $DOTFILES_DIR
+cd "$DOTFILES_DIR"
+
+# Install shared agent skills from the tracked source.
+bash "$DOTFILES_DIR/scripts/sync-agent-skills.sh"
 
 # Update brew
 brew tap homebrew/cask
@@ -53,11 +56,11 @@ ln -nsf $DOTFILES_DIR/.config/herdr/config.toml $HOME/.config/herdr/config.toml
 
 # Install claude settings
 mkdir -p $HOME/.claude
-ln -nsf $DOTFILES_DIR/.agents/skills $HOME/.claude/skills
-ln -nsf $DOTFILES_DIR/AGENTS.md $HOME/.claude/CLAUDE.md
+ln -nsf "$DOTFILES_DIR/.agents/skills" "$HOME/.claude/skills"
+ln -nsf "$DOTFILES_DIR/AGENTS.md" "$HOME/.claude/CLAUDE.md"
 
 mkdir -p $HOME/.codex
-ln -nsf $DOTFILES_DIR/AGENTS.md $HOME/.codex/AGENTS.md
+ln -nsf "$DOTFILES_DIR/AGENTS.md" "$HOME/.codex/AGENTS.md"
 
 curl -fsSL https://claude.ai/install.sh | bash
 

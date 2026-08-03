@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cognitive Rhythm Writing"
+  short_description: "Improve pacing in long-form explanations"
+  default_prompt: "Use $cognitive-rhythm-writing to improve the pacing and flow of this long-form explanation."

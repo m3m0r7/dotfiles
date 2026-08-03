@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clear Japanese"
+  short_description: "Write concise and precise Japanese"
+  default_prompt: "Use $clear-japanese to rewrite this response in concise and precise Japanese."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security Mind"
+  short_description: "Review trust boundaries and secret handling"
+  default_prompt: "Use $security-mind to review this change for trust-boundary, authorization, and secret-handling risks."

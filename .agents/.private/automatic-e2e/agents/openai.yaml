@@ -1,0 +1,4 @@
+interface:
+  display_name: "Automatic E2E"
+  short_description: "Verify web flows and persisted state"
+  default_prompt: "Use $automatic-e2e to verify this web flow, its persisted state, logs, and evidence."

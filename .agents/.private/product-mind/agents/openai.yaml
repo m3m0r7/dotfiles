@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Mind"
+  short_description: "Resolve meaningful product decisions"
+  default_prompt: "Use $product-mind to evaluate the users, scope, tradeoffs, and acceptance criteria for this feature."

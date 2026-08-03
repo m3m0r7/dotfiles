@@ -63,7 +63,8 @@
 
 ## この dotfiles リポジトリでの作業
 
-- 再利用可能な skill は `.agents/skills/`、非公開 skill は `.agents/.private/` に置く。
-- `SKILL.md` はトリガー条件・ワークフロー・停止条件に集中させる。テンプレートは skill の `references/`、決定的なセットアップは `scripts/` へ。
+- 共有する skill の正本は `.agents/.private/` に置く。`.agents/skills/` は agent discovery 用の生成先なので直接編集しない。
+- skill を変更したら `scripts/sync-agent-skills.sh` で同期し、`scripts/validate-agent-skills.sh` を実行する。
+- `SKILL.md` はトリガー条件、ワークフロー、停止条件に集中させる。詳細なチェックリストは `references/`、決定的な処理は `scripts/` へ置き、常時読む token を増やさない。
 - このリポジトリは公開されている。企業名・顧客名・人名・内部 URL・資格情報・アカウント ID を公開領域(`.agents/.private/` と `private/` 以外)に書かない。コミット前に固有情報の混入を確認する。
 - 作業メモ・エビデンス等の生成物は `./tmp/` 配下（または各プロジェクトの慣習の場所）に置き、明示指示がない限りコミットしない。次回以降も使う恒久的な知見は memory に記載する。

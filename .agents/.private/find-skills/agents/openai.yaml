@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find Skills"
+  short_description: "Discover and assess agent skills safely"
+  default_prompt: "Use $find-skills to find and assess a suitable skill for this capability."

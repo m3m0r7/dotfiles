@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Mind"
+  short_description: "Review UI behavior and consistency"
+  default_prompt: "Use $design-mind to implement this UI with the project design system and accessible behavior."

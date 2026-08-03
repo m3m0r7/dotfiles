@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implementation Mind"
+  short_description: "Keep implementations structurally sound"
+  default_prompt: "Use $implementation-mind to implement this change in the correct layer without workaround code."
