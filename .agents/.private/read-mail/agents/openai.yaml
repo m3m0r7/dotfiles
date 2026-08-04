@@ -1,0 +1,4 @@
+interface:
+  display_name: "Read Mail"
+  short_description: "Search and read local IMAP mail safely"
+  default_prompt: "Use $read-mail to search my mailboxes read-only and summarize the relevant messages."
